@@ -171,6 +171,11 @@ private void mostrarCampos() {
         });
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Producto");
 
@@ -502,7 +507,20 @@ private void mostrarCampos() {
     private void txtPrecioUnitPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtPrecioUnitPropertyChange
         calcularPrecio();
     }//GEN-LAST:event_txtPrecioUnitPropertyChange
-private void limpiar() {
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+     
+      abrirPrincipal();
+    
+        
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+   private void abrirPrincipal(){
+   Principal newframe = new Principal();
+        newframe.setVisible(true);
+        this.dispose();
+   }
+    private void limpiar() {
         txtProducto.setText("");
         txtMarca.setText("");
         spCantidad.setValue(0);
