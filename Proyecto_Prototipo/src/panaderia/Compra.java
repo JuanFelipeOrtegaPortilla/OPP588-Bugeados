@@ -503,7 +503,7 @@ public class Compra extends javax.swing.JFrame {
 
     private void txtCuentaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuentaFocusLost
         while (txtCuenta.getText().length() < 10) {
-            JOptionPane.showMessageDialog(null, "telefono incompleto");
+            JOptionPane.showMessageDialog(null, "no.cuenta incompleta");
             txtTelefono.setText("");
             break;
         }
