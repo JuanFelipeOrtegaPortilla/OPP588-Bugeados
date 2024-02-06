@@ -318,6 +318,7 @@ public class Nueva_Compra extends javax.swing.JFrame {
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         //if (txtProducto.getText().length() > 0 && !cmbMetodoPago.getSelectedItem().equals("Seleccione metodo de pago")) {
         MongoCollection<Document> coleccion = database.getCollection("Productos");
+        Object producto = null;
         Document filtro = new Document("Producto", producto);
         double precio = 0.0;
         MongoCursor<Document> cursor = coleccion.find(filtro).iterator();
