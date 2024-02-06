@@ -180,6 +180,11 @@ private void mostrarCampos() {
         jLabel2.setText("Producto");
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -514,6 +519,13 @@ private void mostrarCampos() {
     
         
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        JOptionPane.showMessageDialog(null, "extras cancelados");
+            Principal newframe = new Principal();
+            newframe.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
    private void abrirPrincipal(){
    Principal newframe = new Principal();
