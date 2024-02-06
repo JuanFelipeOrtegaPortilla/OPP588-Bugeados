@@ -181,6 +181,11 @@ private void mostrarCampos() {
         });
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Precio Unit");
 
@@ -459,7 +464,17 @@ private void mostrarCampos() {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
-private void calcularPrecio() {
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        abrirPrincipal();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void abrirPrincipal(){
+   Principal newframe = new Principal();
+        newframe.setVisible(true);
+        this.dispose();
+   }
+    private void calcularPrecio() {
     int cantidad = (int) spCantidad.getValue();
     double precioUnitario = 0;
 
