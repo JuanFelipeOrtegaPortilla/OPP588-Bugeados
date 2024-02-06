@@ -86,15 +86,15 @@ private void mostrarCampos() {
 
     DefaultTableModel modeloTabla = (DefaultTableModel) tblPedidos.getModel();
 
-    // Asegúrate de que la fila seleccionada tiene suficientes columnas
+  
     if (modeloTabla.getColumnCount() < 5) {
-        // Puedes mostrar un mensaje de error o manejar la situación de otra manera
+       
         return;
     }
 
     txtId.setText(modeloTabla.getValueAt(filaSeleccionada, 0).toString());
     
-    // Aquí, verifica si cmbProductos es un JComboBox
+  
     Object valorProducto = modeloTabla.getValueAt(filaSeleccionada, 1);
     if (valorProducto != null) {
         cmbProductos.setSelectedItem(valorProducto.toString());
@@ -104,13 +104,13 @@ private void mostrarCampos() {
 
     txtPrecioUnit.setText(modeloTabla.getValueAt(filaSeleccionada, 2).toString());
 
-    // Aquí, verifica si spCantidad es un JSpinner
+   
     Object valorCantidad = modeloTabla.getValueAt(filaSeleccionada, 3);
     if (valorCantidad != null) {
         spCantidad.setValue(valorCantidad);
     }
 
-    // Asegúrate de que la fila seleccionada tiene suficientes columnas
+
     if (modeloTabla.getColumnCount() >= 5) {
         txtTotal.setText(modeloTabla.getValueAt(filaSeleccionada, 4).toString());
     }
@@ -403,7 +403,7 @@ private void mostrarCampos() {
             int confirmacion = JOptionPane.showConfirmDialog(null, "Seguro de eliminar los datos?", "Confirmacion", JOptionPane.YES_NO_OPTION);
             if (confirmacion == JOptionPane.YES_OPTION) {
                 DefaultTableModel modeloTabla = (DefaultTableModel) tblPedidos.getModel();
-                MongoCollection coleccion = database.getCollection("pedidos");
+                MongoCollection coleccion = database.getCollection("panaderia");
                 Document filtro = new Document("_id", new ObjectId(txtId.getText()));
                 DeleteResult result = coleccion.deleteOne(filtro);
 
