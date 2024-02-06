@@ -190,6 +190,11 @@ private void mostrarCampos() {
         jLabel4.setText("Precio Unit");
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         txtPrecioUnit.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -468,6 +473,13 @@ private void mostrarCampos() {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         abrirPrincipal();
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        JOptionPane.showMessageDialog(null, "Pedido cancelado");
+            Principal newframe = new Principal();
+            newframe.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void abrirPrincipal(){
    Principal newframe = new Principal();
