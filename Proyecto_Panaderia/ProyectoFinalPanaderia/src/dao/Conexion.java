@@ -37,7 +37,7 @@ public Conexion crearConexion(){
     int puerto = 27017;
     try {
         mongo = new MongoClient(servidor, puerto);
-        dataB = mongo.getDatabase("panaderia");
+        dataB = mongo.getDatabase("db_panaderia");
     //JOptionPane.showMessageDialog(null,"Conexion Exitosa");
     } catch (MongoException ex ) {
         JOptionPane.showMessageDialog(null, "Error en la conexion a MongoDB error:"+ex.toString());
