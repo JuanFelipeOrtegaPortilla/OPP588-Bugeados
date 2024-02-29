@@ -156,5 +156,17 @@ public class MetodoCliente implements ICliente {
         }
         return clientes;
     }
+
+    @Override
+    public List<Producto> ListaCompra() {
+        List<Producto> listaCompra = new ArrayList<>();
+        return listaCompra;
     }
+
+    @Override
+    public boolean ActualizarStock(List ListaCompra) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+}
+
 
