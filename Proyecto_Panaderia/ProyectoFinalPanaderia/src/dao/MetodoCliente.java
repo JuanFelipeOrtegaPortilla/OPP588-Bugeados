@@ -65,6 +65,7 @@ public class MetodoCliente implements ICliente {
                 clientes.setFechaCompra(temp.getDate("fechaCompra"));
                 clientes.setFechaPago(temp.getDate("fechaPago"));
                 clientes.setnCuenta(temp.getString("cuenta"));
+                clientes.setCancelado(temp.getBoolean("cancelado"));
                 
                 listaClientes.add(clientes);
                 
@@ -88,7 +89,8 @@ public class MetodoCliente implements ICliente {
                     .append("tipoCliente", clientes.getTipoCliente())
                     .append("fechaCompra", clientes.getFechaCompra())
                     .append("fechaPago", clientes.getFechaPago())
-                    .append("cuenta", clientes.getnCuenta());
+                    .append("cuenta", clientes.getnCuenta())
+                    .append("cancelado",clientes.isCancelado());
             
 
             coleccion.insertOne(documento);
@@ -112,8 +114,8 @@ public class MetodoCliente implements ICliente {
         resultado = coleccion.find(filtro).first();
 
         if (resultado != null) {
-            clientes.setNombre(resultado.getString("nombreCliente"));
-            clientes.setTipoCliente(resultado.getString("tipoCliente"));
+            clientes.setCancelado(resultado.getBoolean("cancelado"));
+           clientes.setFechaPago(resultado.getDate("fechaPago"));
            
             actualizar = true;
         }
@@ -145,6 +147,7 @@ public class MetodoCliente implements ICliente {
                 clientes.setnCuenta(resultado.getString("cuenta"));
                 clientes.setFechaCompra(resultado.getDate("fechaCompra"));
                 clientes.setFechaPago(resultado.getDate("fechaPago"));
+                clientes.setCancelado(resultado.getBoolean("cancelado"));
             }
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error al buscar datos:" + ex.toString());
