@@ -13,22 +13,13 @@ import javax.swing.JOptionPane;
 import modelo.Perfil;
 import org.bson.Document;
 
-/**
- * Clase que implementa la interfaz IPerfil con métodos para operaciones CRUD en
- * la colección "perfil".
- *
- * @author Stiven Días, Juan Ortega
- */
+
 public class MetodosPerfil implements IPerfil {
 
     Conexion conn = new Conexion();
     MongoDatabase database;
     private MongoCollection<Document> coleccion;
 
-    /**
-     * Constructor de la clase MetodosPerfil que establece la conexión y obtiene
-     * la colección "perfil".
-     */
     public MetodosPerfil() {
         if (conn != null) {
             this.conn = conn.crearConexion();
@@ -45,11 +36,7 @@ public class MetodosPerfil implements IPerfil {
         }
     }
 
-    /**
-     * Lee toda la lista de la colección perfil.
-     *
-     * @return Una lista de perfiles.
-     */
+
     @Override
     public List<Perfil> ListarPerfil() {
         List<Perfil> listaPerfil = new ArrayList<>();
@@ -61,7 +48,7 @@ public class MetodosPerfil implements IPerfil {
                 Perfil perfil = new Perfil();
                 perfil.setId_perfil(temp.getInteger("id_perfil"));
                 perfil.setNombrePerfil(temp.getString("nombrePerfil"));
-                //tipode perfil
+                perfil.setTipoUsuario("tipoUsuario");
                 listaPerfil.add(perfil);
             }
         } catch (MongoException ex) {
@@ -73,13 +60,7 @@ public class MetodosPerfil implements IPerfil {
         return listaPerfil;
     }
 
-    /**
-     * "En este método, se busca un filtro dentro de la colección para encontrar
-     * un ID relacionado al que se requiere y luego retorna dicho ID.".
-     *
-     * @param idPerfil ID del perfil a buscar.
-     * @return El perfil encontrado o null si no existe.
-     */
+   
     @Override
     public Perfil BuscarIdPerfil(int idPerfil) {
         Perfil perfil = null;
@@ -94,7 +75,7 @@ public class MetodosPerfil implements IPerfil {
                 perfil = new Perfil();
                 perfil.setId_perfil(resultado.getInteger("id_perfil"));
                 perfil.setNombrePerfil(resultado.getString("nombrePerfil"));
-                perfil.setDescripcion(resultado.getString("descripcion"));
+                perfil.setTipoUsuario(resultado.getString("descripcion"));
             }
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error al buscar el perfil con ID " + idPerfil + ": " + ex.getMessage());
@@ -105,21 +86,14 @@ public class MetodosPerfil implements IPerfil {
         return perfil;
     }
 
-    /**
-     * "En este método, se realiza una inserción en la base de datos mediante un
-     * objeto llamado 'Perfil' Posteriormente, se crea un documento en la base
-     * de datos para generar un nuevo registro."
-     *
-     * @param perfil El perfil a insertar.
-     * @return true si la inserción fue exitosa, false en caso contrario.
-     */
+  
     @Override
     public boolean InsetarPerfil(Perfil perfil) {
         Document documento;
         try {
             documento = new Document("id_perfil", perfil.getId_perfil())
                     .append("nombrePerfil", perfil.getNombrePerfil())
-                    .append("descripcion", perfil.getDescripcion());
+                    .append("tipoUsuario", perfil.getTipoUsuario());
 
             coleccion.insertOne(documento);
         } catch (MongoException ex) {
@@ -131,15 +105,7 @@ public class MetodosPerfil implements IPerfil {
         return true;
     }
 
-    /**
-     * Para actualizar un perfil existente, primero se llama el método 'buscar'
-     * para encontrar el ID que se desea actualizar, Si el resultado de la
-     * búsqueda es verdadero, entonces se procede a actualizar según los
-     * requisitos establecidos.
-     *
-     * @param perfil El perfil con los nuevos datos.
-     * @return true si la actualización fue exitosa, false en caso contrario.
-     */
+ 
     @Override
     public boolean ActualizarPerfil(Perfil perfil) {
         Document filtro = null;
@@ -153,7 +119,7 @@ public class MetodosPerfil implements IPerfil {
             if (resultado != null) {
                 perfil.setId_perfil(resultado.getInteger("id_perfil"));
                 perfil.setNombrePerfil(resultado.getString("nombrePerfil"));
-                perfil.setDescripcion(resultado.getString("descripcion"));
+                perfil.setTipoUsuario(resultado.getString("tipoUsuario"));
                 actualizar = true;
             }
 
@@ -166,14 +132,7 @@ public class MetodosPerfil implements IPerfil {
         return actualizar;
     }
 
-    /**
-     * Para eliminar, se llama al método 'buscar' para encontrar el ID que se
-     * desea eliminar, Si se encuentra el ID, entonces se procede a eliminar el
-     * registro dentro de la colección
-     *
-     * @param idPerfil ID del perfil a eliminar.
-     * @return true si la eliminación fue exitosa, false en caso contrario.
-     */
+    
     @Override
     public boolean EliminarPerfil(int idPerfil) {
         Document filtro = new Document("id_perfil", idPerfil);
