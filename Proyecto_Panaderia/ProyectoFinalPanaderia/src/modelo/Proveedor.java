@@ -18,11 +18,12 @@ public class Proveedor {
     private int cantidad;
     private Date fechaPedido;
     private Date fechaPago;
+    private boolean cancelado;
 
     public Proveedor() {
     }
 
-    public Proveedor(int idProveedor, String Proveedor, String marca, String nombreProducto, int cantidad, Date fechaPedido, Date fechaPago) {
+    public Proveedor(int idProveedor, String Proveedor, String marca, String nombreProducto, int cantidad, Date fechaPedido, Date fechaPago, boolean cancelado) {
         this.idProveedor = idProveedor;
         this.Proveedor = Proveedor;
         this.marca = marca;
@@ -30,6 +31,7 @@ public class Proveedor {
         this.cantidad = cantidad;
         this.fechaPedido = fechaPedido;
         this.fechaPago = fechaPago;
+        this.cancelado = cancelado;
     }
 
     public int getIdProveedor() {
@@ -88,10 +90,19 @@ public class Proveedor {
         this.fechaPago = fechaPago;
     }
 
+    public boolean isCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(boolean cancelado) {
+        this.cancelado = cancelado;
+    }
+
     @Override
     public String toString() {
-        return "Proveedor{" + "idProveedor=" + idProveedor + ", Proveedor=" + Proveedor + ", marca=" + marca + ", nombreProducto=" + nombreProducto + ", cantidad=" + cantidad + ", fechaPedido=" + fechaPedido + ", fechaPago=" + fechaPago + '}';
+        return "Proveedor{" + "idProveedor=" + idProveedor + ", Proveedor=" + Proveedor + ", marca=" + marca + ", nombreProducto=" + nombreProducto + ", cantidad=" + cantidad + ", fechaPedido=" + fechaPedido + ", fechaPago=" + fechaPago + ", cancelado=" + cancelado + '}';
     }
-    
+
+   
 
 }
