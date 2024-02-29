@@ -18,11 +18,12 @@ public class Clientes {
     private Date fechaPago;
     private Date fechaCompra;
     private String tipoCliente; 
+    private boolean cancelado;
 
     public Clientes() {
     }
 
-    public Clientes(int id, String nombre, String nCuenta, String telefono, Date fechaPago, Date fechaCompra, String tipoCliente) {
+    public Clientes(int id, String nombre, String nCuenta, String telefono, Date fechaPago, Date fechaCompra, String tipoCliente, boolean cancelado) {
         this.id = id;
         this.nombre = nombre;
         this.nCuenta = nCuenta;
@@ -30,6 +31,7 @@ public class Clientes {
         this.fechaPago = fechaPago;
         this.fechaCompra = fechaCompra;
         this.tipoCliente = tipoCliente;
+        this.cancelado = cancelado;
     }
 
     public int getId() {
@@ -88,10 +90,18 @@ public class Clientes {
         this.tipoCliente = tipoCliente;
     }
 
+    public boolean isCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(boolean cancelado) {
+        this.cancelado = cancelado;
+    }
+
     @Override
     public String toString() {
-        return "Clientes{" + "id=" + id + ", nombre=" + nombre + ", nCuenta=" + nCuenta + ", telefono=" + telefono + ", fechaPago=" + fechaPago + ", fechaCompra=" + fechaCompra + ", tipoCliente=" + tipoCliente + '}';
+        return "Clientes{" + "id=" + id + ", nombre=" + nombre + ", nCuenta=" + nCuenta + ", telefono=" + telefono + ", fechaPago=" + fechaPago + ", fechaCompra=" + fechaCompra + ", tipoCliente=" + tipoCliente + ", cancelado=" + cancelado + '}';
     }
-    
 
+   
 }
