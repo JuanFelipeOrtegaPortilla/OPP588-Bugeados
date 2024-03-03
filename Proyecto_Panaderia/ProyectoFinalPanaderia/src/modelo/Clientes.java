@@ -4,7 +4,10 @@
  */
 package modelo;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -19,10 +22,16 @@ public class Clientes {
     private Date fechaCompra;
     private String tipoCliente; 
     private boolean cancelado;
+    private List<Producto> listaCompra;
 
     public Clientes() {
     }
 
+    public Clientes(List<Producto> listaCompra) {
+        this.listaCompra = new ArrayList<>();
+    }
+
+    
     public Clientes(int id, String nombre, String nCuenta, String telefono, Date fechaPago, Date fechaCompra, String tipoCliente, boolean cancelado) {
         this.id = id;
         this.nombre = nombre;
@@ -33,7 +42,15 @@ public class Clientes {
         this.tipoCliente = tipoCliente;
         this.cancelado = cancelado;
     }
+    
+    public List<Producto> getListaCompra() {
+        return listaCompra;
+    }
 
+    public void setListaCompra(List<Producto> listaCompra) {
+        this.listaCompra = listaCompra;
+    }
+    
     public int getId() {
         return id;
     }
