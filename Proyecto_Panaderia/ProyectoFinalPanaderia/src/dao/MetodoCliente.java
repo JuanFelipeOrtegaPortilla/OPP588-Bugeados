@@ -8,6 +8,7 @@ import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,12 +26,14 @@ public class MetodoCliente implements ICliente {
     Conexion conn = new Conexion();
     MongoDatabase database;
     private MongoCollection<Document> coleccion;
+    private MongoCollection<Document> coleccion2;
 
     public MetodoCliente() {
         if (conn != null) {
             this.conn = conn.crearConexion();
             this.database = conn.getDataB();
             this.coleccion = database.getCollection("clientes");
+            this.coleccion2 = database.getCollection("productos");
         }
     }
 
@@ -50,14 +53,14 @@ public class MetodoCliente implements ICliente {
 
     @Override
     public List<Clientes> ListaCliente() {
-         List<Clientes> listaClientes = new ArrayList<>();
+        List<Clientes> listaClientes = new ArrayList<>();
         FindIterable<Document> documentos;
 
         try {
             documentos = coleccion.find();
             for (Document temp : documentos) {
                 Clientes clientes = new Clientes();
-   
+
                 clientes.setId(generarID());
                 clientes.setNombre(temp.getString("nombreCliente"));
                 clientes.setTelefono(temp.getString("telefono"));
@@ -66,9 +69,9 @@ public class MetodoCliente implements ICliente {
                 clientes.setFechaPago(temp.getDate("fechaPago"));
                 clientes.setnCuenta(temp.getString("cuenta"));
                 clientes.setCancelado(temp.getBoolean("cancelado"));
-                
+
                 listaClientes.add(clientes);
-                
+
             }
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error en la consulta de datos: " + ex.getMessage());
@@ -90,8 +93,7 @@ public class MetodoCliente implements ICliente {
                     .append("fechaCompra", clientes.getFechaCompra())
                     .append("fechaPago", clientes.getFechaPago())
                     .append("cuenta", clientes.getnCuenta())
-                    .append("cancelado",clientes.isCancelado());
-            
+                    .append("cancelado", clientes.isCancelado());
 
             coleccion.insertOne(documento);
         } catch (MongoException ex) {
@@ -106,33 +108,33 @@ public class MetodoCliente implements ICliente {
     @Override
     public boolean ActualizarClientes(Clientes clientes) {
         Document filtro = null;
-    Document resultado = null;
-    boolean actualizar = false;
+        Document resultado = null;
+        boolean actualizar = false;
 
-    try {
-        filtro = new Document("id_perfil", clientes.getId());
-        resultado = coleccion.find(filtro).first();
+        try {
+            filtro = new Document("id_perfil", clientes.getId());
+            resultado = coleccion.find(filtro).first();
 
-        if (resultado != null) {
-            clientes.setCancelado(resultado.getBoolean("cancelado"));
-           clientes.setFechaPago(resultado.getDate("fechaPago"));
-           
-            actualizar = true;
+            if (resultado != null) {
+                clientes.setCancelado(resultado.getBoolean("cancelado"));
+                clientes.setFechaPago(resultado.getDate("fechaPago"));
+
+                actualizar = true;
+            }
+
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
+            return false;
+        } finally {
+            cerrarConexion();
         }
 
-    } catch (MongoException ex) {
-        JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
-        return false;
-    } finally {
-        cerrarConexion();
-    }
-
-    return actualizar;
+        return actualizar;
     }
 
     @Override
     public Clientes BuscarClientes(int id) {
-         Clientes clientes = null;
+        Clientes clientes = null;
         try {
             Document filtro = new Document("idCliente", id);
             FindIterable<Document> resultados = coleccion.find(filtro);
@@ -158,15 +160,24 @@ public class MetodoCliente implements ICliente {
     }
 
     @Override
-    public List<Producto> ListaCompra() {
-        List<Producto> listaCompra = new ArrayList<>();
-        return listaCompra;
+    public boolean ActualizarStock(Clientes clientes) {
+            try {
+            for (Producto productoStock : clientes.getListaCompra()) {
+                Document filtro = new Document("nombreProducto", productoStock.getNombreProducto());
+                Document resultado = coleccion2.find(filtro).first();
+                Document cambioStock = new Document("cantidad", resultado.getInteger("cantidad")-productoStock.getCantidad());
+            UpdateResult result = coleccion2.updateOne(filtro, new Document("$set", cambioStock ));
+            }
+            return true;
+            
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
+            return false;
+        } finally {
+            cerrarConexion();
+        }
     }
 
-    @Override
-    public boolean ActualizarStock(List ListaCompra) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
-
-
+  
+            
