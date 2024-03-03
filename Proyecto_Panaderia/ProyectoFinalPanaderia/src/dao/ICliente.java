@@ -19,6 +19,8 @@ public interface ICliente {
     public boolean InsetarClientes(Clientes clientes);
 
     public boolean ActualizarClientes(Clientes clientes);
+    
+    public boolean ActualizarStock(Clientes clientes);
 
     public Clientes BuscarClientes(int id);
 }
