@@ -22,4 +22,6 @@ public interface IProveedor {
     public boolean EliminarProveedor(int idProveedor);
 
     public Proveedor BuscarProveedor(int idProveedor);
+    
+    public boolean ActualizarStock(Proveedor proveedor);
 }
