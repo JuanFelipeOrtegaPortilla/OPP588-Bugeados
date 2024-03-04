@@ -4,10 +4,14 @@
  */
 package servicio;
 
+
+import modelo.Proveedor;
+
 /**
  *
  * @author PIPE
  */
 public class ProveedorServicio {
-    //
+     //
+
 }
