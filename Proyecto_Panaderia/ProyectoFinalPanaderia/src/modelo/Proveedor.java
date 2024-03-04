@@ -4,23 +4,31 @@
  */
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author PIPE
  */
 public class Proveedor {
+
     private int idProveedor;
     private String Proveedor;
     private String marca;
-    private String nombreProducto; 
+    private String nombreProducto;
     private int cantidad;
     private Date fechaPedido;
     private Date fechaPago;
     private boolean cancelado;
+    private List<Producto> listaEntrega;
 
     public Proveedor() {
+    }
+
+    public Proveedor(List<Producto> listaEntrega) {
+        this.listaEntrega = new ArrayList<>();
     }
 
     public Proveedor(int idProveedor, String Proveedor, String marca, String nombreProducto, int cantidad, Date fechaPedido, Date fechaPago, boolean cancelado) {
@@ -32,6 +40,14 @@ public class Proveedor {
         this.fechaPedido = fechaPedido;
         this.fechaPago = fechaPago;
         this.cancelado = cancelado;
+    }
+
+    public List<Producto> getListaEntrega() {
+        return listaEntrega;
+    }
+
+    public void setListaEntrega(List<Producto> listaEntrega) {
+        this.listaEntrega = listaEntrega;
     }
 
     public int getIdProveedor() {
@@ -102,7 +118,5 @@ public class Proveedor {
     public String toString() {
         return "Proveedor{" + "idProveedor=" + idProveedor + ", Proveedor=" + Proveedor + ", marca=" + marca + ", nombreProducto=" + nombreProducto + ", cantidad=" + cantidad + ", fechaPedido=" + fechaPedido + ", fechaPago=" + fechaPago + ", cancelado=" + cancelado + '}';
     }
-
-   
 
 }
