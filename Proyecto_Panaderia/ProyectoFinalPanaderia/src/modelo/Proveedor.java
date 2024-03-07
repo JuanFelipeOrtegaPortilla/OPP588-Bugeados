@@ -19,19 +19,16 @@ public class Proveedor {
     private String marca;
     private String nombreProducto;
     private int cantidad;
-    private Date fechaPedido;
-    private Date fechaPago;
+    private String fechaPedido;
+    private String fechaPago;
     private boolean cancelado;
     private List<Producto> listaEntrega;
+    private String nombrePerfil;
 
     public Proveedor() {
     }
 
-    public Proveedor(List<Producto> listaEntrega) {
-        this.listaEntrega = new ArrayList<>();
-    }
-
-    public Proveedor(int idProveedor, String Proveedor, String marca, String nombreProducto, int cantidad, Date fechaPedido, Date fechaPago, boolean cancelado) {
+    public Proveedor(int idProveedor, String Proveedor, String marca, String nombreProducto, int cantidad, String fechaPedido, String fechaPago, boolean cancelado, List<Producto> listaEntrega, String nombrePerfil) {
         this.idProveedor = idProveedor;
         this.Proveedor = Proveedor;
         this.marca = marca;
@@ -40,14 +37,8 @@ public class Proveedor {
         this.fechaPedido = fechaPedido;
         this.fechaPago = fechaPago;
         this.cancelado = cancelado;
-    }
-
-    public List<Producto> getListaEntrega() {
-        return listaEntrega;
-    }
-
-    public void setListaEntrega(List<Producto> listaEntrega) {
         this.listaEntrega = listaEntrega;
+        this.nombrePerfil = nombrePerfil;
     }
 
     public int getIdProveedor() {
@@ -90,19 +81,19 @@ public class Proveedor {
         this.cantidad = cantidad;
     }
 
-    public Date getFechaPedido() {
+    public String getFechaPedido() {
         return fechaPedido;
     }
 
-    public void setFechaPedido(Date fechaPedido) {
+    public void setFechaPedido(String fechaPedido) {
         this.fechaPedido = fechaPedido;
     }
 
-    public Date getFechaPago() {
+    public String getFechaPago() {
         return fechaPago;
     }
 
-    public void setFechaPago(Date fechaPago) {
+    public void setFechaPago(String fechaPago) {
         this.fechaPago = fechaPago;
     }
 
@@ -114,9 +105,27 @@ public class Proveedor {
         this.cancelado = cancelado;
     }
 
+    public List<Producto> getListaEntrega() {
+        return listaEntrega;
+    }
+
+    public void setListaEntrega(List<Producto> listaEntrega) {
+        this.listaEntrega = listaEntrega;
+    }
+
+    public String getNombrePerfil() {
+        return nombrePerfil;
+    }
+
+    public void setNombrePerfil(String nombrePerfil) {
+        this.nombrePerfil = nombrePerfil;
+    }
+
     @Override
     public String toString() {
-        return "Proveedor{" + "idProveedor=" + idProveedor + ", Proveedor=" + Proveedor + ", marca=" + marca + ", nombreProducto=" + nombreProducto + ", cantidad=" + cantidad + ", fechaPedido=" + fechaPedido + ", fechaPago=" + fechaPago + ", cancelado=" + cancelado + '}';
+        return "Proveedor{" + "idProveedor=" + idProveedor + ", Proveedor=" + Proveedor + ", marca=" + marca + ", nombreProducto=" + nombreProducto + ", cantidad=" + cantidad + ", fechaPedido=" + fechaPedido + ", fechaPago=" + fechaPago + ", cancelado=" + cancelado + ", listaEntrega=" + listaEntrega + ", nombrePerfil=" + nombrePerfil + '}';
     }
+
+    
 
 }
