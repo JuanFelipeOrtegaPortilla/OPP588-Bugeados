@@ -17,7 +17,6 @@ public class ProductoServicio {
 
     public List<Producto> ListaProductos() {
         return new MetodoProducto().ListaProductos();
-
     }
 
     public boolean InsetarProductos(Producto producto) {
@@ -27,12 +26,13 @@ public class ProductoServicio {
     public boolean ActualizarProductos(Producto producto) {
         return new MetodoProducto().ActualizarProductos(producto);
     }
-    public boolean EliminarProductos(int idProduto){
+
+    public boolean EliminarProductos(int idProduto) {
         return new MetodoProducto().EliminarProductos(idProduto);
     }
-     public Producto BuscarProductos(int idProduto){
-         return new MetodoProducto().BuscarProductos(idProduto);
-     }
 
+    public Producto BuscarProductos(int idProducto) {
+        return new MetodoProducto().BuscarProductos(idProducto);
+    }
 
 }
