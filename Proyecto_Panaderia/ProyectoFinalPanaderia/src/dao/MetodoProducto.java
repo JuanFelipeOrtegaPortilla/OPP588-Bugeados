@@ -56,7 +56,7 @@ public class MetodoProducto implements IProducto {
             for (Document temp : documentos) {
                 Producto producto = new Producto();
 
-                producto.setIdProducto(generarID());
+                producto.setIdProducto(temp.getInteger("idProducto"));
                 producto.setNombreProducto(temp.getString("nombreProducto"));
                 producto.setMarca(temp.getString("marca"));
                 producto.setCantidad(temp.getInteger("cantidad"));
@@ -80,7 +80,7 @@ public class MetodoProducto implements IProducto {
             documento = new Document("idProducto", generarID())
                     .append("nombreProducto", producto.getNombreProducto())
                     .append("marca", producto.getMarca())
-                    .append("cantidad", 0)
+                    .append("cantidad", producto.getCantidad())
                     .append("precio", producto.getPrecio());
 
             coleccion.insertOne(documento);
@@ -100,7 +100,7 @@ public class MetodoProducto implements IProducto {
         boolean actualizar = false;
 
         try {
-            filtro = new Document("id_perfil", producto.getIdProducto());
+            filtro = new Document("idProducto", producto.getIdProducto());
             resultado = coleccion.find(filtro).first();
 
             if (resultado != null) {
