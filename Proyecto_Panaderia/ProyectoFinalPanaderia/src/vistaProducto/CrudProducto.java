@@ -6,41 +6,49 @@
 package vistaProducto;
 
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
 import servicio.ProductoServicio;
+import vista.Principal;
 
 /**
  *
  * @author IDC
  */
 public class CrudProducto extends javax.swing.JFrame {
+
     private DefaultTableModel modeloTabla;
-    List<Producto> listaProductos=null;
+    List<Producto> listaProductos = null;
+    int id = 0;
+    ProductoServicio controlador=new ProductoServicio();
     public CrudProducto() {
         initComponents();
         cargarProductos();
     }
-        public void cargarProductos(){
+
+    public void cargarProductos() {
         cmbProducto.setSelectedItem("Todos");
-        listaProductos= ProductoServicio.ListaProductos();
+        listaProductos = ProductoServicio.ListaProductos();
         cargarTablaTodosProductos(listaProductos);
         cargarComboProducto(listaProductos);
     }
-    
-    public void cargarComboProducto(List<Producto> listarProductos){
-        for(Producto producto: listarProductos){
-            cmbProducto.addItem(producto.getIdProducto()+" - "+producto.getNombreProducto());
+
+    public void cargarComboProducto(List<Producto> listarProductos) {
+        for (Producto producto : listarProductos) {
+            cmbProducto.addItem(producto.getIdProducto() + " - " + producto.getNombreProducto());
         }
     }
-    public void limpiarTabla(){
-        modeloTabla=(DefaultTableModel)Tabla.getModel();
+
+    public void limpiarTabla() {
+        modeloTabla = (DefaultTableModel) Tabla.getModel();
         modeloTabla.setRowCount(0);
     }
-    
-    public void cargarTablaTodosProductos(List<Producto> listarProductos){
+
+    public void cargarTablaTodosProductos(List<Producto> listarProductos) {
         limpiarTabla();
-        for(Producto producto:listaProductos){
+        for (Producto producto : listaProductos) {
             modeloTabla.addRow(new Object[]{
                 producto.getIdProducto(),
                 producto.getNombreProducto(),
@@ -49,21 +57,27 @@ public class CrudProducto extends javax.swing.JFrame {
                 producto.getCantidad()
             });
         }
-        
+
     }
-     public void cargaTablaBusqueda(int idproducto){
-            limpiarTabla();
-            Producto producto=new ProductoServicio().BuscarProductos(idproducto);
-            modeloTabla.addRow(new Object[]{
-                producto.getIdProducto(),
-                producto.getNombreProducto(),
-                producto.getMarca(),
-                producto.getPrecio(),
-                producto.getCantidad()
-            });  
-        }
 
+    public void cargaTablaBusqueda(int idproducto) {
+        limpiarTabla();
+        Producto producto = new ProductoServicio().BuscarProductos(idproducto);
+        modeloTabla.addRow(new Object[]{
+            producto.getIdProducto(),
+            producto.getNombreProducto(),
+            producto.getMarca(),
+            producto.getPrecio(),
+            producto.getCantidad()
+        });
+    }
 
+    public void cerrar() {
+        Principal newframe = new Principal();
+        newframe.setVisible(true);
+        this.dispose();
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -193,32 +207,61 @@ public class CrudProducto extends javax.swing.JFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         limpiarTabla();
-        if(cmbProducto.getSelectedItem()=="Todos"){
-            listaProductos=ProductoServicio.ListaProductos();
+        if (cmbProducto.getSelectedItem() == "Todos") {
+            listaProductos = ProductoServicio.ListaProductos();
             cargarTablaTodosProductos(listaProductos);
-            
-        }else{
-            String dato=cmbProducto.getSelectedItem().toString();
-            dato.substring(0,3);
-            int id= Integer.parseInt(dato);
+
+        } else {
+            String dato = cmbProducto.getSelectedItem().toString();
+            dato.substring(0, 3);
+            id = Integer.parseInt(dato);
             cargaTablaBusqueda(id);
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertarActionPerformed
-        // TODO add your handling code here:
+        InsertarProducto newframe = new InsertarProducto();
+        newframe.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jbInsertarActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = Tabla.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+            ModificarProducto modificar = new ModificarProducto();
+            modificar.setVisible(true);
+            this.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione registro a modificar");
+        }
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = Tabla.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(null, "¿seguro de eliminar el registro?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (confirmar == JOptionPane.YES_OPTION) {
+                id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+
+                if (controlador.EliminarProductos(id)) {
+                    JOptionPane.showMessageDialog(null, "registro eliminado correctamente!!");
+                    modeloTabla.removeRow(filaSeleccionada);
+                }
+            } else {
+                ListSelectionModel seleccionModel = Tabla.getSelectionModel();
+                seleccionModel.clearSelection();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione el registro a eliminar");
+        }
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
-        // TODO add your handling code here:
+        Principal newframe = new Principal();
+        newframe.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
     /**
