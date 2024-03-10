@@ -23,10 +23,9 @@ public class NuevaCompra extends javax.swing.JFrame {
     private Object vicantidad;
     private DefaultTableModel dtm = new DefaultTableModel();
     private double precio = 0;
-    private String FechaPago;
     Clientes cliente = new Clientes();
     ClienteServicio controlador = new ClienteServicio();
-    
+
     public NuevaCompra() {
         initComponents();
         if (conn != null) {
@@ -165,11 +164,6 @@ public class NuevaCompra extends javax.swing.JFrame {
         });
 
         cmbProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "huevo", "cafe", "leche", "jamon", "pan", "dona", "pastel", " " }));
-        cmbProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbProductoActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("Cantidad");
 
@@ -421,11 +415,6 @@ public class NuevaCompra extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbCancelarActionPerformed
 
-    private void cmbProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductoActionPerformed
-
-
-    }//GEN-LAST:event_cmbProductoActionPerformed
-
     private void cmbClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClienteActionPerformed
         String seleccion = (String) cmbCliente.getSelectedItem();
         if (seleccion.equals("Efectivo")) {
@@ -435,7 +424,6 @@ public class NuevaCompra extends javax.swing.JFrame {
             txtTelefono.setVisible(false);
             jLabel3.setVisible(false);
             txtCuenta.setVisible(false);
-            FechaPago = jcFecha.getDateFormatString();
         } else if (seleccion.equals("De Una")) {
             jLabel1.setVisible(true);
             txtNombre.setVisible(true);
@@ -443,7 +431,6 @@ public class NuevaCompra extends javax.swing.JFrame {
             txtTelefono.setVisible(false);
             jLabel3.setVisible(true);
             txtCuenta.setVisible(true);
-            FechaPago = jcFecha.getDateFormatString();
         } else if (seleccion.equals("Fiado")) {
             jLabel1.setVisible(true);
             txtNombre.setVisible(true);
@@ -451,7 +438,6 @@ public class NuevaCompra extends javax.swing.JFrame {
             txtTelefono.setVisible(true);
             jLabel3.setVisible(false);
             txtCuenta.setVisible(false);
-            FechaPago = "no cancelado";
         }
     }//GEN-LAST:event_cmbClienteActionPerformed
 
