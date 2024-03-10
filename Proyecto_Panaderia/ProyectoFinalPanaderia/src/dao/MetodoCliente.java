@@ -61,7 +61,7 @@ public class MetodoCliente implements ICliente {
             for (Document temp : documentos) {
                 Clientes clientes = new Clientes();
 
-                clientes.setId(generarID());
+                clientes.setId(temp.getInteger("idClientes"));
                 clientes.setNombre(temp.getString("nombreCliente"));
                 clientes.setTelefono(temp.getString("telefono"));
                 clientes.setTipoCliente(temp.getString("tipoCliente"));
