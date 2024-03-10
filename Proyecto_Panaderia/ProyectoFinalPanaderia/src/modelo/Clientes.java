@@ -22,6 +22,7 @@ public class Clientes {
     private Date fechaCompra;
     private String tipoCliente; 
     private boolean cancelado;
+    private double totalCompra;
     private List<Producto> listaCompra;
 
     public Clientes() {
@@ -31,11 +32,13 @@ public class Clientes {
         this.listaCompra = new ArrayList<>();
     }
 
-    public Clientes(String nombre, String nCuenta, String telefono, String tipoCliente) {
+
+    public Clientes(String nombre, String nCuenta, String telefono, String tipoCliente, double totalCompra) {
         this.nombre = nombre;
         this.nCuenta = nCuenta;
         this.telefono = telefono;
         this.tipoCliente = tipoCliente;
+        this.totalCompra = totalCompra;
     }
 
     
