@@ -18,7 +18,7 @@ public class InsertarProducto extends javax.swing.JFrame {
         txtNombreProducto.setText("");
         txtMarca.setText("");
         spnCantidad.setValue(0);
-        spnPrecio.setValue(0);
+        txtPrecio.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +35,7 @@ public class InsertarProducto extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jbAceptar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
-        spnPrecio = new javax.swing.JSpinner();
+        txtPrecio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,7 +63,16 @@ public class InsertarProducto extends javax.swing.JFrame {
             }
         });
 
-        spnPrecio.setModel(new javax.swing.SpinnerNumberModel(0.0d, null, null, 1.0d));
+        txtPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecioActionPerformed(evt);
+            }
+        });
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,8 +101,8 @@ public class InsertarProducto extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                         .addComponent(txtNombreProducto, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(spnPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spnCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spnCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,7 +125,7 @@ public class InsertarProducto extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(spnPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbAceptar)
@@ -128,8 +137,8 @@ public class InsertarProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
-        Producto producto = new Producto(txtNombreProducto.getText(), txtMarca.getText(), (double) spnPrecio.getValue(), (int) spnCantidad.getValue());
-        if (txtNombreProducto.getText().length() > 0 && txtMarca.getText().length() > 0 && (double) spnPrecio.getValue() > 0) {
+        Producto producto = new Producto(txtNombreProducto.getText(), txtMarca.getText(), Double.valueOf(txtPrecio.getText()), (int) spnCantidad.getValue());
+        if (txtNombreProducto.getText().length() > 0 && txtMarca.getText().length() > 0 && (double) txtPrecio.getText().length() > 0) {
             controlador.InsetarProductos(producto);
             CrudProducto newframe = new CrudProducto();
             newframe.setVisible(true);
@@ -144,6 +153,19 @@ public class InsertarProducto extends javax.swing.JFrame {
         newframe.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecioActionPerformed
+
+    private void txtPrecioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyPressed
+        char validacion = evt.getKeyChar();
+        if (Character.isLetter(validacion)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros");
+        }
+    }//GEN-LAST:event_txtPrecioKeyPressed
 
     /**
      * @param args the command line arguments
@@ -189,8 +211,8 @@ public class InsertarProducto extends javax.swing.JFrame {
     private javax.swing.JButton jbAceptar;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JSpinner spnCantidad;
-    private javax.swing.JSpinner spnPrecio;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtNombreProducto;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }

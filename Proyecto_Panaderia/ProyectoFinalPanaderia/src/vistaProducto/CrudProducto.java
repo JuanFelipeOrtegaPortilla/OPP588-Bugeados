@@ -22,7 +22,8 @@ public class CrudProducto extends javax.swing.JFrame {
     private DefaultTableModel modeloTabla;
     List<Producto> listaProductos = null;
     int id = 0;
-    ProductoServicio controlador=new ProductoServicio();
+    ProductoServicio controlador = new ProductoServicio();
+
     public CrudProducto() {
         initComponents();
         cargarProductos();
@@ -48,7 +49,7 @@ public class CrudProducto extends javax.swing.JFrame {
 
     public void cargarTablaTodosProductos(List<Producto> listarProductos) {
         limpiarTabla();
-        for (Producto producto : listaProductos) {
+        for (Producto producto : listarProductos) {
             modeloTabla.addRow(new Object[]{
                 producto.getIdProducto(),
                 producto.getNombreProducto(),
@@ -62,15 +63,21 @@ public class CrudProducto extends javax.swing.JFrame {
 
     public void cargaTablaBusqueda(int idproducto) {
         limpiarTabla();
-        Producto producto = new ProductoServicio().BuscarProductos(idproducto);
-        modeloTabla.addRow(new Object[]{
-            producto.getIdProducto(),
-            producto.getNombreProducto(),
-            producto.getMarca(),
-            producto.getPrecio(),
-            producto.getCantidad()
-        });
+        Producto producto = controlador.BuscarProductos(idproducto);
+        if (producto != null) {
+            modeloTabla.addRow(new Object[]{
+                producto.getIdProducto(),
+                producto.getNombreProducto(),
+                producto.getMarca(),
+                producto.getPrecio(),
+                producto.getCantidad()
+            });
+        } else {
+            System.out.println("No se encontró ningún producto con el ID: " + idproducto);
+
+        }
     }
+    
 
     public void cerrar() {
         Principal newframe = new Principal();
@@ -98,6 +105,11 @@ public class CrudProducto extends javax.swing.JFrame {
         jLabel1.setText("Tabla de Productos");
 
         cmbProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "Todos" }));
+        cmbProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbProductoActionPerformed(evt);
+            }
+        });
 
         jbBuscar.setText("Buscar Producto");
         jbBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -206,15 +218,16 @@ public class CrudProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        limpiarTabla();
+
         if (cmbProducto.getSelectedItem() == "Todos") {
             listaProductos = ProductoServicio.ListaProductos();
             cargarTablaTodosProductos(listaProductos);
 
         } else {
+            limpiarTabla();
             String dato = cmbProducto.getSelectedItem().toString();
-            dato.substring(0, 3);
-            id = Integer.parseInt(dato);
+            String subcadena = dato.substring(0, 3);
+            id = Integer.parseInt(subcadena);
             cargaTablaBusqueda(id);
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
@@ -263,6 +276,10 @@ public class CrudProducto extends javax.swing.JFrame {
         newframe.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void cmbProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbProductoActionPerformed
 
     /**
      * @param args the command line arguments

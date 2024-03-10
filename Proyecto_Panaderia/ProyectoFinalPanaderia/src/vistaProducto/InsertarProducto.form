@@ -52,8 +52,8 @@
                       <Component id="txtMarca" alignment="0" pref="198" max="32767" attributes="0"/>
                       <Component id="txtNombreProducto" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="spnPrecio" alignment="0" min="-2" pref="56" max="-2" attributes="0"/>
-                  <Component id="spnCantidad" min="-2" pref="56" max="-2" attributes="0"/>
+                  <Component id="spnCantidad" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
+                  <Component id="txtPrecio" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
@@ -82,7 +82,7 @@
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="spnPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="53" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -142,12 +142,11 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCancelarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSpinner" name="spnPrecio">
-      <Properties>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
-        </Property>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="txtPrecio">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPrecioActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrecioKeyPressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
