@@ -14,19 +14,17 @@ import javax.swing.JOptionPane;
 import modelo.Producto;
 import org.bson.Document;
 
-
-
 /**
  *
  * @author PIPE
  */
-public class MetodoProducto implements IProducto{
+public class MetodoProducto implements IProducto {
+
     Conexion conn = new Conexion();
     MongoDatabase database;
     private MongoCollection<Document> coleccion;
-    
-    
-     public MetodoProducto() {
+
+    public MetodoProducto() {
         if (conn != null) {
             this.conn = conn.crearConexion();
             this.database = conn.getDataB();
@@ -41,12 +39,13 @@ public class MetodoProducto implements IProducto{
             JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + ex.toString());
         }
     }
-    private int generarID(){
+
+    private int generarID() {
         Random random = new Random();
         int numeroAleatorio = random.nextInt(900) + 100;
         return numeroAleatorio;
     }
-    
+
     @Override
     public List<Producto> ListaProductos() {
         List<Producto> listaProductos = new ArrayList<>();
@@ -56,14 +55,14 @@ public class MetodoProducto implements IProducto{
             documentos = coleccion.find();
             for (Document temp : documentos) {
                 Producto producto = new Producto();
-   
+
                 producto.setIdProducto(generarID());
                 producto.setNombreProducto(temp.getString("nombreProducto"));
                 producto.setMarca(temp.getString("marca"));
                 producto.setCantidad(Integer.getInteger("cantidad"));
                 producto.setPrecio(temp.getDouble("precio"));
                 listaProductos.add(producto);
-                
+
             }
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error en la consulta de datos: " + ex.getMessage());
@@ -76,14 +75,13 @@ public class MetodoProducto implements IProducto{
 
     @Override
     public boolean InsetarProductos(Producto producto) {
-       Document documento;
+        Document documento;
         try {
             documento = new Document("idProducto", generarID())
                     .append("nombreProducto", producto.getNombreProducto())
                     .append("marca", producto.getMarca())
                     .append("cantidad", 0)
                     .append("precio", producto.getPrecio());
-            
 
             coleccion.insertOne(documento);
         } catch (MongoException ex) {
@@ -97,29 +95,31 @@ public class MetodoProducto implements IProducto{
 
     @Override
     public boolean ActualizarProductos(Producto producto) {
-       Document filtro = null;
-    Document resultado = null;
-    boolean actualizar = false;
+        Document filtro = null;
+        Document resultado = null;
+        boolean actualizar = false;
 
-    try {
-        filtro = new Document("id_perfil", producto.getIdProducto());
-        resultado = coleccion.find(filtro).first();
+        try {
+            filtro = new Document("id_perfil", producto.getIdProducto());
+            resultado = coleccion.find(filtro).first();
 
-        if (resultado != null) {
-            producto.setCantidad(resultado.getInteger("cantidad"));
-            producto.setPrecio(resultado.getDouble("precio"));
-           
-            actualizar = true;
+            if (resultado != null) {
+                producto.setNombreProducto(resultado.getString("nombreProducto"));
+                producto.setMarca(resultado.getString("marca"));
+                producto.setCantidad(resultado.getInteger("cantidad"));
+                producto.setPrecio(resultado.getDouble("precio"));
+
+                actualizar = true;
+            }
+
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
+            return false;
+        } finally {
+            cerrarConexion();
         }
 
-    } catch (MongoException ex) {
-        JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
-        return false;
-    } finally {
-        cerrarConexion();
-    }
-
-    return actualizar;
+        return actualizar;
     }
 
     @Override
@@ -140,7 +140,7 @@ public class MetodoProducto implements IProducto{
 
     @Override
     public Producto BuscarProductos(int idProduto) {
-         Producto producto = null;
+        Producto producto = null;
         try {
             Document filtro = new Document("idProducto", idProduto);
             FindIterable<Document> resultados = coleccion.find(filtro);
@@ -161,10 +161,4 @@ public class MetodoProducto implements IProducto{
         }
         return producto;
     }
-    }
-    
-
- 
-    
-    
-  
+}
