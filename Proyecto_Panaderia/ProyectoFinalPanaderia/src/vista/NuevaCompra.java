@@ -13,6 +13,7 @@ import org.bson.Document;
 import modelo.Clientes;
 import modelo.Producto;
 import servicio.ClienteServicio;
+import servicio.ProductoServicio;
 
 public class NuevaCompra extends javax.swing.JFrame {
 
@@ -25,7 +26,7 @@ public class NuevaCompra extends javax.swing.JFrame {
     private String FechaPago;
     Clientes cliente = new Clientes();
     ClienteServicio controlador = new ClienteServicio();
-
+    
     public NuevaCompra() {
         initComponents();
         if (conn != null) {
@@ -50,6 +51,7 @@ public class NuevaCompra extends javax.swing.JFrame {
         dtm.addColumn("Cantidad");
         dtm.addColumn("Precio");
         this.Tabla.setModel(dtm);
+        cargarComboProductos(ProductoServicio.ListaProductos());
     }
 
     public double calcularTotal() {
@@ -66,6 +68,12 @@ public class NuevaCompra extends javax.swing.JFrame {
         newframe.setVisible(true);
         this.dispose();
 
+    }
+
+    public void cargarComboProductos(List<Producto> listarProducto) {
+        for (Producto producto : listarProducto) {
+            cmbProducto.addItem(producto.getNombreProducto());
+        }
     }
 
     @SuppressWarnings("unchecked")
