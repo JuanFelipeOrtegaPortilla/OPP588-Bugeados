@@ -31,6 +31,13 @@ public class Clientes {
         this.listaCompra = new ArrayList<>();
     }
 
+    public Clientes(String nombre, String nCuenta, String telefono, String tipoCliente) {
+        this.nombre = nombre;
+        this.nCuenta = nCuenta;
+        this.telefono = telefono;
+        this.tipoCliente = tipoCliente;
+    }
+
     
     public Clientes(int id, String nombre, String nCuenta, String telefono, Date fechaPago, Date fechaCompra, String tipoCliente, boolean cancelado) {
         this.id = id;
