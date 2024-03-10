@@ -9,11 +9,12 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import org.bson.Document;
 import modelo.Clientes;
 import modelo.Producto;
 import servicio.ClienteServicio;
 import servicio.ProductoServicio;
+
+
 
 public class NuevaCompra extends javax.swing.JFrame {
 
@@ -50,7 +51,7 @@ public class NuevaCompra extends javax.swing.JFrame {
         dtm.addColumn("Cantidad");
         dtm.addColumn("Precio");
         this.Tabla.setModel(dtm);
-        cargarComboProductos(ProductoServicio.ListaProductos());
+        cargarComboProductos();
     }
 
     public double calcularTotal() {
@@ -69,7 +70,10 @@ public class NuevaCompra extends javax.swing.JFrame {
 
     }
 
-    public void cargarComboProductos(List<Producto> listarProducto) {
+    public void cargarComboProductos() {
+        List<Producto> listarProducto=null;
+        ProductoServicio controlador2=new ProductoServicio();
+        listarProducto=controlador2.ListaProductos();
         for (Producto producto : listarProducto) {
             cmbProducto.addItem(producto.getNombreProducto());
         }
@@ -379,7 +383,7 @@ public class NuevaCompra extends javax.swing.JFrame {
             cliente.setFechaPago(null);
             cliente.setCancelado(false);
         }
-        cliente = new Clientes(txtNombre.getText(), txtCuenta.getText(), txtTelefono.getText(), seleccion);
+        cliente = new Clientes(txtNombre.getText(), txtCuenta.getText(), txtTelefono.getText(), seleccion,precio);
 
         //guardado de datos en la base
         if (seleccion == "Efectivo") {
