@@ -4,10 +4,11 @@
  */
 package servicio;
 
-import com.mongodb.client.model.MergeOptions;
 import dao.MetodoProducto;
 import java.util.List;
 import modelo.Producto;
+
+
 
 /**
  *
@@ -19,19 +20,19 @@ public class ProductoServicio {
         return new MetodoProducto().ListaProductos();
     }
 
-    public static boolean InsetarProductos(Producto producto) {
+    public boolean InsetarProductos(Producto producto) {
         return new MetodoProducto().InsetarProductos(producto);
     }
 
-    public static boolean ActualizarProductos(Producto producto) {
+    public boolean ActualizarProductos(Producto producto) {
         return new MetodoProducto().ActualizarProductos(producto);
     }
 
-    public static boolean EliminarProductos(int idProduto) {
+    public boolean EliminarProductos(int idProduto) {
         return new MetodoProducto().EliminarProductos(idProduto);
     }
 
-    public static Producto BuscarProductos(int idProducto) {
+    public Producto BuscarProductos(int idProducto) {
         return new MetodoProducto().BuscarProductos(idProducto);
     }
 
