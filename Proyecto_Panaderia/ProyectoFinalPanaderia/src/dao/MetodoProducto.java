@@ -55,7 +55,6 @@ public class MetodoProducto implements IProducto {
             documentos = coleccion.find();
             for (Document temp : documentos) {
                 Producto producto = new Producto();
-
                 producto.setIdProducto(temp.getInteger("idProducto"));
                 producto.setNombreProducto(temp.getString("nombreProducto"));
                 producto.setMarca(temp.getString("marca"));
