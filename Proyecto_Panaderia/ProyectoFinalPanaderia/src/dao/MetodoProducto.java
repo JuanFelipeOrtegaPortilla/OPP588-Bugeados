@@ -59,7 +59,7 @@ public class MetodoProducto implements IProducto {
                 producto.setIdProducto(generarID());
                 producto.setNombreProducto(temp.getString("nombreProducto"));
                 producto.setMarca(temp.getString("marca"));
-                producto.setCantidad(Integer.getInteger("cantidad"));
+                producto.setCantidad(temp.getInteger("cantidad"));
                 producto.setPrecio(temp.getDouble("precio"));
                 listaProductos.add(producto);
 
