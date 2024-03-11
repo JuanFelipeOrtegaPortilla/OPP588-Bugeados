@@ -239,7 +239,7 @@ public class CrudProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_jbInsertarActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        int filaSeleccionada = Tabla.getSelectedRow();
+      int filaSeleccionada = Tabla.getSelectedRow();
         if (filaSeleccionada >= 0) {
             id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
             
