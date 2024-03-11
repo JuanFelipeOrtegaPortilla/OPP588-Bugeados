@@ -1,18 +1,42 @@
 package vista;
 
+import com.mongodb.DB;
+import com.mongodb.client.MongoDatabase;
+import dao.Conexion;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 public class NuevaCompra extends javax.swing.JFrame {
-
+    Conexion conn = new Conexion();
+    MongoDatabase database;
+    DB db;
+    private DefaultTableModel dtm = new DefaultTableModel();
+    
     public NuevaCompra() {
+        if (conn != null) {
+            conn = conn.crearConexion();
+            database = conn.getDataB();
+        }
         initComponents();
+        jLabel1.setVisible(false);
+        txtNombre.setVisible(false);
+        jLabel2.setVisible(false);
+        txtTelefono.setVisible(false);
+        jLabel3.setVisible(false);
+        txtCuenta.setVisible(false);
+        jcFecha.setDate(new Date());
+        jcFecha.setEnabled(false);
+        dtm.addColumn("Producto");
+        dtm.addColumn("Cantidad");
+        dtm.addColumn("Precio");
+        this.Tabla.setModel(dtm);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jbFecha = new com.toedter.calendar.JDateChooser();
+        jcFecha = new com.toedter.calendar.JDateChooser();
         cmbTipoCliente = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
@@ -37,6 +61,11 @@ public class NuevaCompra extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         cmbTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione metodo de pago", "Efectivo", "De Una", "Fiado" }));
+        cmbTipoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoClienteActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("nombre");
 
@@ -90,7 +119,7 @@ public class NuevaCompra extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -139,7 +168,7 @@ public class NuevaCompra extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cmbTipoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -177,6 +206,33 @@ public class NuevaCompra extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmbTipoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoClienteActionPerformed
+        String seleccion = (String) cmbTipoCliente.getSelectedItem();
+        if (seleccion.equals("Efectivo")) {
+            jLabel1.setVisible(false);
+            txtNombre.setVisible(false);
+            jLabel2.setVisible(false);
+            txtTelefono.setVisible(false);
+            jLabel3.setVisible(false);
+            txtCuenta.setVisible(false);
+        } else if (seleccion.equals("De Una")) {
+            jLabel1.setVisible(true);
+            txtNombre.setVisible(true);
+            jLabel3.setVisible(false);
+            txtTelefono.setVisible(false);
+            jLabel2.setVisible(true);
+            txtCuenta.setVisible(true);
+
+        } else if (seleccion.equals("Fiado")) {
+            jLabel1.setVisible(true);
+            txtNombre.setVisible(true);
+            jLabel3.setVisible(true);
+            txtTelefono.setVisible(true);
+            jLabel2.setVisible(false);
+            txtCuenta.setVisible(false);
+        }
+    }//GEN-LAST:event_cmbTipoClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,8 +285,8 @@ public class NuevaCompra extends javax.swing.JFrame {
     private javax.swing.JButton jbAceptar;
     private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbCancelar;
-    private com.toedter.calendar.JDateChooser jbFecha;
     private javax.swing.JButton jbQuitar;
+    private com.toedter.calendar.JDateChooser jcFecha;
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JTextField txtCuenta;
     private javax.swing.JTextField txtNombre;

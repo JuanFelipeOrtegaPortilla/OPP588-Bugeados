@@ -36,7 +36,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jbFecha" min="-2" pref="145" max="-2" attributes="0"/>
+                      <Component id="jcFecha" min="-2" pref="145" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -98,7 +98,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="cmbTipoCliente" min="-2" max="-2" attributes="0"/>
-                  <Component id="jbFecha" min="-2" max="-2" attributes="0"/>
+                  <Component id="jcFecha" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -146,7 +146,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="com.toedter.calendar.JDateChooser" name="jbFecha">
+    <Component class="com.toedter.calendar.JDateChooser" name="jcFecha">
     </Component>
     <Component class="javax.swing.JComboBox" name="cmbTipoCliente">
       <Properties>
@@ -159,6 +159,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbTipoClienteActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
