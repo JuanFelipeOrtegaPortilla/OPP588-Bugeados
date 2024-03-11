@@ -239,16 +239,18 @@ if (filaSeleccionada >= 0) {
     int confirmar = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
     if (confirmar == JOptionPane.YES_OPTION) {
-        String idPedido = String.valueOf(modeloTabla.getValueAt(filaSeleccionada, 0));
+        // Obtener el idPedido de la fila seleccionada
+        int idPedido = Integer.parseInt(String.valueOf(modeloTabla.getValueAt(filaSeleccionada, 0)));
 
-       
-        if (PedidoServicio.EliminarPedido(idProducto)) {
+        // Eliminar el pedido por su idPedido
+        if (PedidoServicio.EliminarPedido(idPedido)) {
             JOptionPane.showMessageDialog(null, "Registro eliminado correctamente");
             modeloTabla.removeRow(filaSeleccionada);
         } else {
             JOptionPane.showMessageDialog(null, "Error al eliminar el registro");
         }
     } else {
+        // Si el usuario elige no eliminar, deseleccionar la fila
         tblPedidos.getSelectionModel().clearSelection();
     }
 } else {
