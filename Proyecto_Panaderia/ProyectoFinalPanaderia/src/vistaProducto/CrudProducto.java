@@ -242,7 +242,9 @@ public class CrudProducto extends javax.swing.JFrame {
         int filaSeleccionada = Tabla.getSelectedRow();
         if (filaSeleccionada >= 0) {
             id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+            
             ModificarProducto modificar = new ModificarProducto();
+            modificar.traerID(id);
             modificar.setVisible(true);
             this.dispose();
 
