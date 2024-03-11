@@ -10,31 +10,29 @@ import vista.Principal;
  * @author IDC
  */
 public class ModificarProducto extends javax.swing.JFrame {
-    Producto producto=null;
+
+    Producto producto = null;
     ProductoServicio controlador = new ProductoServicio();
-    int idProducto;
+    int idProducto = 0;
+
+    public void traerID(int id) {
+        idProducto = id;
+        txtId.setText(String.valueOf(idProducto));
+        cargarDatos(idProducto);
+    }
 
     public ModificarProducto() {
         initComponents();
         txtId.setEditable(false);
-        CrudProducto traerId = new CrudProducto();
-        idProducto = traerId.id;
-        if (idProducto == 0) {
-            CrudProducto traerId2 = new CrudProducto();
-            idProducto = traerId2.id;
-        }
-        cargarDatos();
     }
 
-    public void cargarDatos() {
-        producto = controlador.BuscarProductos(idProducto);
+    public void cargarDatos(int id) {
+        producto = controlador.BuscarProductos(id);
         if (this.producto != null) {
-            txtId.setText(String.valueOf(producto.getIdProducto()));
             txtNombreProducto.setText(producto.getNombreProducto());
             txtMarca.setText(producto.getMarca());
             spnCantidad.setValue(producto.getCantidad());
             spnPrecio.setValue(producto.getPrecio());
-                   
         } else {
             System.out.println("No se puede cargar datos.");
 
@@ -161,13 +159,23 @@ public class ModificarProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
-        Producto productoModificado = new Producto(txtNombreProducto.getText(), txtMarca.getText(), (double) spnPrecio.getValue(), (int) spnCantidad.getValue());
+        Producto productoModificado = new Producto(Integer.valueOf(txtId.getText()),
+                txtNombreProducto.getText(),
+                txtMarca.getText(),
+                (double) spnPrecio.getValue(),
+                (int) spnCantidad.getValue());
+        JOptionPane.showMessageDialog(null, productoModificado.toString());
 
         if (txtNombreProducto.getText().length() > 0 && txtMarca.getText().length() > 0 && (double) spnPrecio.getValue() > 0) {
-            controlador.ActualizarProductos(productoModificado);
-            CrudProducto newframe = new CrudProducto();
-            newframe.setVisible(true);
-            this.dispose();
+            if (controlador.ActualizarProductos(productoModificado)) {
+                CrudProducto newframe = new CrudProducto();
+                newframe.setVisible(true);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "error al actualizar");
+            }
+
         } else {
             JOptionPane.showMessageDialog(null, "Campos faltantes");
         }
