@@ -32,14 +32,20 @@ public class Clientes {
         this.listaCompra = new ArrayList<>();
     }
 
-
-    public Clientes(String nombre, String nCuenta, String telefono, String tipoCliente, double totalCompra) {
+    public Clientes(String nombre, String nCuenta, String telefono, Date fechaPago, Date fechaCompra, String tipoCliente, boolean cancelado, double totalCompra) {
         this.nombre = nombre;
         this.nCuenta = nCuenta;
         this.telefono = telefono;
+        this.fechaPago = fechaPago;
+        this.fechaCompra = fechaCompra;
         this.tipoCliente = tipoCliente;
+        this.cancelado = cancelado;
         this.totalCompra = totalCompra;
     }
+
+   
+
+    
 
     
     public Clientes(int id, String nombre, String nCuenta, String telefono, Date fechaPago, Date fechaCompra, String tipoCliente, boolean cancelado) {
