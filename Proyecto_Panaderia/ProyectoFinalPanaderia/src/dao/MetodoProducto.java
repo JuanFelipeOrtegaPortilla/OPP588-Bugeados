@@ -9,6 +9,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import java.util.*;
 import javax.swing.JOptionPane;
 import modelo.Producto;
@@ -94,23 +95,22 @@ public class MetodoProducto implements IProducto {
 
     @Override
     public boolean ActualizarProductos(Producto producto) {
-        Document filtro = null;
-        Document resultado = null;
+        Document filtro,update;
+        //Document resultado = null;
         boolean actualizar = false;
-
+        UpdateResult resultado;
         try {
             filtro = new Document("idProducto", producto.getIdProducto());
-            resultado = coleccion.find(filtro).first();
-
-            if (resultado != null) {
-                producto.setNombreProducto(resultado.getString("nombreProducto"));
-                producto.setMarca(resultado.getString("marca"));
-                producto.setCantidad(resultado.getInteger("cantidad"));
-                producto.setPrecio(resultado.getDouble("precio"));
-
-                actualizar = true;
+            update=new Document("$set",new Document("nombreProducto",producto.getNombreProducto())
+                    .append("marca",producto.getMarca())
+                    .append("cantidad",producto.getCantidad())
+                    .append("precio", producto.getPrecio()));
+  
+            resultado=coleccion.updateOne(filtro, update);
+            
+            if(resultado.getModifiedCount()>0){
+                actualizar=true;
             }
-
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
             return false;
