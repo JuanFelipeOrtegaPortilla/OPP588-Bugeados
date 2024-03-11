@@ -1,17 +1,28 @@
 package vista;
 
 import com.mongodb.DB;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import dao.Conexion;
 import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Clientes;
+import modelo.Producto;
+import servicio.ClienteServicio;
+import servicio.ProductoServicio;
 
 public class NuevaCompra extends javax.swing.JFrame {
+
     Conexion conn = new Conexion();
     MongoDatabase database;
     DB db;
     private DefaultTableModel dtm = new DefaultTableModel();
-    
+    Clientes cliente = null;
+    ClienteServicio controlador = new ClienteServicio();
+    ProductoServicio controlador2 = new ProductoServicio();
+
     public NuevaCompra() {
         if (conn != null) {
             conn = conn.crearConexion();
@@ -30,6 +41,52 @@ public class NuevaCompra extends javax.swing.JFrame {
         dtm.addColumn("Cantidad");
         dtm.addColumn("Precio");
         this.Tabla.setModel(dtm);
+        cargarComboProductos();
+    }
+
+    public void cargarComboProductos() {
+        List<Producto> listarProducto = null;
+        listarProducto = ProductoServicio.ListaProductos();
+        for (Producto producto : listarProducto) {
+            cmbProductos.addItem(producto.getNombreProducto());
+        }
+    }
+
+    public double calcularTotal() {
+        double total = 0.0;
+        for (int row = 0; row < dtm.getRowCount(); row++) {
+            Double precio = (Double) dtm.getValueAt(row, 2);
+            total = total + precio;
+        }
+        return total;
+    }
+
+    public void cerrar() {
+        Principal newframe = new Principal();
+        newframe.setVisible(true);
+        this.dispose();
+
+    }
+
+    public void Stock() {
+        List lista = cliente.getListaCompra();
+        for (int row = 0; row < dtm.getRowCount(); row++) {
+            String nombre = dtm.getColumnName(0);
+            int cantidad = (int) dtm.getValueAt(row, 0);
+            Producto producto = new Producto(nombre, cantidad);
+            lista.add(producto);
+        }
+        controlador.ActualizarStock(cliente);
+
+    }
+
+    public void completarCliente() {
+        cliente = new Clientes(txtNombre.getText(),
+                txtCuenta.getText(),
+                txtTelefono.getText(), 
+                (String) cmbTipoCliente.getSelectedItem(),
+                Double.valueOf(txtTotal.getText()));
+
     }
 
     @SuppressWarnings("unchecked")
@@ -75,7 +132,7 @@ public class NuevaCompra extends javax.swing.JFrame {
 
         jLabel4.setText("Producto");
 
-        cmbProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "Todos" }));
+        cmbProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "..." }));
 
         jLabel5.setText("Cantidad");
 
@@ -97,12 +154,32 @@ public class NuevaCompra extends javax.swing.JFrame {
         jLabel6.setText("Total");
 
         jbAgregar.setText("Agregar");
+        jbAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAgregarActionPerformed(evt);
+            }
+        });
 
         jbQuitar.setText("Quitar");
+        jbQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbQuitarActionPerformed(evt);
+            }
+        });
 
         jbAceptar.setText("Aceptar");
+        jbAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAceptarActionPerformed(evt);
+            }
+        });
 
         jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -233,6 +310,83 @@ public class NuevaCompra extends javax.swing.JFrame {
             txtCuenta.setVisible(false);
         }
     }//GEN-LAST:event_cmbTipoClienteActionPerformed
+
+    private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
+        String ProductoSeleccionado = (String) cmbProductos.getSelectedItem();
+        Producto calcularPrecio = controlador2.BuscarProductosPorNombre(ProductoSeleccionado);
+
+        if (ProductoSeleccionado != "...") {
+            Double valor = calcularPrecio.getPrecio() * ((Integer) spnCantidad.getValue()).doubleValue();
+            dtm.addRow(new Object[]{cmbProductos.getSelectedItem(), spnCantidad.getValue(), valor});
+            txtTotal.setText(String.valueOf(calcularTotal()));
+            calcularTotal();
+        } else {
+            JOptionPane.showMessageDialog(null, "falta ingresar un producto");
+        }
+    }//GEN-LAST:event_jbAgregarActionPerformed
+
+    private void jbQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbQuitarActionPerformed
+        int fila = Tabla.getSelectedRow();
+        if (fila >= 0) {
+            dtm.removeRow(fila);
+            txtTotal.setText(String.valueOf(calcularTotal()));
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+        }
+    }//GEN-LAST:event_jbQuitarActionPerformed
+
+    private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
+        MongoCollection coleccion = database.getCollection("clientes");
+        cliente.setFechaCompra(jcFecha.getDate());
+        String seleccion = (String) cmbTipoCliente.getSelectedItem();
+
+        //guardado de datos en la base
+        if (seleccion == "Efectivo") {
+            cliente.setFechaPago(jcFecha.getDate());
+            cliente.setCancelado(true);
+            completarCliente();
+            Stock();
+            
+            controlador.InsetarClientes(cliente);
+            cerrar();
+        } else if (seleccion == "De Una") {
+            if (txtNombre.getText().length() > 0 && txtCuenta.getText().length() > 0) {
+                cliente.setFechaPago(jcFecha.getDate());
+                cliente.setCancelado(true);
+                completarCliente();
+                Stock();
+                
+                controlador.InsetarClientes(cliente);
+                cerrar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Campos faltantes");
+            }
+        } else if (seleccion == "Fiado") {
+            if (txtNombre.getText().length() > 0 && txtTelefono.getText().length() > 0) {
+                cliente.setFechaPago(null);
+                cliente.setCancelado(false);
+                completarCliente();
+                Stock();
+                
+                controlador.InsetarClientes(cliente);
+                cerrar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Campos faltantes");
+            }
+        }
+    }//GEN-LAST:event_jbAceptarActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        String botones[] = {"si", "no"};
+        int eleccion = JOptionPane.showOptionDialog(this, "Desea cancelar la compra?", "Titulo", 0, 0, null, botones, this);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            Principal newframe = new Principal();
+            newframe.setVisible(true);
+            this.dispose();
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+
+        }
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
     /**
      * @param args the command line arguments
