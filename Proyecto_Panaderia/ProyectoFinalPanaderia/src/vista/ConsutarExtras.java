@@ -16,38 +16,43 @@ import servicio.ProductoServicio;
  * @author PIPE
  */
 public class ConsutarExtras extends javax.swing.JFrame {
-     private DefaultTableModel modeloTabla;
-List<Extras> listaExtras = null;
-public static int idProducto=0;
+
+    private DefaultTableModel modeloTabla;
+    List<Extras> listaExtras = null;
+    public static int idProducto = 0;
+
     /**
      * Creates new form ConsutarExtras
      */
     public ConsutarExtras() {
         initComponents();
     }
-public void CargarPedido() {
-    cmbExtras.removeAllItems();
-    cmbExtras.addItem("Todos"); 
-    
-    ExtrasServicio extrasServicio = new ExtrasServicio();
-    listaExtras = extrasServicio.ListarExtas();
-    
-    cargarTablaTodasExtras(listaExtras);
-    cargarComboExtras(listaExtras);
-    
-    cmbExtras.setSelectedItem("Todos"); // Establecer la selección en "Todos" después de cargar los elementos
-}
 
-      public void cargarComboExtras(List<Extras> listaExtras) {
+    public void CargarPedido() {
+        cmbExtras.removeAllItems();
+        cmbExtras.addItem("Todos");
+
+        ExtrasServicio extrasServicio = new ExtrasServicio();
+        listaExtras = extrasServicio.ListarExtas();
+
+        cargarTablaTodasExtras(listaExtras);
+        cargarComboExtras(listaExtras);
+
+        cmbExtras.setSelectedItem("Todos"); // Establecer la selección en "Todos" después de cargar los elementos
+    }
+
+    public void cargarComboExtras(List<Extras> listaExtras) {
         for (Extras extras : listaExtras) {
-            cmbExtras.addItem(extras.getIdExtras()+ "-" + extras.getProductos());
+            cmbExtras.addItem(extras.getIdExtras() + "-" + extras.getProductos());
         }
     }
-public void limpiarTabla() {
+
+    public void limpiarTabla() {
         modeloTabla = (DefaultTableModel) tblExtras.getModel();
         modeloTabla.setRowCount(0);
     }
- public void cargarTablaTodasExtras(List<Extras> listaExtras) {
+
+    public void cargarTablaTodasExtras(List<Extras> listaExtras) {
         limpiarTabla();
         for (Extras extra : listaExtras) {
             double total = extra.getCantidad() * extra.getPrecioUnitario();
@@ -57,28 +62,27 @@ public void limpiarTabla() {
                 extra.getPrecioUnitario(),
                 extra.getCantidad(),
                 total,
-                extra.getFechaPago(),
-             
-            });
+                extra.getFechaPago(),});
         }
     }
- public void cargarTablaBusqueda(int idProducto) {
-    limpiarTabla();
-    Extras extras = new ExtrasServicio().BuscarIdExtras(idProducto);  // Cambiado de BuscarProductos a BuscarProducto
-    if (extras != null) {
-        double total = extras.getCantidad() * extras.getPrecioUnitario();
-        modeloTabla.addRow(new Object[]{
-            extras.getIdExtras(),
-            extras.getProductos(),
-            extras.getPrecioUnitario(),
-            extras.getCantidad(),
-            total,
-            extras.getFechaPago(),
-        });
-    } else {
-        JOptionPane.showMessageDialog(this, "Producto no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+
+    public void cargarTablaBusqueda(int idProducto) {
+        limpiarTabla();
+        Extras extras = new ExtrasServicio().BuscarIdExtras(idProducto);  // Cambiado de BuscarProductos a BuscarProducto
+        if (extras != null) {
+            double total = extras.getCantidad() * extras.getPrecioUnitario();
+            modeloTabla.addRow(new Object[]{
+                extras.getIdExtras(),
+                extras.getProductos(),
+                extras.getPrecioUnitario(),
+                extras.getCantidad(),
+                total,
+                extras.getFechaPago(),});
+        } else {
+            JOptionPane.showMessageDialog(this, "Producto no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,7 +185,9 @@ public void limpiarTabla() {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       dispose();
+        Principal newframe = new Principal();
+        newframe.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

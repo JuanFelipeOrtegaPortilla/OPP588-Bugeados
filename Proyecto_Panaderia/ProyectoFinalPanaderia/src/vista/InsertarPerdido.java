@@ -27,7 +27,6 @@ public class InsertarPerdido extends javax.swing.JFrame {
         getContentPane().setBackground(new Color(255, 223, 186));  // Dorado claro
 
     }
-    
 
     public void cargarDatos() {
         try {
@@ -41,19 +40,17 @@ public class InsertarPerdido extends javax.swing.JFrame {
                 Producto producto = servicio.BuscarProductos(idProducto);
 
                 if (producto != null) {
-                   
+
                     int idPedidoAleatorio = generarIdAleatorio();
                     txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
 
-                  
-                    
                     txtProducto.setText(producto.getNombreProducto());
                     txtPrecio.setText(String.valueOf(producto.getPrecio()));
                 } else {
                     JOptionPane.showMessageDialog(null, "No se encontraron datos para el ID del producto: " + idProducto);
                 }
             } else {
-             
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -83,7 +80,8 @@ public class InsertarPerdido extends javax.swing.JFrame {
         }
 
     }
-     private void calcularTotal() {
+
+    private void calcularTotal() {
         try {
             String selectedItem = (String) cmbIdProducto.getSelectedItem();
 
@@ -95,10 +93,9 @@ public class InsertarPerdido extends javax.swing.JFrame {
                 Producto producto = servicio.BuscarProductos(idProducto);
 
                 if (producto != null) {
-                 
+
                     int cantidad = (int) spCantidad.getValue();
 
-                 
                     double total = producto.getPrecio() * cantidad;
                     txtTotal.setText(String.valueOf(total));
                 } else {
@@ -112,7 +109,6 @@ public class InsertarPerdido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al calcular el total: " + ex.toString());
         }
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -313,44 +309,48 @@ public class InsertarPerdido extends javax.swing.JFrame {
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
         if (!cmbIdProducto.getSelectedItem().toString().trim().equals("")
-            && !txtProducto.getText().trim().equals("")
-            && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+                && !txtProducto.getText().trim().equals("")
+                && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 
-        try {
-            String dato = cmbIdProducto.getSelectedItem().toString();
-            String[] producto = dato.split("-");
-            int idProducto = Integer.parseInt(producto[0].trim());
+            try {
+                String dato = cmbIdProducto.getSelectedItem().toString();
+                String[] producto = dato.split("-");
+                int idProducto = Integer.parseInt(producto[0].trim());
 
-            Date fechaPedido = calendario1.getDate();
-            Date fechaEntrega = calendarioEntrega.getDate();
+                Date fechaPedido = calendario1.getDate();
+                Date fechaEntrega = calendarioEntrega.getDate();
 
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-            String fechaPedidoStr = (fechaPedido != null) ? formatoFecha.format(fechaPedido) : "";
-            String fechaEntregaStr = (fechaEntrega != null) ? formatoFecha.format(fechaEntrega) : "";
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+                String fechaPedidoStr = (fechaPedido != null) ? formatoFecha.format(fechaPedido) : "";
+                String fechaEntregaStr = (fechaEntrega != null) ? formatoFecha.format(fechaEntrega) : "";
 
-            Random random = new Random();
-            int idPedidoAleatorio = random.nextInt(10000) + 1;
+                Random random = new Random();
+                int idPedidoAleatorio = random.nextInt(10000) + 1;
 
-            String nombrePedido = txtPedido.getText();
+                String nombrePedido = txtPedido.getText();
 
-            txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
-            Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, fechaPedidoStr, fechaEntregaStr);
+                txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
+                Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, fechaPedidoStr, fechaEntregaStr);
 
-            if (PedidoServicio.InsertarPedido(insertarPedido)) {
-                JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
-                limpiar();
-                regresarConsultaPedidos();
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al ingresar los datos");
+                if (PedidoServicio.InsertarPedido(insertarPedido)) {
+                    JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
+                    limpiar();
+                    regresarConsultaPedidos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al ingresar los datos");
+                }
+                ConsultarPedido newframe = new ConsultarPedido();
+                newframe.setVisible(true);
+                this.dispose();
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error al ingresar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error general: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Error al ingresar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error general: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos y confirme la operación");
         }
-    } else {
-        JOptionPane.showMessageDialog(null, "Complete todos los campos y confirme la operación");
-    }
 
     }//GEN-LAST:event_btnInsertarActionPerformed
 
@@ -359,6 +359,10 @@ public class InsertarPerdido extends javax.swing.JFrame {
 
         if (opcion == JOptionPane.YES_OPTION) {
             limpiar();
+            ConsultarPedido newframe = new ConsultarPedido();
+            newframe.setVisible(true);
+            this.dispose();
+
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 

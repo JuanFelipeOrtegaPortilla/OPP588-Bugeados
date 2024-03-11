@@ -47,7 +47,6 @@ public class InsertarExtra extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         spCantidad = new javax.swing.JSpinner();
-        btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
         calendario = new com.toedter.calendar.JDateChooser();
@@ -63,8 +62,6 @@ public class InsertarExtra extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Cantidad");
-
-        btnAceptar.setText("Aceptar");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -139,12 +136,10 @@ public class InsertarExtra extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnguardar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAceptar)
-                        .addGap(18, 18, 18)
+                        .addGap(113, 113, 113)
                         .addComponent(btnCancelar)
                         .addGap(3, 3, 3)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -175,9 +170,8 @@ public class InsertarExtra extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnguardar)
-                    .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -226,6 +220,10 @@ public class InsertarExtra extends javax.swing.JFrame {
         .append("fecha_pago", fechaFormateada);
 
         coleccion.insertOne(documento);
+        
+        ConsutarExtras consultar = new ConsutarExtras();
+        consultar.setVisible(true);
+        setVisible(true);
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void txtProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductoKeyTyped
@@ -329,7 +327,6 @@ private void guardarPrecioUnitarioEnArchivo(double precioUnitario) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnguardar;
