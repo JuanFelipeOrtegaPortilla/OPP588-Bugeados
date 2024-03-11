@@ -82,10 +82,25 @@ public class NuevaCompra extends javax.swing.JFrame {
     }
 
     public void completarCliente() {
-        cliente = new Clientes(txtNombre.getText(),
+        String seleccion = (String) cmbTipoCliente.getSelectedItem();
+        Date fechacompra=jcFecha.getDate();
+        Date fechapago=null;
+        boolean pagado=false;
+        if(seleccion.equals("Efectivo")||seleccion.equals("De Una")){
+            fechapago=jcFecha.getDate();
+            pagado=true;
+        }else if(seleccion.equals("Fiado")){
+            fechapago=null;
+            pagado=false;
+        }
+        cliente = new Clientes(
+                txtNombre.getText(),
                 txtCuenta.getText(),
                 txtTelefono.getText(),
+                fechapago,
+                fechacompra,
                 (String) cmbTipoCliente.getSelectedItem(),
+                pagado,
                 Double.valueOf(txtTotal.getText()));
 
     }
@@ -338,13 +353,11 @@ public class NuevaCompra extends javax.swing.JFrame {
 
     private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
         MongoCollection coleccion = database.getCollection("clientes");
-        cliente.setFechaCompra(jcFecha.getDate());
         String seleccion = (String) cmbTipoCliente.getSelectedItem();
 
         //guardado de datos en la base
         if (seleccion == "Efectivo") {
-            cliente.setFechaPago(jcFecha.getDate());
-            cliente.setCancelado(true);
+            
             completarCliente();
             Stock();
 
@@ -352,8 +365,6 @@ public class NuevaCompra extends javax.swing.JFrame {
             cerrar();
         } else if (seleccion == "De Una") {
             if (txtNombre.getText().length() > 0 && txtCuenta.getText().length() > 0) {
-                cliente.setFechaPago(jcFecha.getDate());
-                cliente.setCancelado(true);
                 completarCliente();
                 Stock();
 
@@ -364,8 +375,7 @@ public class NuevaCompra extends javax.swing.JFrame {
             }
         } else if (seleccion == "Fiado") {
             if (txtNombre.getText().length() > 0 && txtTelefono.getText().length() > 0) {
-                cliente.setFechaPago(null);
-                cliente.setCancelado(false);
+ 
                 completarCliente();
                 Stock();
 
