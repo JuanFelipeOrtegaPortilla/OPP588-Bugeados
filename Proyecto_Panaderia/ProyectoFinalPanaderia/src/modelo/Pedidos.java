@@ -11,6 +11,7 @@ package modelo;
 public class Pedidos {
     private int idProducto;
     private String producto;
+    private String pedido;
     private int cantidad;
     private double precio;
     private double total;
@@ -41,7 +42,28 @@ public class Pedidos {
         this.fechaPedido = fechaPedido;
         this.fechaEntrega = fechaEntrega;
     }
-    
+    public Pedidos(int idProducto, String producto, String pedido, int idPedido, int cantidad, double precio, double total, String fechaPedido, String fechaEntrega) {
+        this.idProducto = idProducto;
+        this.producto = producto;
+        this.pedido = pedido;
+        this.idPedido = idPedido;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.total = total;
+        this.fechaPedido = fechaPedido;
+        this.fechaEntrega = fechaEntrega;
+    }
+     public Pedidos(int idProducto, String producto, String nombrePedido, int cantidad, double precio, double total, int idPedido, String fechaPedido, String fechaEntrega) {
+        this.idProducto = idProducto;
+        this.producto = producto;
+        this.pedido = nombrePedido;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.total = total;
+        this.idPedido = idPedido;
+        this.fechaPedido = fechaPedido;
+        this.fechaEntrega = fechaEntrega;
+    }
 
     public int getIdProducto() {
         return idProducto;
@@ -57,6 +79,14 @@ public class Pedidos {
 
     public void setProducto(String producto) {
         this.producto = producto;
+    }
+
+    public String getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(String pedido) {
+        this.pedido = pedido;
     }
 
     public int getCantidad() {
@@ -109,6 +139,8 @@ public class Pedidos {
 
     @Override
     public String toString() {
-        return "Pedidos{" + "idProducto=" + idProducto + ", producto=" + producto + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", idPedido=" + idPedido + ", fechaPedido=" + fechaPedido + ", fechaEntrega=" + fechaEntrega + '}';
+        return "Pedidos{" + "idProducto=" + idProducto + ", producto=" + producto + ", pedido=" + pedido + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", idPedido=" + idPedido + ", fechaPedido=" + fechaPedido + ", fechaEntrega=" + fechaEntrega + '}';
     }
+    
+
 }
