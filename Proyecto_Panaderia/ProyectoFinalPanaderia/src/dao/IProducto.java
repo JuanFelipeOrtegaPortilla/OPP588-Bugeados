@@ -17,4 +17,5 @@ public interface IProducto {
    public boolean ActualizarProductos(Producto producto);
     public boolean EliminarProductos(int idProduto);
     public Producto BuscarProductos( int  idProduto);
+    public Producto BuscarProductosPorNombre( String  Produto);
 }
