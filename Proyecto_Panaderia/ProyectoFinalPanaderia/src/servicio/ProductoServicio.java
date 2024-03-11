@@ -35,5 +35,9 @@ public class ProductoServicio {
     public Producto BuscarProductos(int idProducto) {
         return new MetodoProducto().BuscarProductos(idProducto);
     }
+    public Producto BuscarProductosPorNombre(String Producto) {
+        return new MetodoProducto().BuscarProductosPorNombre(Producto);
+    }
+
 
 }
