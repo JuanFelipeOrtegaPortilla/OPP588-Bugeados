@@ -160,4 +160,28 @@ public class MetodoProducto implements IProducto {
         }
         return producto;
     }
+
+    @Override
+    public Producto BuscarProductosPorNombre(String Produto) {
+                Producto producto = null;
+        try {
+            Document filtro = new Document("nombreProducto", Produto);
+            FindIterable<Document> resultados = coleccion.find(filtro);
+            Document resultado = resultados.first();
+
+            if (resultado != null) {
+                producto = new Producto();
+                producto.setIdProducto(resultado.getInteger("idProducto"));
+                producto.setNombreProducto(resultado.getString("nombreProducto"));
+                producto.setMarca(resultado.getString("marca"));
+                producto.setPrecio(resultado.getDouble("precio"));
+                producto.setCantidad(resultado.getInteger("cantidad"));
+            }
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar datos:" + ex.toString());
+        } finally {
+            cerrarConexion();
+        }
+        return producto;
+    }
 }
