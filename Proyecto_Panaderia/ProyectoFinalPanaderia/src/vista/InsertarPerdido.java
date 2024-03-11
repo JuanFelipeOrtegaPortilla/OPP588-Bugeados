@@ -4,6 +4,7 @@
  */
 package vista;
 
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,10 @@ public class InsertarPerdido extends javax.swing.JFrame {
         initComponents();
         llenarComboProductos();
         cargarDatos();
+        getContentPane().setBackground(new Color(255, 223, 186));  // Dorado claro
+
     }
+    
 
     public void cargarDatos() {
         try {
@@ -135,6 +139,7 @@ public class InsertarPerdido extends javax.swing.JFrame {
         txtIdPedido = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 204, 204));
 
         jLabel1.setText("IdProducto");
 
