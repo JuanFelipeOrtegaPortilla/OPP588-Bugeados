@@ -4,6 +4,9 @@
  */
 package vista;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -19,67 +22,104 @@ import servicio.ProductoServicio;
  */
 public class ConsultarPedido extends javax.swing.JFrame {
     
-   private DefaultTableModel modeloTabla;
-List<Pedidos> listaPedidos = null;
-List<Producto>listaProductos = null;
-public static int idProducto=0;
-    
+    private DefaultTableModel modeloTabla;
+    private List<Pedidos> listaPedidos;
 
-    
     public ConsultarPedido() {
         initComponents();
+        CargarPedidos();
+        cmbMarca.addActionListener((e) -> cargarTablaPedidoSeleccionado());
     }
-     public void CargarPedido() {
-    cmbMarca.removeAllItems(); // Limpiar elementos anteriores antes de cargar nuevos
-    cmbMarca.addItem("Todos"); // Agregar el elemento "Todos"
-    
-    ProductoServicio productoServicio = new ProductoServicio();
-    listaProductos = productoServicio.ListaProductos();
-    
-    cargarTablaTodasProductos(listaProductos);
-    cargarComboMarca(listaProductos);
-    
-    cmbMarca.setSelectedItem("Todos"); // Establecer la selección en "Todos" después de cargar los elementos
+
+ public void CargarPedidos() {
+    cmbMarca.removeAllItems();
+    cmbMarca.addItem("Todos");
+
+    PedidoServicio pedidoServicio = new PedidoServicio();
+    listaPedidos = pedidoServicio.ListarPedidos();
+
+    cargarTablaTodosPedidos(listaPedidos);
+    cargarComboIdPedidos(listaPedidos);
+
+    cmbMarca.setSelectedItem("Todos");
 }
 
-      public void cargarComboMarca(List<Producto> listaProductos) {
-        for (Producto producto : listaProductos) {
-            cmbMarca.addItem(producto.getMarca() + "-" + producto.getMarca());
-        }
-    }
-public void limpiarTabla() {
-        modeloTabla = (DefaultTableModel) tblPedidos.getModel();
-        modeloTabla.setRowCount(0);
-    }
- public void cargarTablaTodasProductos(List<Producto> listaProductos) {
-        limpiarTabla();
-        for (Producto producto : listaProductos) {
-            double total = producto.getCantidad() * producto.getPrecio();
-            modeloTabla.addRow(new Object[]{
-                producto.getIdProducto(),
-                producto.getNombreProducto(),
-                producto.getCantidad(),
-                producto.getPrecio(),
-                total
-            });
-        }
-    }
- public void cargarTablaBusqueda(int idProducto) {
-    limpiarTabla();
-    Producto producto = new ProductoServicio().BuscarProductos(idProducto);  // Cambiado de BuscarProductos a BuscarProducto
-    if (producto != null) {
-        double total = producto.getCantidad() * producto.getPrecio();
-        modeloTabla.addRow(new Object[]{
-            producto.getIdProducto(),
-            producto.getNombreProducto(),
-            producto.getCantidad(),
-            producto.getPrecio(),
-            total
-        });
-    } else {
-        JOptionPane.showMessageDialog(this, "Producto no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+public void cargarComboIdPedidos(List<Pedidos> listaPedidos) {
+    for (Pedidos pedido : listaPedidos) {
+        cmbMarca.addItem(pedido.getIdPedido() + "-" + pedido.getPedido());
     }
 }
+
+public void limpiarTabla() {
+    modeloTabla = (DefaultTableModel) tblPedidos.getModel();
+    modeloTabla.setRowCount(0);
+}
+
+
+   public void cargarTablaTodosPedidos(List<Pedidos> listaPedidos) {
+    limpiarTabla();
+    for (Pedidos pedido : listaPedidos) {
+        System.out.println("Precio: " + pedido.getPrecio()); // Imprime el precio en la consola
+        modeloTabla.addRow(new Object[]{
+            pedido.getPedido(),
+            pedido.getProducto(),
+            pedido.getCantidad(),
+            pedido.getFechaPedido(),
+            pedido.getFechaEntrega(),
+            pedido.getPrecio(),
+            pedido.getTotal()
+        });
+    }
+}
+
+
+    public void cargarTablaPedidoSeleccionado() {
+    limpiarTabla();
+
+    String selectedItem = (String) cmbMarca.getSelectedItem();
+
+    if ("Todos".equalsIgnoreCase(selectedItem)) {
+        cargarTablaTodosPedidos(listaPedidos);
+    } else {
+        try {
+            int idPedido = Integer.parseInt(selectedItem.split("-")[0].trim());
+            Pedidos pedido = new PedidoServicio().BuscarIdPedido(idPedido);
+
+            if (pedido != null) {
+                // Formatear las fechas antes de agregarlas a la tabla
+                String fechaPedido = formatearFecha(pedido.getFechaPedido());
+                String fechaEntrega = formatearFecha(pedido.getFechaEntrega());
+
+                modeloTabla.addRow(new Object[]{
+                    pedido.getPedido(),
+                    pedido.getProducto(),
+                    pedido.getCantidad(),
+                    fechaPedido,
+                    fechaEntrega,
+                    pedido.getPrecio(),
+                    pedido.getTotal(),
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "Pedido no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Error al procesar el ID del pedido", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+private String formatearFecha(String fecha) {
+    try {
+        SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = formatoEntrada.parse(fecha);
+        SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy");  // Puedes cambiar el formato según tus necesidades
+        return formatoSalida.format(date);
+    } catch (ParseException e) {
+        e.printStackTrace();  // Maneja adecuadamente las excepciones de análisis de fecha
+        return fecha;  // Devuelve la fecha original en caso de error
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,8 +141,6 @@ public void limpiarTabla() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cmbMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         tblPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -111,11 +149,11 @@ public void limpiarTabla() {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "IdProducto", "Producto", "Cantidad", "Fecha Pedido", "Fecha Entrega", "Precio", "Total"
+                "Marca", "Producto", "Cantidad", "Fecha Pedido", "Fecha Entrega", "Precio", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, true, true, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
