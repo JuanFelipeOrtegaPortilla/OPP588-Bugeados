@@ -32,7 +32,8 @@ public class MetodosPedidos implements IPedidos {
         if (conn != null) {
             this.conn = conn.crearConexion();
             this.database = conn.getDataB();
-            this.coleccion = database.getCollection("productos");
+            this.coleccion = database.getCollection("pedidos");
+            
         }
     }
 
@@ -64,7 +65,7 @@ public class MetodosPedidos implements IPedidos {
                 pedido.setProducto(temp.getString("producto"));
                 pedido.setCantidad(temp.getInteger("cantidad"));
 
-                // Convertir las fechas a String
+              
                 Date fechaPedido = temp.getDate("fechaPedido");
                 Date fechaEntrega = temp.getDate("fechaEntrega");
 
