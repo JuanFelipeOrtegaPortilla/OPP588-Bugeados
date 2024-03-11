@@ -4,6 +4,7 @@ import com.mongodb.DB;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import dao.Conexion;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,7 +20,7 @@ public class NuevaCompra extends javax.swing.JFrame {
     MongoDatabase database;
     DB db;
     private DefaultTableModel dtm = new DefaultTableModel();
-    Clientes cliente = null;
+    Clientes cliente = new Clientes();
     ClienteServicio controlador = new ClienteServicio();
     ProductoServicio controlador2 = new ProductoServicio();
 
@@ -69,21 +70,21 @@ public class NuevaCompra extends javax.swing.JFrame {
     }
 
     public void Stock() {
-        List lista = cliente.getListaCompra();
+        List<Producto> lista = new ArrayList<>();
         for (int row = 0; row < dtm.getRowCount(); row++) {
-            String nombre = dtm.getColumnName(0);
-            int cantidad = (int) dtm.getValueAt(row, 0);
+            String nombre = (String) dtm.getValueAt(row, 0);
+            int cantidad = (int) dtm.getValueAt(row, 1);
             Producto producto = new Producto(nombre, cantidad);
             lista.add(producto);
         }
+        cliente.setListaCompra(lista);
         controlador.ActualizarStock(cliente);
-
     }
 
     public void completarCliente() {
         cliente = new Clientes(txtNombre.getText(),
                 txtCuenta.getText(),
-                txtTelefono.getText(), 
+                txtTelefono.getText(),
                 (String) cmbTipoCliente.getSelectedItem(),
                 Double.valueOf(txtTotal.getText()));
 
@@ -346,7 +347,7 @@ public class NuevaCompra extends javax.swing.JFrame {
             cliente.setCancelado(true);
             completarCliente();
             Stock();
-            
+
             controlador.InsetarClientes(cliente);
             cerrar();
         } else if (seleccion == "De Una") {
@@ -355,7 +356,7 @@ public class NuevaCompra extends javax.swing.JFrame {
                 cliente.setCancelado(true);
                 completarCliente();
                 Stock();
-                
+
                 controlador.InsetarClientes(cliente);
                 cerrar();
             } else {
@@ -367,7 +368,7 @@ public class NuevaCompra extends javax.swing.JFrame {
                 cliente.setCancelado(false);
                 completarCliente();
                 Stock();
-                
+
                 controlador.InsetarClientes(cliente);
                 cerrar();
             } else {
