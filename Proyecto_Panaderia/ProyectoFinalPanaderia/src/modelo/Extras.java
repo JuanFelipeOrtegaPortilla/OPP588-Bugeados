@@ -30,6 +30,16 @@ public class Extras {
         this.fechaPago = fechaPago;
         this.idExtras = idExtras;
     }
+    
+    public Extras(int id, String productoNombre, int cantidad, double precioUnitario, double totalCancelar,String fechaPago) {
+        this.idExtras = id;
+        this.productos = productoNombre;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+        this.total = totalCancelar;
+        this.fechaPago = fechaPago;
+       
+    }
 
     public String getProductos() {
         return productos;
@@ -84,10 +94,7 @@ public class Extras {
         return "Extras{" + "productos=" + productos + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", total=" + total + ", fechaPago=" + fechaPago + ", idExtras=" + idExtras + '}';
     }
 
-    public void setFechaPago(Date fechaPago) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
+ 
     
     
 }
