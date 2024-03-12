@@ -126,7 +126,7 @@ try {
        
         String fechaPagoStr = resultado.getString("fechaPago");
         Date fechaPago = convertirStringAFecha(fechaPagoStr);
-        extras.setFechaPago(fechaPago);
+        extras.setFechaPago(fechaPagoStr);
     }
 } catch (MongoException ex) {
     JOptionPane.showMessageDialog(null, "Error al buscar datos:" + ex.toString());
