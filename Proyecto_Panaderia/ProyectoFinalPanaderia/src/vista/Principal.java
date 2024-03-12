@@ -5,6 +5,8 @@
  */
 package vista;
 
+import vistaExtras.ConsutarExtras;
+import vistaPedidos.ConsultarPedido;
 import vistaProducto.CrudProducto;
 
 /**
