@@ -13,13 +13,16 @@ import modelo.Extras;
  * @author PIPE
  */
 public class ExtrasServicio {
-     public List<Extras> ListarExtas(){
-         return new MetodosExtras().ListarExtas();
-     }
-    public boolean InsetarExtras(Extras extras){
+    public static List<Extras> listarExtras() {
+        return new MetodosExtras().ListarExtas();
+    }
+
+    public static boolean insertarExtras(Extras extras) {
         return new MetodosExtras().InsetarExtras(extras);
     }
-    public Extras BuscarIdExtras( int idExtras){
+
+    public static Extras buscarIdExtras(int idExtras) {
         return new MetodosExtras().BuscarIdExtras(idExtras);
     }
 }
+
