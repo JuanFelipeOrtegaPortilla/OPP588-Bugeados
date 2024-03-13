@@ -1,42 +1,77 @@
 package vistaRegistros;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import modelo.Clientes;
+import servicio.ClienteServicio;
+import vista.Principal;
 
 public class RegistroDeUna extends javax.swing.JFrame {
-    int mes=0;
 
+    int mes = 0;
+    private DefaultTableModel modeloTabla;
+    ClienteServicio controlador = new ClienteServicio();
+    
     public RegistroDeUna() {
         initComponents();
     }
 
-    public void mesSelecionado(){
-        String Seleccion=(String) cmbMes.getSelectedItem();
-        if(Seleccion=="Enero"){
-            mes=1;
-        }else if(Seleccion=="Febrero"){
-            mes=2;
-        }else if(Seleccion=="Marzo"){
-            mes=3;
-        }else if(Seleccion=="Abril"){
-            mes=4;
-        }else if(Seleccion=="Mayo"){
-            mes=5;
-        }else if(Seleccion=="Junio"){
-            mes=6;
-        }else if(Seleccion=="Julio"){
-            mes=7;
-        }else if(Seleccion=="Agosto"){
-            mes=8;
-        }else if(Seleccion=="Septiembre"){
-            mes=9;
-        }else if(Seleccion=="Octubre"){
-            mes=10;
-        }else if(Seleccion=="Noviembre"){
-            mes=11;
-        }else if(Seleccion=="Diciembre"){
-            mes=12;
-        }
-        
+    public void limpiarTabla() {
+        modeloTabla = (DefaultTableModel) Tabla.getModel();
+        modeloTabla.setRowCount(0);
     }
+
+    public void cargarTablaTodosClintes(List<Clientes> listarCliente) {
+        limpiarTabla();
+        for (Clientes Cliente : listarCliente) {
+            modeloTabla.addRow(new Object[]{
+                Cliente.getId(),
+                Cliente.getNombre(),
+                Cliente.getnCuenta(),
+                Cliente.getTotalCompra(),
+                Cliente.getFechaCompra()
+            });
+        }
+    }
+
+    public void cerrar() {
+        Principal newframe = new Principal();
+        newframe.setVisible(true);
+        this.dispose();
+
+    }
+
+    public void mesSelecionado() {
+        String Seleccion = (String) cmbMes.getSelectedItem();
+        if (Seleccion == "Enero") {
+            mes = 1;
+        } else if (Seleccion == "Febrero") {
+            mes = 2;
+        } else if (Seleccion == "Marzo") {
+            mes = 3;
+        } else if (Seleccion == "Abril") {
+            mes = 4;
+        } else if (Seleccion == "Mayo") {
+            mes = 5;
+        } else if (Seleccion == "Junio") {
+            mes = 6;
+        } else if (Seleccion == "Julio") {
+            mes = 7;
+        } else if (Seleccion == "Agosto") {
+            mes = 8;
+        } else if (Seleccion == "Septiembre") {
+            mes = 9;
+        } else if (Seleccion == "Octubre") {
+            mes = 10;
+        } else if (Seleccion == "Noviembre") {
+            mes = 11;
+        } else if (Seleccion == "Diciembre") {
+            mes = 12;
+        }
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -72,6 +107,11 @@ public class RegistroDeUna extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Tabla);
 
         jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Registro De Una");
 
@@ -130,7 +170,16 @@ public class RegistroDeUna extends javax.swing.JFrame {
 
     private void cmbMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMesActionPerformed
         mesSelecionado();
+        System.out.println(mes);
+        List<Clientes> clientes = controlador.ListaClientePorMes(ClienteServicio.ListaCliente(),mes, "De Una");
+        System.out.println("Clientes obtenidos: " + clientes.size()); // Verifica la cantidad de clientes obtenidos
+        cargarTablaTodosClintes(clientes);
+
     }//GEN-LAST:event_cmbMesActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        cerrar();
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -30,5 +30,8 @@ public class ClienteServicio {
         return new MetodoCliente().ActualizarStock(clientes);
     }
   
-  
+    public List<Clientes> ListaClientePorMes(List<Clientes> listaClientes, int mes, String tipo){
+       return new MetodoCliente().ListaClientePorMes(listaClientes, mes, tipo);
+       
+   }
 }

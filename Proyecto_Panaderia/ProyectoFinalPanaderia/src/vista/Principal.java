@@ -35,7 +35,6 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jbNuevaCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/992710.png"))); // NOI18N
         jbNuevaCompra.setText("Nueva Compra");
         jbNuevaCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,7 +56,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(jbNuevaCompra)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Menu");

@@ -23,4 +23,7 @@ public interface ICliente {
     public boolean ActualizarStock(Clientes clientes);
 
     public Clientes BuscarClientes(int id);
+    
+    public List<Clientes> ListaClientePorMes(List<Clientes> listaClientes,int mes, String Tipo);
+    
 }
