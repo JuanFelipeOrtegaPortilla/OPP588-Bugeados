@@ -10,6 +10,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
@@ -51,6 +53,12 @@ public class MetodoCliente implements ICliente {
         return numeroAleatorio;
     }
 
+    private int obtenerMes(Date fecha) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+        return cal.get(Calendar.MONTH) + 1; // Sumamos 1 porque en Java los meses van de 0 a 11
+    }
+
     @Override
     public List<Clientes> ListaCliente() {
         List<Clientes> listaClientes = new ArrayList<>();
@@ -68,6 +76,7 @@ public class MetodoCliente implements ICliente {
                 clientes.setFechaCompra(temp.getDate("fechaCompra"));
                 clientes.setFechaPago(temp.getDate("fechaPago"));
                 clientes.setnCuenta(temp.getString("cuenta"));
+                clientes.setTotalCompra(temp.getDouble("Total"));
                 clientes.setCancelado(temp.getBoolean("cancelado"));
 
                 listaClientes.add(clientes);
@@ -92,6 +101,7 @@ public class MetodoCliente implements ICliente {
                     .append("tipoCliente", clientes.getTipoCliente())
                     .append("fechaCompra", clientes.getFechaCompra())
                     .append("fechaPago", clientes.getFechaPago())
+                    .append("Total", clientes.getTotalCompra())
                     .append("cuenta", clientes.getnCuenta())
                     .append("cancelado", clientes.isCancelado());
 
@@ -107,21 +117,19 @@ public class MetodoCliente implements ICliente {
 
     @Override
     public boolean ActualizarClientes(Clientes clientes) {
-        Document filtro = null;
-        Document resultado = null;
+        Document filtro,update;
         boolean actualizar = false;
-
+        UpdateResult resultado;
         try {
-            filtro = new Document("id_perfil", clientes.getId());
-            resultado = coleccion.find(filtro).first();
-
-            if (resultado != null) {
-                clientes.setCancelado(resultado.getBoolean("cancelado"));
-                clientes.setFechaPago(resultado.getDate("fechaPago"));
-
-                actualizar = true;
+            filtro = new Document("idClientes",clientes.getId());
+            update=new Document("$set",new Document("cancelado",clientes.isCancelado())
+                    .append("fechaPago",clientes.getFechaPago()));
+  
+            resultado=coleccion.updateOne(filtro, update);
+            
+            if(resultado.getModifiedCount()>0){
+                actualizar=true;
             }
-
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
             return false;
@@ -149,6 +157,7 @@ public class MetodoCliente implements ICliente {
                 clientes.setnCuenta(resultado.getString("cuenta"));
                 clientes.setFechaCompra(resultado.getDate("fechaCompra"));
                 clientes.setFechaPago(resultado.getDate("fechaPago"));
+                clientes.setTotalCompra(resultado.getDouble("Total"));
                 clientes.setCancelado(resultado.getBoolean("cancelado"));
             }
         } catch (MongoException ex) {
@@ -161,15 +170,15 @@ public class MetodoCliente implements ICliente {
 
     @Override
     public boolean ActualizarStock(Clientes clientes) {
-            try {
+        try {
             for (Producto productoStock : clientes.getListaCompra()) {
                 Document filtro = new Document("nombreProducto", productoStock.getNombreProducto());
                 Document resultado = coleccion2.find(filtro).first();
-                Document cambioStock = new Document("cantidad", resultado.getInteger("cantidad")-productoStock.getCantidad());
-            UpdateResult result = coleccion2.updateOne(filtro, new Document("$set", cambioStock ));
+                Document cambioStock = new Document("cantidad", resultado.getInteger("cantidad") - productoStock.getCantidad());
+                UpdateResult result = coleccion2.updateOne(filtro, new Document("$set", cambioStock));
             }
             return true;
-            
+
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.toString());
             return false;
@@ -178,6 +187,29 @@ public class MetodoCliente implements ICliente {
         }
     }
 
-}
-  
+    @Override
+    public List<Clientes> ListaClientePorMes(List<Clientes> listaClientes, int mes, String Tipo) {
+        List<Clientes> listaFiltrada = new ArrayList<>();
+        try {
             
+
+            for (Clientes cliente : listaClientes) {
+                Date fechaCompra = cliente.getFechaCompra(); 
+                int mesCompra = obtenerMes(fechaCompra);
+
+                if (mesCompra == mes && cliente.getTipoCliente().equals(Tipo)) {
+                    listaFiltrada.add(cliente);
+                }
+            }
+
+            
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la consulta de datos: " + ex.getMessage());
+        } finally {
+            cerrarConexion();
+        }
+
+        return listaFiltrada;
+    }
+
+}
