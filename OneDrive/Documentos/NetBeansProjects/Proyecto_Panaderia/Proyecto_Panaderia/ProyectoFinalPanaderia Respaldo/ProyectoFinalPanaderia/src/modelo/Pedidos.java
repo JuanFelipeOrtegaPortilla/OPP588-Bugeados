@@ -18,6 +18,7 @@ public class Pedidos {
     private int idPedido;
     private String fechaPedido;
     private String fechaEntrega;
+    private boolean pagado;
 
     public Pedidos() {
     }
@@ -32,6 +33,12 @@ public class Pedidos {
         this.fechaPedido = fechaPedido;
         this.fechaEntrega = fechaEntrega;
     }
+
+    public Pedidos(String fechaEntrega, boolean pagado) {
+        this.fechaEntrega = fechaEntrega;
+        this.pagado = pagado;
+    }
+    
 
     public Pedidos(int idProducto, String producto, int cantidad, double precio, double total, String fechaPedido, String fechaEntrega) {
         this.idProducto = idProducto;
