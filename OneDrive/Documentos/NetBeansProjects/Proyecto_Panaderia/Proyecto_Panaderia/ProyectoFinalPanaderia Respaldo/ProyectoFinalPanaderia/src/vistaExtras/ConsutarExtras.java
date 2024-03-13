@@ -16,6 +16,7 @@ import modelo.Extras;
 import servicio.ExtrasServicio;
 import servicio.PedidoServicio;
 import servicio.ProductoServicio;
+import vista.Principal;
 
 /**
  *
@@ -186,7 +187,10 @@ private String formatearFecha(String fecha) {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       dispose();
+       ConsutarExtras consultar = new ConsutarExtras();
+        consultar.setVisible(true);
+        setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
