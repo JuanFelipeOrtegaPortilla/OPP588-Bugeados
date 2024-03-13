@@ -16,6 +16,7 @@ import modelo.Pedidos;
 import modelo.Producto;
 import servicio.PedidoServicio;
 import servicio.ProductoServicio;
+import vista.Principal;
 
 /**
  *
@@ -134,11 +135,10 @@ private String formatearFecha(String fecha) {
         cmbMarca = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPedidos = new javax.swing.JTable();
-        btnAceptar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
         btnInsertarPedidos = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,10 +163,6 @@ private String formatearFecha(String fecha) {
         });
         jScrollPane1.setViewportView(tblPedidos);
 
-        btnAceptar.setText("Aceptar");
-
-        btnCancelar.setText("Cancelar");
-
         btnInsertarPedidos.setText("Insertar");
         btnInsertarPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,6 +179,13 @@ private String formatearFecha(String fecha) {
 
         btnActualizar.setText("Actualizar");
 
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,16 +198,14 @@ private String formatearFecha(String fecha) {
                             .addComponent(cmbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(btnAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(142, 142, 142)
                         .addComponent(btnInsertarPedidos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnActualizar)))
+                        .addComponent(btnActualizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSalir)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -216,11 +217,10 @@ private String formatearFecha(String fecha) {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnCancelar)
                     .addComponent(btnInsertarPedidos)
                     .addComponent(btnEliminar)
-                    .addComponent(btnActualizar))
+                    .addComponent(btnActualizar)
+                    .addComponent(btnSalir))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -257,6 +257,13 @@ if (filaSeleccionada >= 0) {
 }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+         Principal salir = new Principal();
+        salir.setVisible(true);
+        setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,11 +302,10 @@ if (filaSeleccionada >= 0) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnInsertarPedidos;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cmbMarca;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPedidos;
