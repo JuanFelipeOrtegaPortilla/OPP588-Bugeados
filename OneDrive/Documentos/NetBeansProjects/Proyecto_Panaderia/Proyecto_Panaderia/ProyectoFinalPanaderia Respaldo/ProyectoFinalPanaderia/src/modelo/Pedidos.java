@@ -145,6 +145,14 @@ public class Pedidos {
         this.fechaEntrega = fechaEntrega;
     }
 
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
+    
     @Override
     public String toString() {
         return "Pedidos{" + "idProducto=" + idProducto + ", producto=" + producto + ", pedido=" + pedido + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", idPedido=" + idPedido + ", fechaPedido=" + fechaPedido + ", fechaEntrega=" + fechaEntrega + '}';
