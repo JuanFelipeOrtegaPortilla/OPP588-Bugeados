@@ -291,7 +291,7 @@ public class ModificarPedidoPerfil2 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        ConsultarPedido consultar = new ConsultarPedido();
+        ConsultarPedidoPerfil2 consultar = new ConsultarPedidoPerfil2();
         consultar.setVisible(true);
         setVisible(true);
         dispose();
