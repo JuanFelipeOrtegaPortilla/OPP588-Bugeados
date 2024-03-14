@@ -60,7 +60,7 @@ public class ModificarPedido extends javax.swing.JFrame {
      
             calendario1.setDate(fechaPedido);
         } else {
-            System.out.println("Error al analizar la fecha.");
+            
         }
 
     } else {
