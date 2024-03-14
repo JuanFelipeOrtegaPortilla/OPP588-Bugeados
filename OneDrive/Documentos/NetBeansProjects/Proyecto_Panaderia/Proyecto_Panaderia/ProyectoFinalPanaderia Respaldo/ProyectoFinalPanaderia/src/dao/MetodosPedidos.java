@@ -73,6 +73,7 @@ public List<Pedidos> ListarPedidos() {
             pedido.setPrecio(temp.getDouble("precio"));
             pedido.setTotal(temp.getDouble("total"));
             Integer idPedido = temp.getInteger("idPedido");
+            pedido.setPagado(temp.getBoolean("pagado"));
             pedido.setIdPedido(idPedido != null ? idPedido.intValue() : 0);
 
             listaPedido.add(pedido);
@@ -97,7 +98,9 @@ public List<Pedidos> ListarPedidos() {
                 .append("fechaPedido", pedido.getFechaPedido())
                 .append("fechaEntrega", pedido.getFechaEntrega())
                 .append("precio", pedido.getPrecio())
-                .append("total", pedido.getTotal());
+                .append("total", pedido.getTotal())
+                .append("pagado", pedido.isPagado());
+                
         coleccion.insertOne(documento);
     } catch (MongoException ex) {
         JOptionPane.showMessageDialog(null, "Error al insertar datos: " + ex.toString());
