@@ -44,6 +44,12 @@ public class ModificarPedido extends javax.swing.JFrame {
     public ModificarPedido() {
         initComponents();
         txtIdPedido.setEditable(false);
+        txtMarca.setEditable(false);
+        txtProducto.setEditable(false);
+        //spCantidad.setEditor(null);
+        txtPrecio.setEditable(false);
+        txtTotal.setEditable(false);
+        getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void cargarDatos(int id) {
