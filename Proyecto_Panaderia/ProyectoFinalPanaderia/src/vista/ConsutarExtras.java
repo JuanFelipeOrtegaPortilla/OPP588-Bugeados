@@ -34,7 +34,7 @@ public class ConsutarExtras extends javax.swing.JFrame {
         cmbExtras.addItem("Todos");
 
         ExtrasServicio extrasServicio = new ExtrasServicio();
-        listaExtras = extrasServicio.ListarExtas();
+       // listaExtras = extrasServicio.ListarExtas();
 
         cargarTablaTodasExtras(listaExtras);
         cargarComboExtras(listaExtras);
@@ -67,7 +67,7 @@ public class ConsutarExtras extends javax.swing.JFrame {
         }
     }
 
-    public void cargarTablaBusqueda(int idProducto) {
+   /* public void cargarTablaBusqueda(int idProducto) {
         limpiarTabla();
         Extras extras = new ExtrasServicio().BuscarIdExtras(idProducto);  // Cambiado de BuscarProductos a BuscarProducto
         if (extras != null) {
@@ -82,7 +82,7 @@ public class ConsutarExtras extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Producto no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.

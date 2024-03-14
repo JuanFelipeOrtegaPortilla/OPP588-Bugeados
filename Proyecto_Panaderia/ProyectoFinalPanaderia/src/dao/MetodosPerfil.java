@@ -53,8 +53,10 @@ public class MetodosPerfil implements IPerfil {
                 Perfil perfil = new Perfil();
                 perfil.setId_perfil(temp.getInteger("id_perfil"));
                 perfil.setNombrePerfil(temp.getString("nombrePerfil"));
-                perfil.setTipoUsuario("tipoUsuario");
-                perfil.setDescripcion("descripcion");
+                perfil.setTipoUsuario(temp.getString("tipoUsuario"));
+                perfil.setDescripcion(temp.getString("descripcion"));
+                perfil.setClave(temp.getInteger("clave"));
+                
                 listaPerfil.add(perfil);
             }
         } catch (MongoException ex) {
@@ -90,6 +92,26 @@ public class MetodosPerfil implements IPerfil {
         }
 
         return perfil;
+    }
+
+    @Override
+    public Perfil BuscarPerfil(List<Perfil> ListarPerfil,String nombre, int clave) {
+         Perfil perfilFiltrado = null;
+        try {
+            for (Perfil perfil : ListarPerfil) {
+
+                if (perfil.getNombrePerfil() == nombre && perfil.getClave()==clave) {
+                    perfilFiltrado=perfil;
+                }
+            }
+
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la consulta de datos: " + ex.getMessage());
+        } finally {
+            cerrarConexion();
+        }
+
+        return perfilFiltrado ;
     }
 
     @Override

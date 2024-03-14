@@ -42,7 +42,7 @@ public class InsertarPerfil extends javax.swing.JFrame {
 
         jLabel4.setText("Tipo de usuario");
 
-        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "....", "Comun", "Adimistrador" }));
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "....", "Comun", "Administrador" }));
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
