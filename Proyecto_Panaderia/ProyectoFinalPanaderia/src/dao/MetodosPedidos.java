@@ -117,25 +117,19 @@ public boolean ActualizarPedidos(Pedidos pedido) {
 
     try {
         Document filtro = new Document("idPedido", pedido.getIdPedido());
-        Document updateDocument = new Document();
+        Document updateDocument = new Document("$set", new Document("cancelado", pedido.isPagado()));
 
-      
-        if (!pedido.getFechaEntrega().isEmpty()) {
-          
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String fechaEntregaStr = dateFormat.format(pedido.getFechaEntrega());
-            updateDocument.append("fechaEntrega", fechaEntregaStr);
-        }
+        System.out.println("Filtro: " + filtro.toJson());
+        System.out.println("UpdateDocument: " + updateDocument.toJson());
 
-     
-        updateDocument.append("pagado", pedido.isPagado());
+        UpdateResult result = coleccion.updateOne(filtro, updateDocument);
 
-        Document updateQuery = new Document("$set", updateDocument);
-
-        UpdateResult result = coleccion.updateOne(filtro, updateQuery);
+        System.out.println("Modified count: " + result.getModifiedCount());
 
         if (result.getModifiedCount() > 0) {
             actualizar = true;
+        } else {
+            JOptionPane.showMessageDialog(null, "El pedido con ID " + pedido.getIdPedido() + " no se encontró en la base de datos.");
         }
     } catch (MongoException ex) {
         JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.getMessage());
@@ -143,6 +137,9 @@ public boolean ActualizarPedidos(Pedidos pedido) {
 
     return actualizar;
 }
+
+
+
 
 
 
