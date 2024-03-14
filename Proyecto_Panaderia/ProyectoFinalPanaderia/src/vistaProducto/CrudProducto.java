@@ -5,6 +5,7 @@
  */
 package vistaProducto;
 
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -27,6 +28,7 @@ public class CrudProducto extends javax.swing.JFrame {
     public CrudProducto() {
         initComponents();
         cargarProductos();
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void cargarProductos() {
