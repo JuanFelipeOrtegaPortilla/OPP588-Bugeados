@@ -1,5 +1,6 @@
 package vistaRegistros;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,7 @@ public class RegistroFiado extends javax.swing.JFrame {
         initComponents();
         jcFecha.setDate(new Date());
         jcFecha.setEnabled(false);
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void limpiarTabla() {
