@@ -1,5 +1,6 @@
 package vistaProducto;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import modelo.Producto;
 import servicio.ProductoServicio;
@@ -24,6 +25,7 @@ public class ModificarProducto extends javax.swing.JFrame {
     public ModificarProducto() {
         initComponents();
         txtId.setEditable(false);
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void cargarDatos(int id) {
