@@ -5,6 +5,12 @@
  */
 package vista;
 
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import vistaExtras.ConsutarExtras;
 import vistaPedidos.ConsultarPedido;
 import vistaProducto.CrudProducto;
@@ -15,18 +21,55 @@ import vistaProducto.CrudProducto;
  */
 public class Principal extends javax.swing.JFrame {
 
-
     public Principal() {
         initComponents();
+
+   
+ImageIcon imagenFondo = new ImageIcon(getClass().getResource("/Imagenes/Pan.jpg"));
+
+ 
+        JPanel panelFondo = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        panelFondo.setLayout(null); 
+
+        // Agrega otros componentes encima del panel de fondo
+        JButton boton = new JButton("Nueva Compra");
+        boton.setBounds(100, 100, 200, 50);
+
+        // Agrega un ActionListener al botón
+        boton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Abre el nuevo frame
+                NuevaCompra newframe = new NuevaCompra();
+                newframe.setVisible(true);
+                // Cierra el frame actual
+                dispose();
+            }
+        });
+
+   
+        panelFondo.add(boton);
+
+
+        setContentPane(panelFondo);
+        pack();
+        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setVisible(true);
     }
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jbNuevaCompra = new javax.swing.JButton();
+        PanelFondo = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jbPedidos = new javax.swing.JMenuItem();
@@ -35,28 +78,26 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jbNuevaCompra.setText("Nueva Compra");
-        jbNuevaCompra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbNuevaCompraActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout PanelFondoLayout = new javax.swing.GroupLayout(PanelFondo);
+        PanelFondo.setLayout(PanelFondoLayout);
+        PanelFondoLayout.setHorizontalGroup(
+            PanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 473, Short.MAX_VALUE)
+        );
+        PanelFondoLayout.setVerticalGroup(
+            PanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 404, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(jbNuevaCompra)
-                .addContainerGap(173, Short.MAX_VALUE))
+            .addComponent(PanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jbNuevaCompra)
-                .addContainerGap(310, Short.MAX_VALUE))
+            .addComponent(PanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Menu");
@@ -109,12 +150,6 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jbNuevaCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevaCompraActionPerformed
-        NuevaCompra newframe = new NuevaCompra();
-        newframe.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jbNuevaCompraActionPerformed
 
     private void jbExtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExtrasActionPerformed
         ConsutarExtras newframe = new ConsutarExtras();
@@ -170,11 +205,11 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelFondo;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem jbExtras;
-    private javax.swing.JButton jbNuevaCompra;
     private javax.swing.JMenuItem jbPedidos;
     private javax.swing.JMenuItem jbProductos;
     // End of variables declaration//GEN-END:variables
