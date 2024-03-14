@@ -5,6 +5,7 @@ import com.mongodb.DB;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import dao.Conexion;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,7 @@ public class NuevaCompra extends javax.swing.JFrame {
         dtm.addColumn("Precio");
         this.Tabla.setModel(dtm);
         cargarComboProductos();
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void cargarComboProductos() {
