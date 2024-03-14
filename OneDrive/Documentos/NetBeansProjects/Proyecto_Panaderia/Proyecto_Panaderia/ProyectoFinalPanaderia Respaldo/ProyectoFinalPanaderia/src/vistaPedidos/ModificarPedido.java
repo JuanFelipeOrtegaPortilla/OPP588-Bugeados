@@ -53,7 +53,7 @@ public class ModificarPedido extends javax.swing.JFrame {
         try {
             fechaPedido = formatoFecha.parse(pedido.getFechaPedido());
         } catch (ParseException e) {
-            e.printStackTrace(); // Manejar el error de análisis de fecha
+            e.printStackTrace(); 
         }
         
         if (fechaPedido != null) {
@@ -69,30 +69,7 @@ public class ModificarPedido extends javax.swing.JFrame {
 }
 
 
-    
-
-
-   private void calcularTotal(int idPedodo) {
-    try {
-        System.out.println("ID del producto seleccionado: " + idPedodo);
-
-        ProductoServicio servicio = new ProductoServicio();
-        Producto producto = servicio.BuscarProductos(idPedodo);
-
-        if (producto != null) {
-            int cantidad = (int) spCantidad.getValue(); // Obtener la cantidad del JSpinner
-            double total = producto.getPrecio() * cantidad;
-            System.out.println("Total calculado: " + total);
-            txtTotal.setText(String.valueOf(total));
-        } else {
-            JOptionPane.showMessageDialog(null, "No se encontraron datos para el ID del producto: " + idPedodo);
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error al calcular el total: " + ex.toString());
-    }
-}
-
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
