@@ -227,7 +227,7 @@ private String formatearFecha(String fecha) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsutarExtras().setVisible(true);
+               new ConsutarExtras().setVisible(true);
             }
         });
     }
