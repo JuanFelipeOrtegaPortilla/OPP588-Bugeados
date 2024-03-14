@@ -8,7 +8,6 @@ import modelo.Perfil;
 import modelo.Producto;
 import servicio.PerfilServicio;
 import servicio.ProductoServicio;
-import vista.Principal;
 import vistaProducto.ModificarProducto;
 
 public class CrudPerfil extends javax.swing.JFrame {

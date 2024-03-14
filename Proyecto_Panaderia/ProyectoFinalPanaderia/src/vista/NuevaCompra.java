@@ -1,5 +1,6 @@
 package vista;
 
+import vistaPerfil.Principal;
 import com.mongodb.DB;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;

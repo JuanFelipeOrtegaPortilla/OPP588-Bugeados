@@ -3,7 +3,7 @@ package vistaProducto;
 import javax.swing.JOptionPane;
 import modelo.Producto;
 import servicio.ProductoServicio;
-import vista.Principal;
+import vistaPerfil.Principal;
 
 /**
  *

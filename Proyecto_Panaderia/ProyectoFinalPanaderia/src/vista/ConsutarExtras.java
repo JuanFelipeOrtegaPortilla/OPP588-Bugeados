@@ -4,6 +4,7 @@
  */
 package vista;
 
+import vistaPerfil.Principal;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

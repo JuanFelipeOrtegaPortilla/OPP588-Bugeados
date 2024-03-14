@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import modelo.Clientes;
 import servicio.ClienteServicio;
-import vista.Principal;
+import vistaPerfil.Principal;
 
 public class RegistroFiado extends javax.swing.JFrame {
 

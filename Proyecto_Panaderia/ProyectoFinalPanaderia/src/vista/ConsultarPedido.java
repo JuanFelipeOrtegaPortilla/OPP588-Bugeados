@@ -4,6 +4,7 @@
  */
 package vista;
 
+import vistaPerfil.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
