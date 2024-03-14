@@ -5,6 +5,12 @@
  */
 package vistaPerfil;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import vista.NuevaCompra;
 import vistaExtras.ConsutarExtras;
 import vistaPedidos.ConsultarPedido;
@@ -20,8 +26,34 @@ import vistaRegistros.RegistroFiado;
 public class Principal2 extends javax.swing.JFrame {
 
 
-    public Principal2() {
+     public Principal2() {
         initComponents();
+        ImageIcon imagenFondo = new ImageIcon("C:\\Users\\PIPE\\OneDrive\\Documentos\\OPP588-Bugeados\\Proyecto_Panaderia\\ProyectoFinalPanaderia\\src\\Imagenes\\Pan.jpg");
+
+        JPanel panelFondo = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        panelFondo.setLayout(null);
+
+        JButton boton = new JButton("Nueva Compra");
+        boton.setBounds(100, 100, 200, 50);
+        boton.setBackground(new Color(255, 255, 102)); // Amarillo suave
+        boton.addActionListener(e -> {
+            NuevaCompra newframe = new NuevaCompra();
+            newframe.setVisible(true);
+            dispose();
+        });
+        panelFondo.add(boton);
+
+        setContentPane(panelFondo);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
   
