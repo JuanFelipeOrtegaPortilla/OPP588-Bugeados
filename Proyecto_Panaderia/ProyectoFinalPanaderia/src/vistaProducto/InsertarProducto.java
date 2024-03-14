@@ -1,5 +1,6 @@
 package vistaProducto;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import modelo.Producto;
 import servicio.ProductoServicio;
@@ -19,6 +20,7 @@ public class InsertarProducto extends javax.swing.JFrame {
         txtMarca.setText("");
         spnCantidad.setValue(0);
         txtPrecio.setText("");
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     @SuppressWarnings("unchecked")
