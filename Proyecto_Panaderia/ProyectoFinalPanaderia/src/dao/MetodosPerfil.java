@@ -93,6 +93,32 @@ public class MetodosPerfil implements IPerfil {
     }
 
     @Override
+    public Perfil BuscarPerfil(String nombre, String clave) {
+        Perfil perfil = null;
+        Document filtro = null;
+        Document resultado = null;
+
+        try {
+            filtro = new Document("nombrePerfil", nombre).append("clave", clave);
+            resultado = coleccion.find(filtro).first();
+
+            if (resultado != null) {
+                perfil = new Perfil();
+                perfil.setId_perfil(resultado.getInteger("id_perfil"));
+                perfil.setNombrePerfil(resultado.getString("nombrePerfil"));
+                perfil.setTipoUsuario(resultado.getString("tipoUsuario"));
+                perfil.setDescripcion(resultado.getString("descripcion"));
+            }
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el perfil" + ex.getMessage());
+        } finally {
+            cerrarConexion();
+        }
+
+        return perfil;
+    }
+
+    @Override
     public boolean InsetarPerfil(Perfil perfil) {
         Document documento;
         try {

@@ -17,4 +17,5 @@ public interface IPerfil {
     public boolean ActualizarPerfil(Perfil perfil);
     public boolean EliminarPerfil(int idperfil);
     public Perfil BuscarIdPerfil( int idPerfil);
+    public Perfil BuscarPerfil( String nombre, String clave);
 }

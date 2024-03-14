@@ -136,7 +136,7 @@
           <StringArray count="3">
             <StringItem index="0" value="...."/>
             <StringItem index="1" value="Comun"/>
-            <StringItem index="2" value="Adimistrador"/>
+            <StringItem index="2" value="Administrador"/>
           </StringArray>
         </Property>
       </Properties>
