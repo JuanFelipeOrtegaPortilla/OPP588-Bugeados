@@ -1,32 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vistaPerfil;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import modelo.Perfil;
+import servicio.PerfilServicio;
 
-/**
- *
- * @author IDC
- */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Principal
-     */
+    PerfilServicio controlador = new PerfilServicio();
+    Perfil perfil = null;
+
     public Login() {
         initComponents();
-        ((JPanel)getContentPane()).setOpaque(false);
-        ImageIcon uno=new ImageIcon(this.getClass().getResource("/Imagenes/Pan.jpg"));
-        JLabel fondo= new JLabel();
+        /*((JPanel) getContentPane()).setOpaque(false);
+        ImageIcon uno = new ImageIcon(this.getClass().getResource("/Imagenes/Pan.jpg"));
+        JLabel fondo = new JLabel();
         fondo.setIcon(uno);
-        getLayeredPane().add(fondo,JLayeredPane.FRAME_CONTENT_LAYER);
-        fondo.setBounds(0,0,uno.getIconWidth(),uno.getIconHeight());
+        getLayeredPane().add(fondo, JLayeredPane.FRAME_CONTENT_LAYER);
+        fondo.setBounds(0, 0, uno.getIconWidth(), uno.getIconHeight());*/
     }
 
     /**
@@ -47,13 +41,16 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Entrar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Contraseña");
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("USUARIO");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -99,6 +96,25 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        perfil = controlador.BuscarPerfil(txtUsuario.getText(), jPasswordField1.getText());
+        if (perfil != null) {
+            if (perfil.getTipoUsuario() == "Administrador") {
+                Principal newframe = new Principal();
+                newframe.setVisible(true);
+                this.dispose();
+            } else if (perfil.getTipoUsuario() == "Comun") {
+                Principal2 newframe = new Principal2();
+                newframe.setVisible(true);
+                this.dispose();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "usuario no encontrado, ingrese nuevamente");
+
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
