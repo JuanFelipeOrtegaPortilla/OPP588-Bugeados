@@ -120,7 +120,7 @@ public boolean ActualizarPedidos(Pedidos pedido) {
         Document updateDocument = new Document("$set", new Document("cancelado", pedido.isPagado()));
 
         System.out.println("Filtro: " + filtro.toJson());
-        System.out.println("UpdateDocument " + updateDocument.toJson());
+
 
         UpdateResult result = coleccion.updateOne(filtro, updateDocument);
 
