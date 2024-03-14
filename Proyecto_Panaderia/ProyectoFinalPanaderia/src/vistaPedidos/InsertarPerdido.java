@@ -154,6 +154,7 @@ public class InsertarPerdido extends javax.swing.JFrame {
 
         jLabel4.setText("Precio");
 
+        spCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         spCantidad.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 spCantidadStateChanged(evt);
@@ -398,7 +399,7 @@ public class InsertarPerdido extends javax.swing.JFrame {
         txtPrecio.setText("");
         txtProducto.setText("");
         cmbIdProducto.setSelectedIndex(0);
-        spCantidad.setValue(0);
+        spCantidad.setValue(1);
         txtTotal.setText("");
 
     }
