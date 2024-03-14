@@ -69,7 +69,8 @@ public void limpiarTabla() {
             pedido.getFechaPedido(),
             pedido.getFechaEntrega(),
             pedido.getPrecio(),
-            pedido.getTotal()
+            pedido.getTotal(),
+            pedido.isPagado()
         });
     }
 }
@@ -100,6 +101,7 @@ public void limpiarTabla() {
                     fechaEntrega,
                     pedido.getPrecio(),
                     pedido.getTotal(),
+                    pedido.isPagado()
                 });
             } else {
                 JOptionPane.showMessageDialog(this, "Pedido no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
@@ -114,11 +116,11 @@ private String formatearFecha(String fecha) {
     try {
         SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatoEntrada.parse(fecha);
-        SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy");  // Puedes cambiar el formato según tus necesidades
+        SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy"); 
         return formatoSalida.format(date);
     } catch (ParseException e) {
-        e.printStackTrace();  // Maneja adecuadamente las excepciones de análisis de fecha
-        return fecha;  // Devuelve la fecha original en caso de error
+        e.printStackTrace();  
+        return fecha;  
     }
 }
 
@@ -144,18 +146,25 @@ private String formatearFecha(String fecha) {
 
         tblPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Marca", "Producto", "Cantidad", "Fecha Pedido", "Fecha Entrega", "Precio", "Total"
+                "Marca", "Producto", "Cantidad", "Fecha Pedido", "Fecha Entrega", "Precio", "Total", "Pagado"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
