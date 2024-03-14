@@ -54,151 +54,151 @@ public class MetodosPedidos implements IPedidos {
         return numeroAleatorio;
     }
 
-  @Override
-public List<Pedidos> ListarPedidos() {
-    List<Pedidos> listaPedido = new ArrayList<>();
-    FindIterable<Document> documentos;
+    @Override
+    public List<Pedidos> ListarPedidos() {
+        List<Pedidos> listaPedido = new ArrayList<>();
+        FindIterable<Document> documentos;
 
-    try {
-        documentos = coleccion.find();
-        for (Document temp : documentos) {
-            Pedidos pedido = new Pedidos();
+        try {
+            documentos = coleccion.find();
+            for (Document temp : documentos) {
+                Pedidos pedido = new Pedidos();
 
-            pedido.setPedido(temp.getString("nombrePedido"));
-            pedido.setProducto(temp.getString("producto"));
-            Integer cantidad = temp.getInteger("cantidad");
-            pedido.setCantidad(cantidad != null ? cantidad.intValue() : 0);
-            pedido.setFechaPedido(temp.getString("fechaPedido"));
-            pedido.setFechaEntrega(temp.getString("fechaEntrega"));
-            pedido.setPrecio(temp.getDouble("precio"));
-            pedido.setTotal(temp.getDouble("total"));
-            Integer idPedido = temp.getInteger("idPedido");
-            pedido.setPagado(temp.getBoolean("pagado"));
-            pedido.setIdPedido(idPedido != null ? idPedido.intValue() : 0);
+                pedido.setPedido(temp.getString("nombrePedido"));
+                pedido.setProducto(temp.getString("producto"));
+                Integer cantidad = temp.getInteger("cantidad");
+                pedido.setCantidad(cantidad != null ? cantidad.intValue() : 0);
+                pedido.setFechaPedido(temp.getString("fechaPedido"));
+                pedido.setFechaEntrega(temp.getString("fechaEntrega"));
+                pedido.setPrecio(temp.getDouble("precio"));
+                pedido.setTotal(temp.getDouble("total"));
+                Integer idPedido = temp.getInteger("idPedido");
+                pedido.setPagado(temp.getBoolean("pagado"));
+                pedido.setIdPedido(idPedido != null ? idPedido.intValue() : 0);
 
-            listaPedido.add(pedido);
-        }
-    } catch (MongoException ex) {
-        JOptionPane.showMessageDialog(null, "Error en la consulta de datos: " + ex.getMessage());
-    } finally {
-        cerrarConexion();
-    }
-
-    return listaPedido;
-}
-
-@Override
- public boolean InsetarPedido(Pedidos pedido){
-    Document documento;
-    try {
-        documento = new Document("idPedido", pedido.getIdPedido())
-                .append("nombrePedido", pedido.getPedido())
-                .append("producto", pedido.getProducto())
-                .append("cantidad", pedido.getCantidad())
-                .append("fechaPedido", pedido.getFechaPedido())
-                .append("fechaEntrega", pedido.getFechaEntrega())
-                .append("precio", pedido.getPrecio())
-                .append("total", pedido.getTotal())
-                .append("pagado", pedido.isPagado());
-                
-        coleccion.insertOne(documento);
-    } catch (MongoException ex) {
-        JOptionPane.showMessageDialog(null, "Error al insertar datos: " + ex.toString());
-        return false;
-    } finally {
-        cerrarConexion();
-    }
-    return true;
-}
-
-@Override
-public boolean ActualizarPedidos(Pedidos pedido) {
-    boolean actualizar = false;
-
-    try {
-        Document filtro = new Document("idPedido", pedido.getIdPedido());
-        Document updateDocument = new Document();
-
-    
-        if (pedido.getFechaEntrega() != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date fechaEntregaDate = dateFormat.parse(pedido.getFechaEntrega());
-            updateDocument.append("$set", new Document("fechaEntrega", fechaEntregaDate));
+                listaPedido.add(pedido);
+            }
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la consulta de datos: " + ex.getMessage());
+        } finally {
+            cerrarConexion();
         }
 
-  
-        updateDocument.append("$set", new Document("pagado", pedido.isPagado()));
+        return listaPedido;
+    }
 
-      
-        UpdateResult result = coleccion.updateOne(filtro, updateDocument);
+    @Override
+    public boolean InsetarPedido(Pedidos pedido) {
+        Document documento;
+        try {
+            documento = new Document("idPedido", pedido.getIdPedido())
+                    .append("nombrePedido", pedido.getPedido())
+                    .append("producto", pedido.getProducto())
+                    .append("cantidad", pedido.getCantidad())
+                    .append("fechaPedido", pedido.getFechaPedido())
+                    .append("fechaEntrega", pedido.getFechaEntrega())
+                    .append("precio", pedido.getPrecio())
+                    .append("total", pedido.getTotal())
+                    .append("pagado", pedido.isPagado());
 
-     
-        if (result.getModifiedCount() > 0) {
-            actualizar = true;
+            coleccion.insertOne(documento);
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al insertar datos: " + ex.toString());
+            return false;
+        } finally {
+            cerrarConexion();
         }
-    } catch (ParseException ex) {
-        JOptionPane.showMessageDialog(null, "Error al parsear la fecha: " + ex.getMessage());
-    } catch (MongoException ex) {
-        JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.getMessage());
+        return true;
     }
 
-    return actualizar;
-}
+    @Override
+    public boolean ActualizarPedidos(Pedidos pedido) {
+        boolean actualizar = false;
 
+        try {
+            Document filtro = new Document("idPedido", pedido.getIdPedido());
+            Document updateDocument = new Document();
 
-@Override
-public boolean EliminarPedido(int idPedido) {
-    Document filtro = new Document("idPedido", idPedido);
+            // Verificar si hay una fecha de entrega para actualizar
+            if (pedido.getFechaEntrega() != null) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date fechaEntregaDate = dateFormat.parse(pedido.getFechaEntrega());
+                updateDocument.append("$set", new Document("fechaEntrega", fechaEntregaDate));
+            }
 
-    try {
-        DeleteResult resultado = coleccion.deleteOne(filtro);
-        return resultado.getDeletedCount() > 0;
-    } catch (MongoException ex) {
-        JOptionPane.showMessageDialog(null, "Error al eliminar el perfil: " + ex.toString());
-    } finally {
-        cerrarConexion();
+            // Actualizar el campo 'pagado'
+            // Actualizar el campo 'pagado'
+            updateDocument.append("pagado", pedido.isPagado());
+
+            // Realizar la actualización en MongoDB
+            UpdateResult result = coleccion.updateOne(filtro, updateDocument);
+
+            // Verificar si se realizó la actualización correctamente
+            if (result.getModifiedCount() > 0) {
+                actualizar = true;
+            }
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Error al parsear la fecha: " + ex.getMessage());
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.getMessage());
+        }
+
+        return actualizar;
     }
 
-    return false;
-}
-
-@Override
-public Pedidos BuscarIdPedido(int idPedido) {
-    Pedidos pedido = null;
-
-    try {
-        System.out.println("Buscando pedido con ID: " + idPedido);
+    @Override
+    public boolean EliminarPedido(int idPedido) {
         Document filtro = new Document("idPedido", idPedido);
-        FindIterable<Document> resultados = coleccion.find(filtro);
-        Document resultado = resultados.first();
 
-        if (resultado != null) {
-            pedido = new Pedidos();
-            pedido.setPedido(resultado.getString("nombrePedido"));
-            pedido.setProducto(resultado.getString("producto"));
-            Integer cantidad = resultado.getInteger("cantidad");
-            pedido.setCantidad(cantidad != null ? cantidad.intValue() : 0);
-
-            String fechaPedido = resultado.getString("fechaPedido");
-            String fechaEntrega = resultado.getString("fechaEntrega");
-
-            pedido.setFechaPedido(fechaPedido);
-            pedido.setFechaEntrega(fechaEntrega);
-
-            pedido.setPrecio(resultado.getDouble("precio"));
-            pedido.setTotal(resultado.getDouble("total"));
-            pedido.setPagado(resultado.getBoolean("pagado"));
-        } else {
-            System.out.println("No se encontraron resultados para el ID: " + idPedido);
+        try {
+            DeleteResult resultado = coleccion.deleteOne(filtro);
+            return resultado.getDeletedCount() > 0;
+        } catch (MongoException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el perfil: " + ex.toString());
+        } finally {
+            cerrarConexion();
         }
-    } catch (MongoException ex) {
-        ex.printStackTrace();  // Imprimir la traza completa del error
-        JOptionPane.showMessageDialog(null, "Error al buscar datos: " + ex.toString());
-    } finally {
-        cerrarConexion();
+
+        return false;
     }
 
-    return pedido;
-}
+    @Override
+    public Pedidos BuscarIdPedido(int idPedido) {
+        Pedidos pedido = null;
+
+        try {
+            System.out.println("Buscando pedido con ID: " + idPedido);
+            Document filtro = new Document("idPedido", idPedido);
+            FindIterable<Document> resultados = coleccion.find(filtro);
+            Document resultado = resultados.first();
+
+            if (resultado != null) {
+                pedido = new Pedidos();
+                pedido.setPedido(resultado.getString("nombrePedido"));
+                pedido.setProducto(resultado.getString("producto"));
+                Integer cantidad = resultado.getInteger("cantidad");
+                pedido.setCantidad(cantidad != null ? cantidad.intValue() : 0);
+
+                String fechaPedido = resultado.getString("fechaPedido");
+                String fechaEntrega = resultado.getString("fechaEntrega");
+
+                pedido.setFechaPedido(fechaPedido);
+                pedido.setFechaEntrega(fechaEntrega);
+
+                pedido.setPrecio(resultado.getDouble("precio"));
+                pedido.setTotal(resultado.getDouble("total"));
+                pedido.setPagado(resultado.getBoolean("pagado"));
+            } else {
+                System.out.println("No se encontraron resultados para el ID: " + idPedido);
+            }
+        } catch (MongoException ex) {
+            ex.printStackTrace();  // Imprimir la traza completa del error
+            JOptionPane.showMessageDialog(null, "Error al buscar datos: " + ex.toString());
+        } finally {
+            cerrarConexion();
+        }
+
+        return pedido;
+    }
 
 }
