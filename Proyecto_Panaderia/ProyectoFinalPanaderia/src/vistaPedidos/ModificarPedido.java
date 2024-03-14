@@ -25,59 +25,56 @@ import servicio.ProductoServicio;
  * @author PIPE
  */
 public class ModificarPedido extends javax.swing.JFrame {
+
     Pedidos pedido = null;
     PedidoServicio controlador = new PedidoServicio();
     int idPedido = 0;
+
     public void traerID(int id) {
         idPedido = id;
         txtIdPedido.setText(String.valueOf(idPedido));
         cargarDatos(idPedido);
 
+        Date fechaActual = new Date();
 
-        Date fechaActual = new Date(); 
-        
         calendarioEntrega.setDate(fechaActual);
-          getContentPane().setBackground(new Color(255, 223, 186));
+        getContentPane().setBackground(new Color(255, 223, 186));
     }
 
-     public ModificarPedido() {
+    public ModificarPedido() {
         initComponents();
         txtIdPedido.setEditable(false);
     }
 
- public void cargarDatos(int id) {
-    pedido = controlador.BuscarIdPedido(id);
-    if (this.pedido != null) {
-        txtMarca.setText(pedido.getPedido());
-        txtProducto.setText(pedido.getProducto());
-        spCantidad.setValue(pedido.getCantidad());
-        txtPrecio.setText(String.valueOf(pedido.getPrecio()));
-        txtTotal.setText(String.valueOf(pedido.getTotal())); 
-        chPagado.setSelected(pedido.isPagado());
-        
-     
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        Date fechaPedido = null;
-        try {
-            fechaPedido = formatoFecha.parse(pedido.getFechaPedido());
-        } catch (ParseException e) {
-            e.printStackTrace(); 
-        }
-        
-        if (fechaPedido != null) {
-     
-            calendario1.setDate(fechaPedido);
+    public void cargarDatos(int id) {
+        pedido = controlador.BuscarIdPedido(id);
+        if (this.pedido != null) {
+            txtMarca.setText(pedido.getPedido());
+            txtProducto.setText(pedido.getProducto());
+            spCantidad.setValue(pedido.getCantidad());
+            txtPrecio.setText(String.valueOf(pedido.getPrecio()));
+            txtTotal.setText(String.valueOf(pedido.getTotal()));
+            chPagado.setSelected(pedido.isPagado());
+
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaPedido = null;
+            try {
+                fechaPedido = formatoFecha.parse(pedido.getFechaPedido());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if (fechaPedido != null) {
+                calendario1.setDate(fechaPedido);
+            } else {
+                // Si la fecha de pedido es null, establecerla en la fecha actual
+                calendario1.setDate(new Date());
+            }
+
         } else {
-            
+            System.out.println("No se puede cargar datos.");
         }
-
-    } else {
-        System.out.println("No se puede cargar datos.");
     }
-}
-
-
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -252,44 +249,42 @@ public class ModificarPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-    try {
-    int idPedido = Integer.valueOf(txtIdPedido.getText());
-    String pedido = txtMarca.getText();
-    String producto = txtProducto.getText();
-    int cantidad = (int) spCantidad.getValue();
-    double precio = Double.parseDouble(txtPrecio.getText());
-    double total = Double.parseDouble(txtTotal.getText());
-    boolean pagado = chPagado.isSelected();
-    
-   
-    String fechaPedido = calendario1.getDateFormatString();
-    String fechaEntrega = calendarioEntrega.getDateFormatString();
-    
+     try {
+    int idPedido = Integer.parseInt(txtIdPedido.getText());
+    Pedidos pedido = PedidoServicio.BuscarIdPedido(idPedido);
 
-    Pedidos pedidosModificados = new Pedidos(idPedido, pedido, producto, cantidad, precio, total, pagado, fechaPedido, fechaEntrega);
-    
+    if (pedido != null) {
+        txtMarca.setText(pedido.getPedido());
+        txtProducto.setText(pedido.getProducto());
+        spCantidad.setValue(pedido.getCantidad());
+        txtPrecio.setText(String.valueOf(pedido.getPrecio()));
+        txtTotal.setText(String.valueOf(pedido.getTotal()));
+        chPagado.setSelected(pedido.isPagado());
 
-    if (pedido.length() > 0 && producto.length() > 0 && cantidad > 0 && precio > 0 && total > 0 && fechaPedido != null && fechaEntrega != null) {
+        // Mostrar la fecha de entrega actual (si existe)
+        Date fechaPedido = calendario1.getDate();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaPedidoStr = (fechaPedido != null) ? formatoFecha.format(fechaPedido) : "";
 
-        if (controlador.ActualizarPedidos(pedidosModificados)) {
-     
-            ConsultarPedido newframe = new ConsultarPedido();
-            newframe.setVisible(true);
-            this.dispose();
+        Date fechaEntrega = calendarioEntrega.getDate();
+        String fechaEntregaStr = (fechaEntrega != null) ? formatoFecha.format(fechaEntrega) : "";
+
+        Pedidos actualizar = new Pedidos(idPedido, fechaEntregaStr, chPagado.isSelected());
+
+        if (PedidoServicio.ActualizarPedidos(actualizar)) {
+            JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
+            limpiar();
+            regresarConsultaPedidos();
         } else {
-        
-            JOptionPane.showMessageDialog(null, "Error al actualizar");
+            JOptionPane.showMessageDialog(null, "Error al insertar el pedido");
         }
     } else {
-
-        JOptionPane.showMessageDialog(null, "Campos faltantes o incorrectos");
+        JOptionPane.showMessageDialog(null, "No se encontró el pedido con el ID especificado");
     }
 } catch (NumberFormatException ex) {
-
-    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error de formato", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(null, "Error al obtener el ID del pedido: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 } catch (Exception ex) {
-   
-    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+    JOptionPane.showMessageDialog(null, "Error al procesar el pedido: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
 
     }//GEN-LAST:event_btnActualizarActionPerformed
