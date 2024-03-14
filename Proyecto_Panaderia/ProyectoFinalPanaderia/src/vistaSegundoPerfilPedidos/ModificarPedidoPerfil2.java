@@ -47,10 +47,9 @@ public class ModificarPedidoPerfil2 extends javax.swing.JFrame {
         txtIdPedido.setEditable(false);
         txtMarca.setEditable(false);
         txtProducto.setEditable(false);
+        //spCantidad.setEditor(null);
         txtPrecio.setEditable(false);
         txtTotal.setEditable(false);
-       
-        
         getContentPane().setBackground(new Color(255, 223, 186));
     }
 
@@ -68,6 +67,7 @@ public class ModificarPedidoPerfil2 extends javax.swing.JFrame {
             Date fechaPedido = null;
             try {
                 fechaPedido = formatoFecha.parse(pedido.getFechaPedido());
+                fechaPedido = formatoFecha.parse(pedido.getFechaPedido() );
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -75,7 +75,7 @@ public class ModificarPedidoPerfil2 extends javax.swing.JFrame {
             if (fechaPedido != null) {
                 calendario1.setDate(fechaPedido);
             } else {
-                // Si la fecha de pedido es null, establecerla en la fecha actual
+             
                 calendario1.setDate(new Date());
             }
 
@@ -257,43 +257,25 @@ public class ModificarPedidoPerfil2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-     try {
-    int idPedido = Integer.parseInt(txtIdPedido.getText());
-    Pedidos pedido = PedidoServicio.BuscarIdPedido(idPedido);
+    int idPedido = Integer.parseInt(txtIdPedido.getText()); 
+    boolean pagado = chPagado.isSelected(); 
 
-    if (pedido != null) {
-        txtMarca.setText(pedido.getPedido());
-        txtProducto.setText(pedido.getProducto());
-        spCantidad.setValue(pedido.getCantidad());
-        txtPrecio.setText(String.valueOf(pedido.getPrecio()));
-        txtTotal.setText(String.valueOf(pedido.getTotal()));
-        chPagado.setSelected(pedido.isPagado());
 
-        // Mostrar la fecha de entrega actual (si existe)
-        Date fechaPedido = calendario1.getDate();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaPedidoStr = (fechaPedido != null) ? formatoFecha.format(fechaPedido) : "";
+    Pedidos pedido = new Pedidos();
+    pedido.setIdPedido(idPedido);
+    pedido.setPagado(pagado);
 
-        Date fechaEntrega = calendarioEntrega.getDate();
-        String fechaEntregaStr = (fechaEntrega != null) ? formatoFecha.format(fechaEntrega) : "";
+   
+    boolean actualizado = PedidoServicio.ActualizarPedidos(pedido);
 
-        Pedidos actualizar = new Pedidos(idPedido, fechaEntregaStr, chPagado.isSelected());
 
-        if (PedidoServicio.ActualizarPedidos(actualizar)) {
-            JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
-            limpiar();
-            regresarConsultaPedidos();
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al insertar el pedido");
-        }
+    if (actualizado) {
+        JOptionPane.showMessageDialog(null, "Pedido actualizado correctamente.");
     } else {
-        JOptionPane.showMessageDialog(null, "No se encontró el pedido con el ID especificado");
+        JOptionPane.showMessageDialog(null, "Error al actualizar el pedido.");
     }
-} catch (NumberFormatException ex) {
-    JOptionPane.showMessageDialog(null, "Error al obtener el ID del pedido: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(null, "Error al procesar el pedido: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
+
+
 
     }//GEN-LAST:event_btnActualizarActionPerformed
 
