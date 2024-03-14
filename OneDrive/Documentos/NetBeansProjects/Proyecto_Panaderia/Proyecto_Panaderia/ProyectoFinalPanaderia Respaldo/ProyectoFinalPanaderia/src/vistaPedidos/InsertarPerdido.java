@@ -29,7 +29,7 @@ public class InsertarPerdido extends javax.swing.JFrame {
         Calendar cal = Calendar.getInstance();
         calendario1.setDate(cal.getTime());
 
-        getContentPane().setBackground(new Color(255, 223, 186));  
+        getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void cargarDatos() {
@@ -140,6 +140,8 @@ public class InsertarPerdido extends javax.swing.JFrame {
         txtPedido = new javax.swing.JTextField();
         calendario1 = new com.toedter.calendar.JDateChooser();
         calendarioEntrega = new com.toedter.calendar.JDateChooser();
+        jLabel11 = new javax.swing.JLabel();
+        chPagado = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
@@ -199,6 +201,8 @@ public class InsertarPerdido extends javax.swing.JFrame {
 
         jLabel10.setText("Marca");
 
+        jLabel11.setText("Pagado");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -242,17 +246,22 @@ public class InsertarPerdido extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(calendario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(92, 92, 92)
-                                .addComponent(calendarioEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addComponent(btnInsertar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancelar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSalir)))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(chPagado, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(92, 92, 92)
+                                    .addComponent(calendarioEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(btnInsertar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSalir)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -301,54 +310,58 @@ public class InsertarPerdido extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(calendarioEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(chPagado))
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInsertar)
                     .addComponent(btnCancelar)
                     .addComponent(btnSalir))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-     if (!cmbIdProducto.getSelectedItem().toString().trim().isEmpty()
-        && !txtProducto.getText().trim().isEmpty()
-        && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+        if (!cmbIdProducto.getSelectedItem().toString().trim().isEmpty()
+                && !txtProducto.getText().trim().isEmpty()
+                && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 
-    try {
-        String dato = cmbIdProducto.getSelectedItem().toString();
-        String[] producto = dato.split("-");
-        int idProducto = Integer.parseInt(producto[0].trim());
+            try {
+                String dato = cmbIdProducto.getSelectedItem().toString();
+                String[] producto = dato.split("-");
+                int idProducto = Integer.parseInt(producto[0].trim());
 
-        Date fechaActual = new Date();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaPedidoStr = formatoFecha.format(fechaActual);
+                Date fechaActual = new Date();
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+                String fechaPedidoStr = formatoFecha.format(fechaActual);
 
-        Date fechaEntregaDate = calendarioEntrega.getDate();
-        String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "";
+                Date fechaEntregaDate = calendarioEntrega.getDate();
+                String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "";
 
-        Random random = new Random();
-        int idPedidoAleatorio = random.nextInt(10000) + 1;
+                Random random = new Random();
+                int idPedidoAleatorio = random.nextInt(10000) + 1;
 
-        String nombrePedido = txtPedido.getText();
+                String nombrePedido = txtPedido.getText();
 
-        txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
-        Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, fechaPedidoStr, fechaEntregaStr);
+                txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
+                Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, fechaPedidoStr, fechaEntregaStr, chPagado.isSelected());
 
-        if (PedidoServicio.InsertarPedido(insertarPedido)) {
-            JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
-            limpiar();
-            
+                if (PedidoServicio.InsertarPedido(insertarPedido)) {
+                    JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
+                    limpiar();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al ingresar los datos");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error al ingresar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Error al ingresar los datos");
+            JOptionPane.showMessageDialog(null, "Complete todos los campos y confirme la operación");
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Error al ingresar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-} else {
-    JOptionPane.showMessageDialog(null, "Complete todos los campos y confirme la operación");
-}
     }//GEN-LAST:event_btnInsertarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -360,7 +373,7 @@ public class InsertarPerdido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-         ConsultarPedido consultar = new ConsultarPedido();
+        ConsultarPedido consultar = new ConsultarPedido();
         consultar.setVisible(true);
         setVisible(true);
         dispose();
@@ -426,9 +439,11 @@ public class InsertarPerdido extends javax.swing.JFrame {
     private javax.swing.JButton btnSalir;
     private com.toedter.calendar.JDateChooser calendario1;
     private com.toedter.calendar.JDateChooser calendarioEntrega;
+    private javax.swing.JCheckBox chPagado;
     private javax.swing.JComboBox<String> cmbIdProducto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
