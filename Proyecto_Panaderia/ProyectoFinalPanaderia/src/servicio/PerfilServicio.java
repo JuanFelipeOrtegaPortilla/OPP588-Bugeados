@@ -28,7 +28,7 @@ public class PerfilServicio {
    public boolean EliminarPerfil(int idPerfil){
        return new MetodosPerfil().EliminarPerfil(idPerfil);
    }
-   public Perfil BuscarPerfil( String nombre, String clave){
-       return new MetodosPerfil().BuscarPerfil(nombre, clave);
+   public Perfil BuscarPerfil( List<Perfil> ListarPerfil, String nombre, int clave){
+       return new MetodosPerfil().BuscarPerfil(ListarPerfil, nombre, clave);
    }
 }

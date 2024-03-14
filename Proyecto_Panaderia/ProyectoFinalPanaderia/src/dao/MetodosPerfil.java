@@ -53,8 +53,10 @@ public class MetodosPerfil implements IPerfil {
                 Perfil perfil = new Perfil();
                 perfil.setId_perfil(temp.getInteger("id_perfil"));
                 perfil.setNombrePerfil(temp.getString("nombrePerfil"));
-                perfil.setTipoUsuario("tipoUsuario");
-                perfil.setDescripcion("descripcion");
+                perfil.setTipoUsuario(temp.getString("tipoUsuario"));
+                perfil.setDescripcion(temp.getString("descripcion"));
+                perfil.setClave(temp.getInteger("clave"));
+                
                 listaPerfil.add(perfil);
             }
         } catch (MongoException ex) {
@@ -93,29 +95,23 @@ public class MetodosPerfil implements IPerfil {
     }
 
     @Override
-    public Perfil BuscarPerfil(String nombre, String clave) {
-        Perfil perfil = null;
-        Document filtro = null;
-        Document resultado = null;
-
+    public Perfil BuscarPerfil(List<Perfil> ListarPerfil,String nombre, int clave) {
+         Perfil perfilFiltrado = null;
         try {
-            filtro = new Document("nombrePerfil", nombre).append("clave", clave);
-            resultado = coleccion.find(filtro).first();
+            for (Perfil perfil : ListarPerfil) {
 
-            if (resultado != null) {
-                perfil = new Perfil();
-                perfil.setId_perfil(resultado.getInteger("id_perfil"));
-                perfil.setNombrePerfil(resultado.getString("nombrePerfil"));
-                perfil.setTipoUsuario(resultado.getString("tipoUsuario"));
-                perfil.setDescripcion(resultado.getString("descripcion"));
+                if (perfil.getNombrePerfil() == nombre && perfil.getClave()==clave) {
+                    perfilFiltrado=perfil;
+                }
             }
+
         } catch (MongoException ex) {
-            JOptionPane.showMessageDialog(null, "Error al buscar el perfil" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error en la consulta de datos: " + ex.getMessage());
         } finally {
             cerrarConexion();
         }
 
-        return perfil;
+        return perfilFiltrado ;
     }
 
     @Override
