@@ -39,8 +39,6 @@ public class Perfil {
         this.clave = clave;
         this.descripcion = descripcion;
     }
-    
-    
 
     public int getId_perfil() {
         return id_perfil;
@@ -81,6 +79,10 @@ public class Perfil {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    
+
+   
     
     @Override
     public String toString() {

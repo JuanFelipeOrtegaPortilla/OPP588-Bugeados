@@ -39,8 +39,8 @@ public class CrudPerfil extends javax.swing.JFrame {
             modeloTabla.addRow(new Object[]{
                 perfil.getId_perfil(),
                 perfil.getNombrePerfil(),
-                perfil.getTipoUsuario(),
-                perfil.getDescripcion()
+                (String)perfil.getTipoUsuario(),
+                (String)perfil.getDescripcion()
             });
         }
 

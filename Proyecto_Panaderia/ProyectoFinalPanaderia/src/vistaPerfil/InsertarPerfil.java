@@ -146,6 +146,11 @@ public class InsertarPerfil extends javax.swing.JFrame {
                         (String) cmbTipo.getSelectedItem(),
                         Integer.valueOf(txtClave.getText()),
                         txtDescripcion.getText());
+                controlador.InsetarPerfil(perfil);
+                CrudPerfil newframe = new CrudPerfil();
+                newframe.setVisible(true);
+                this.dispose();
+                
             } else {
                 JOptionPane.showMessageDialog(null, "campos incompletos");
             }
@@ -154,14 +159,11 @@ public class InsertarPerfil extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "verificar confirmacion");
         }
     }//GEN-LAST:event_jbAceptarActionPerformed
-    /*      this.nombrePerfil = nombrePerfil;
-        this.tipoUsuario = tipoUsuario;
-        this.clave = clave;
-        this.descripcion = descripcion;
-    }
-     */
-    private void jcSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcSalirActionPerformed
 
+    private void jcSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcSalirActionPerformed
+            CrudPerfil newframe = new CrudPerfil();
+                newframe.setVisible(true);
+                this.dispose();
     }//GEN-LAST:event_jcSalirActionPerformed
 
     /**
