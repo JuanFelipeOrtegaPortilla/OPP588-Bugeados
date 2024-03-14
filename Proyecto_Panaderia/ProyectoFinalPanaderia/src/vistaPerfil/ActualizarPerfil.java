@@ -1,5 +1,6 @@
 package vistaPerfil;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import modelo.Perfil;
 import modelo.Producto;
@@ -22,6 +23,7 @@ public class ActualizarPerfil extends javax.swing.JFrame {
     public ActualizarPerfil() {
         initComponents();
         txtId.setEditable(false);
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void cargarDatos(int id) {
