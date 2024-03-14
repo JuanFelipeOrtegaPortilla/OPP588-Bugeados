@@ -123,7 +123,7 @@ public class Login extends javax.swing.JFrame {
         return;
     }
 
-    // Buscar el perfil en la lista
+   
     Perfil perfilEncontrado = null;
     for (Perfil perfil : lista) {
         if (perfil.getNombrePerfil().equals(usuario) && perfil.getClave() == contraseña) {
