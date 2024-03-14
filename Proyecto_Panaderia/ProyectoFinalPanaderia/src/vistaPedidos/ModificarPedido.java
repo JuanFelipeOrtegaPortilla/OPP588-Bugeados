@@ -149,6 +149,8 @@ public class ModificarPedido extends javax.swing.JFrame {
 
         jLabel8.setText("Total");
 
+        spCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
         jLabel10.setText("Cancelado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -292,7 +294,7 @@ public class ModificarPedido extends javax.swing.JFrame {
 
     public void limpiar() {
         txtMarca.setText("");
-        spCantidad.setValue(0);
+        spCantidad.setValue(1);
         txtPrecio.setText("");
         txtProducto.setText("");
         txtTotal.setText("");
