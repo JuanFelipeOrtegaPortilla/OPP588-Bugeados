@@ -175,6 +175,7 @@ public Pedidos BuscarIdPedido(int idPedido) {
 
             pedido.setPrecio(resultado.getDouble("precio"));
             pedido.setTotal(resultado.getDouble("total"));
+            pedido.setPagado(resultado.getBoolean("pagado"));
         } else {
             System.out.println("No se encontraron resultados para el ID: " + idPedido);
         }
