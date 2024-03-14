@@ -5,6 +5,13 @@
  */
 package vistaPerfil;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import vista.NuevaCompra;
 import vistaExtras.ConsutarExtras;
 import vistaPedidos.ConsultarPedido;
@@ -19,18 +26,63 @@ import vistaRegistros.RegistroFiado;
  */
 public class Principal extends javax.swing.JFrame {
 
-
     public Principal() {
+      
         initComponents();
+        ImageIcon imagenFondo = new ImageIcon("C:\\Users\\PIPE\\OneDrive\\Documentos\\OPP588-Bugeados\\Proyecto_Panaderia\\ProyectoFinalPanaderia\\src\\Imagenes\\Pan.jpg");
+
+        JPanel panelFondo = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        panelFondo.setLayout(null);
+
+        JButton boton = new JButton("Nueva Compra");
+        boton.setBounds(100, 100, 200, 50);
+        boton.setBackground(new Color(255, 255, 102)); // Amarillo suave
+        boton.addActionListener(e -> {
+            NuevaCompra newframe = new NuevaCompra();
+            newframe.setVisible(true);
+            dispose();
+        });
+        panelFondo.add(boton);
+
+        JButton botonProductos = new JButton("Administrar Productos");
+        botonProductos.setBounds(100, 200, 200, 50);
+        botonProductos.setBackground(new Color(255, 255, 102)); // Amarillo suave
+        botonProductos.addActionListener(e -> {
+            CrudProducto newframe = new CrudProducto();
+            newframe.setVisible(true);
+            dispose();
+        });
+        panelFondo.add(botonProductos);
+
+        JButton botonPerfiles = new JButton("Administrar Perfiles");
+        botonPerfiles.setBounds(100, 300, 200, 50);
+        botonPerfiles.setBackground(new Color(255, 255, 102)); // Amarillo suave
+        botonPerfiles.addActionListener(e -> {
+            CrudPerfil newframe = new CrudPerfil();
+            newframe.setVisible(true);
+            dispose();
+        });
+        panelFondo.add(botonPerfiles);
+
+        setContentPane(panelFondo);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
-        jPanel1 = new javax.swing.JPanel();
+        PanelFondo = new javax.swing.JPanel();
         jbNuevaCompra = new javax.swing.JButton();
         jbProductos = new javax.swing.JButton();
         jbPerfiles = new javax.swing.JButton();
@@ -54,18 +106,18 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelFondoLayout = new javax.swing.GroupLayout(PanelFondo);
+        PanelFondo.setLayout(PanelFondoLayout);
+        PanelFondoLayout.setHorizontalGroup(
+            PanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFondoLayout.createSequentialGroup()
                 .addContainerGap(152, Short.MAX_VALUE)
                 .addComponent(jbNuevaCompra)
                 .addGap(88, 88, 88))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        PanelFondoLayout.setVerticalGroup(
+            PanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFondoLayout.createSequentialGroup()
                 .addContainerGap(132, Short.MAX_VALUE)
                 .addComponent(jbNuevaCompra)
                 .addGap(115, 115, 115))
@@ -87,7 +139,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu1.setText("Menu");
 
-        jbPedidos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        jbPedidos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jbPedidos.setText("Pedidos");
         jbPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,7 +148,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu1.add(jbPedidos);
 
-        jbExtras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
+        jbExtras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jbExtras.setText("Extras");
         jbExtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,7 +194,7 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PanelFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jbProductos)
@@ -152,7 +204,7 @@ public class Principal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -249,11 +301,11 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelFondo;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem jbDeUna;
     private javax.swing.JMenuItem jbEfectivo;
     private javax.swing.JMenuItem jbExtras;
