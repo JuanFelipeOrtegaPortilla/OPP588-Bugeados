@@ -18,8 +18,22 @@ public class Pedidos {
     private int idPedido;
     private String fechaPedido;
     private String fechaEntrega;
+    private boolean pagado;
 
     public Pedidos() {
+    }
+
+    public Pedidos(int idProducto, String producto, String pedido, int cantidad, double precio, double total, int idPedido, String fechaPedido, String fechaEntrega, boolean pagado) {
+        this.idProducto = idProducto;
+        this.producto = producto;
+        this.pedido = pedido;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.total = total;
+        this.idPedido = idPedido;
+        this.fechaPedido = fechaPedido;
+        this.fechaEntrega = fechaEntrega;
+        this.pagado = pagado;
     }
 
     public Pedidos(int idProducto, String producto, int cantidad, double precio, double total, int idPedido, String fechaPedido, String fechaEntrega) {
@@ -32,6 +46,13 @@ public class Pedidos {
         this.fechaPedido = fechaPedido;
         this.fechaEntrega = fechaEntrega;
     }
+
+    public Pedidos(int idPedidos, String fechaEntrega, boolean pagado) {
+        this.idPedido= idPedidos;
+        this.fechaEntrega = fechaEntrega;
+        this.pagado = pagado;
+    }
+    
 
     public Pedidos(int idProducto, String producto, int cantidad, double precio, double total, String fechaPedido, String fechaEntrega) {
         this.idProducto = idProducto;
@@ -64,6 +85,7 @@ public class Pedidos {
         this.fechaPedido = fechaPedido;
         this.fechaEntrega = fechaEntrega;
     }
+
 
     public int getIdProducto() {
         return idProducto;
@@ -137,6 +159,14 @@ public class Pedidos {
         this.fechaEntrega = fechaEntrega;
     }
 
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
+    
     @Override
     public String toString() {
         return "Pedidos{" + "idProducto=" + idProducto + ", producto=" + producto + ", pedido=" + pedido + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", idPedido=" + idPedido + ", fechaPedido=" + fechaPedido + ", fechaEntrega=" + fechaEntrega + '}';
