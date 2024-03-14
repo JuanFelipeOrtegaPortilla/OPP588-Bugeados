@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Extras;
 import modelo.Pedidos;
 import modelo.Producto;
+import org.bson.Document;
 import servicio.PedidoServicio;
 import servicio.ProductoServicio;
 
@@ -30,6 +31,12 @@ public class ModificarPedido extends javax.swing.JFrame {
         idPedido = id;
         txtIdPedido.setText(String.valueOf(idPedido));
         cargarDatos(idPedido);
+
+       // Obtener la fecha actual como un objeto Date
+        Date fechaActual = new Date(); // Fecha actual
+        
+        // Establecer la fecha actual en el JCalendar
+        calendarioEntrega.setDate(fechaActual);
     }
 
      public ModificarPedido() {
@@ -248,34 +255,53 @@ public class ModificarPedido extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
  try {
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-    Date fechaPedido = calendarioEntrega.getDate();
+    Document filtro = new Document("idPedido", pedido.getIdPedido());
+    Document updateDocument = new Document();
 
-    String fechaEntregaStr = (fechaPedido != null) ? formatoFecha.format(fechaPedido) : "";
+    Date fechaSeleccionada = calendarioEntrega.getDate();
 
-    Pedidos pedidoModificado = new Pedidos(Integer.valueOf(txtIdPedido.getText()),
-            fechaEntregaStr, 
-            chPagado.isSelected());
+    if (fechaSeleccionada != null) {
+        // Formatea la fecha seleccionada a un formato de cadena específico
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaSeleccionadaStr = formatoFecha.format(fechaSeleccionada);
 
-    JOptionPane.showMessageDialog(null, pedidoModificado.toString());
+        // Crear un nuevo objeto Pedidos con la fecha seleccionada y el estado de pago
+        Pedidos pedidosActualizados = new Pedidos(pedido.getIdPedido(),
+                fechaSeleccionadaStr, 
+                chPagado.isSelected());
 
+        // Mostrar el objeto Pedidos actualizado en un mensaje
+        JOptionPane.showMessageDialog(null, pedidosActualizados.toString());
 
-    if (!fechaEntregaStr.isEmpty() && chPagado.isSelected()) {
-        if (controlador.ActualizarPedidos(pedidoModificado)) {
-            ConsultarPedido newframe = new ConsultarPedido();
-            newframe.setVisible(true);
-            this.dispose();
+        // Verificar si la casilla de pago está marcada
+        if (chPagado.isSelected()) {
+            // Actualizar el pedido en la base de datos
+            if (PedidoServicio.ActualizarPedidos(pedidosActualizados)) {
+                // Si la actualización es exitosa, abrir la ventana de consultar pedido y cerrar la actual
+                ConsultarPedido newframe = new ConsultarPedido();
+                newframe.setVisible(true);
+                this.dispose();
+            } else {
+                // Si hay un error al actualizar, mostrar un mensaje de error
+                JOptionPane.showMessageDialog(null, "Error al actualizar");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Error al actualizar");
+            // Si la casilla de pago no está marcada, mostrar un mensaje solicitando marcarla
+            JOptionPane.showMessageDialog(null, "Por favor, marque la casilla de pago");
         }
     } else {
-        JOptionPane.showMessageDialog(null, "Campos faltantes");
+        // Si no se selecciona una fecha, mostrar un mensaje solicitando seleccionarla
+        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fecha");
     }
 } catch (NumberFormatException ex) {
-    JOptionPane.showMessageDialog(null, "Error de formato en el ID del pedido");
+    // Manejar el error si hay un problema con el formato del id del producto
+    JOptionPane.showMessageDialog(null, "Error de formato en el id del producto");
 } catch (Exception ex) {
+    // Manejar cualquier otro error mostrando un mensaje con la descripción del error
     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
 }
+
+
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
