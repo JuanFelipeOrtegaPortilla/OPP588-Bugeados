@@ -66,6 +66,7 @@ public class ModificarPedido extends javax.swing.JFrame {
             Date fechaPedido = null;
             try {
                 fechaPedido = formatoFecha.parse(pedido.getFechaPedido());
+                fechaPedido = formatoFecha.parse(pedido.getFechaPedido() );
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -255,32 +256,24 @@ public class ModificarPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-      // Obtener los datos necesarios para actualizar el pedido
-    int idPedido = Integer.parseInt(txtIdPedido.getText()); // Suponiendo que txtIdPedido es un JTextField
-    Date fechaEntregaDate = calendario1.getDate(); // Suponiendo que calendario1 es un JCalendar
+                                                
+    int idPedido = Integer.parseInt(txtIdPedido.getText()); 
+    boolean pagado = chPagado.isSelected(); 
 
-    // Convertir la fecha obtenida a un String en el formato adecuado
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    String fechaEntregaStr = dateFormat.format(fechaEntregaDate);
-
-    // Obtener el estado del checkBoxPagado si lo necesitas
-    boolean pagado = chPagado.isSelected(); // Suponiendo que checkBoxPagado es un JCheckBox
-
-    // Crear un objeto Pedidos con los datos obtenidos
     Pedidos pedido = new Pedidos();
     pedido.setIdPedido(idPedido);
-    pedido.setFechaEntrega(fechaEntregaStr); // Establecer la fecha de entrega como String
     pedido.setPagado(pagado);
 
-    // Llamar al método ActualizarPedidos del servicioPedidos
+ 
+
     boolean actualizado = PedidoServicio.ActualizarPedidos(pedido);
 
-    // Verificar si la actualización fue exitosa
     if (actualizado) {
         JOptionPane.showMessageDialog(null, "Pedido actualizado correctamente.");
     } else {
         JOptionPane.showMessageDialog(null, "Error al actualizar el pedido.");
     }
+
 
     }//GEN-LAST:event_btnActualizarActionPerformed
 
