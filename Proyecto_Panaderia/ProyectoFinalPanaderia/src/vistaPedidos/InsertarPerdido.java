@@ -25,6 +25,9 @@ public class InsertarPerdido extends javax.swing.JFrame {
         initComponents();
         llenarComboProductos();
         cargarDatos();
+        txtIdPedido.setEditable(false);
+        txtProducto.setEditable(false);
+        txtIdPedido.setEditable(false);
 
         Calendar cal = Calendar.getInstance();
         calendario1.setDate(cal.getTime());
