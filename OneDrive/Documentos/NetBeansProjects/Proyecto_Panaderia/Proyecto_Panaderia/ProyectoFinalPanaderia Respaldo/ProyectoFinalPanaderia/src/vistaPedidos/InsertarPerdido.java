@@ -347,7 +347,10 @@ public class InsertarPerdido extends javax.swing.JFrame {
                 String nombrePedido = txtPedido.getText();
 
                 txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
-                Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, fechaPedidoStr, fechaEntregaStr, chPagado.isSelected());
+                Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, 
+                                      (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), 
+                                      Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, 
+                                      fechaPedidoStr, fechaEntregaStr, chPagado.isSelected());
 
                 if (PedidoServicio.InsertarPedido(insertarPedido)) {
                     JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
