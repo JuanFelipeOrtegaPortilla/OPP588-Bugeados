@@ -9,6 +9,8 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,31 +110,38 @@ public List<Pedidos> ListarPedidos() {
 
 @Override
 public boolean ActualizarPedidos(Pedidos pedido) {
-    Document filtro = null;
-    Document resultado = null;
     boolean actualizar = false;
 
     try {
-        filtro = new Document("idPedido", pedido.getIdPedido());
-        resultado = coleccion.find(filtro).first();
+        Document filtro = new Document("idPedido", pedido.getIdPedido());
+        Document updateDocument = new Document();
 
-        if (resultado != null) {
-
-            Date fechaEntregaDate = resultado.getDate("fechaEntrega");
-
+    
+        if (pedido.getFechaEntrega() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String fechaEntregaString = dateFormat.format(fechaEntregaDate);
+            Date fechaEntregaDate = dateFormat.parse(pedido.getFechaEntrega());
+            updateDocument.append("$set", new Document("fechaEntrega", fechaEntregaDate));
+        }
 
-            pedido.setFechaEntrega(fechaEntregaString);
+  
+        updateDocument.append("$set", new Document("pagado", pedido.isPagado()));
 
+      
+        UpdateResult result = coleccion.updateOne(filtro, updateDocument);
+
+     
+        if (result.getModifiedCount() > 0) {
             actualizar = true;
         }
+    } catch (ParseException ex) {
+        JOptionPane.showMessageDialog(null, "Error al parsear la fecha: " + ex.getMessage());
     } catch (MongoException ex) {
         JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.getMessage());
     }
 
     return actualizar;
 }
+
 
 @Override
 public boolean EliminarPedido(int idPedido) {
