@@ -254,7 +254,7 @@ public class ModificarPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
- try {
+try {
     Document filtro = new Document("idPedido", pedido.getIdPedido());
     Document updateDocument = new Document();
 
@@ -270,8 +270,8 @@ public class ModificarPedido extends javax.swing.JFrame {
                 fechaSeleccionadaStr, 
                 chPagado.isSelected());
 
-        // Mostrar el objeto Pedidos actualizado en un mensaje
-        JOptionPane.showMessageDialog(null, pedidosActualizados.toString());
+        // Mostrar el objeto Pedidos actualizado en un mensaje para depuración
+        JOptionPane.showMessageDialog(null, "Pedidos actualizados: " + pedidosActualizados);
 
         // Verificar si la casilla de pago está marcada
         if (chPagado.isSelected()) {
@@ -300,7 +300,6 @@ public class ModificarPedido extends javax.swing.JFrame {
     // Manejar cualquier otro error mostrando un mensaje con la descripción del error
     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
 }
-
 
     }//GEN-LAST:event_btnActualizarActionPerformed
 
