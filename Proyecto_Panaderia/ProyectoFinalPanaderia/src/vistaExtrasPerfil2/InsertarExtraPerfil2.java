@@ -250,8 +250,8 @@ public class InsertarExtraPerfil2 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        ConsutarExtras consultar = new ConsutarExtras();
-        consultar.setVisible(true);
+        Principal2 aceptar = new Principal2();
+        aceptar.setVisible(true);
         setVisible(true);
         dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
