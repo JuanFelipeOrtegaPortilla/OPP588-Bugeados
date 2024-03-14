@@ -43,8 +43,8 @@ public class ModificarPedido extends javax.swing.JFrame {
         txtMarca.setText(pedido.getPedido());
         txtProducto.setText(pedido.getProducto());
         spCantidad.setValue(pedido.getCantidad());
-        txtPrecio.setText(String.valueOf(pedido.getPrecio())); // Convertir el precio a String si es necesario
-        txtTotal.setText(String.valueOf(pedido.getTotal())); // Convertir el total a String si es necesario
+        txtPrecio.setText(String.valueOf(pedido.getPrecio()));
+        txtTotal.setText(String.valueOf(pedido.getTotal())); 
         chPagado.setSelected(pedido.isPagado());
         
      
