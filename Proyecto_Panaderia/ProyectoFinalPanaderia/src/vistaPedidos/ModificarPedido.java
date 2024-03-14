@@ -255,43 +255,32 @@ public class ModificarPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-     try {
-    int idPedido = Integer.parseInt(txtIdPedido.getText());
-    Pedidos pedido = PedidoServicio.BuscarIdPedido(idPedido);
+      // Obtener los datos necesarios para actualizar el pedido
+    int idPedido = Integer.parseInt(txtIdPedido.getText()); // Suponiendo que txtIdPedido es un JTextField
+    Date fechaEntregaDate = calendario1.getDate(); // Suponiendo que calendario1 es un JCalendar
 
-    if (pedido != null) {
-        txtMarca.setText(pedido.getPedido());
-        txtProducto.setText(pedido.getProducto());
-        spCantidad.setValue(pedido.getCantidad());
-        txtPrecio.setText(String.valueOf(pedido.getPrecio()));
-        txtTotal.setText(String.valueOf(pedido.getTotal()));
-        chPagado.setSelected(pedido.isPagado());
+    // Convertir la fecha obtenida a un String en el formato adecuado
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    String fechaEntregaStr = dateFormat.format(fechaEntregaDate);
 
-        // Mostrar la fecha de entrega actual (si existe)
-        Date fechaPedido = calendario1.getDate();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaPedidoStr = (fechaPedido != null) ? formatoFecha.format(fechaPedido) : "";
+    // Obtener el estado del checkBoxPagado si lo necesitas
+    boolean pagado = chPagado.isSelected(); // Suponiendo que checkBoxPagado es un JCheckBox
 
-        Date fechaEntrega = calendarioEntrega.getDate();
-        String fechaEntregaStr = (fechaEntrega != null) ? formatoFecha.format(fechaEntrega) : "";
+    // Crear un objeto Pedidos con los datos obtenidos
+    Pedidos pedido = new Pedidos();
+    pedido.setIdPedido(idPedido);
+    pedido.setFechaEntrega(fechaEntregaStr); // Establecer la fecha de entrega como String
+    pedido.setPagado(pagado);
 
-        Pedidos actualizar = new Pedidos(idPedido, fechaEntregaStr, chPagado.isSelected());
+    // Llamar al método ActualizarPedidos del servicioPedidos
+    boolean actualizado = PedidoServicio.ActualizarPedidos(pedido);
 
-        if (PedidoServicio.ActualizarPedidos(actualizar)) {
-            JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
-            limpiar();
-            regresarConsultaPedidos();
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al insertar el pedido");
-        }
+    // Verificar si la actualización fue exitosa
+    if (actualizado) {
+        JOptionPane.showMessageDialog(null, "Pedido actualizado correctamente.");
     } else {
-        JOptionPane.showMessageDialog(null, "No se encontró el pedido con el ID especificado");
+        JOptionPane.showMessageDialog(null, "Error al actualizar el pedido.");
     }
-} catch (NumberFormatException ex) {
-    JOptionPane.showMessageDialog(null, "Error al obtener el ID del pedido: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(null, "Error al procesar el pedido: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
 
     }//GEN-LAST:event_btnActualizarActionPerformed
 
