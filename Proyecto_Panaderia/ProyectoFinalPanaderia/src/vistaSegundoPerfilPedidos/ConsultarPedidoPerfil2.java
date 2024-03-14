@@ -37,7 +37,7 @@ public class ConsultarPedidoPerfil2 extends javax.swing.JFrame {
         cmbMarca.addActionListener((e) -> cargarTablaPedidoSeleccionado());
         getContentPane().setBackground(new Color(255, 223, 186)); 
         //btnActualizar.setVisible(false);
-        btnEliminar.setVisible(false);
+       btnEliminar.setVisible(false);
         
     }
 
