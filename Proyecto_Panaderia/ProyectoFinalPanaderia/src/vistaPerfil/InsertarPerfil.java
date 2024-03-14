@@ -1,5 +1,6 @@
 package vistaPerfil;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import modelo.Perfil;
 import servicio.PerfilServicio;
@@ -11,6 +12,7 @@ public class InsertarPerfil extends javax.swing.JFrame {
 
     public InsertarPerfil() {
         initComponents();
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     @SuppressWarnings("unchecked")
