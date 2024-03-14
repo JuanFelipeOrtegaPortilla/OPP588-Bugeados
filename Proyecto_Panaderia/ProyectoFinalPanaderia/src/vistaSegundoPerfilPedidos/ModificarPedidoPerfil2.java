@@ -47,7 +47,6 @@ public class ModificarPedidoPerfil2 extends javax.swing.JFrame {
         txtIdPedido.setEditable(false);
         txtMarca.setEditable(false);
         txtProducto.setEditable(false);
-        //spCantidad.setEditor(null);
         txtPrecio.setEditable(false);
         txtTotal.setEditable(false);
        
