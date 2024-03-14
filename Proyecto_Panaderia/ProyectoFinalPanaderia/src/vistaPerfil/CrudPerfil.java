@@ -1,5 +1,6 @@
 package vistaPerfil;
 
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -20,6 +21,7 @@ public class CrudPerfil extends javax.swing.JFrame {
     public CrudPerfil() {
         initComponents();
         cargarPerfiles();
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void cargarPerfiles() {
