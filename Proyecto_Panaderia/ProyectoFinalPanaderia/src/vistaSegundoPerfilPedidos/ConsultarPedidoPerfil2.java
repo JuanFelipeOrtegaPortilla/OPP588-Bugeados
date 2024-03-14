@@ -18,6 +18,7 @@ import modelo.Producto;
 import servicio.PedidoServicio;
 import servicio.ProductoServicio;
 import vistaPerfil.Principal;
+import vistaPerfil.Principal2;
 
 /**
  *
@@ -250,33 +251,8 @@ private String formatearFecha(String fecha) {
         setVisible(false);
     }//GEN-LAST:event_btnInsertarPedidosActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-       int filaSeleccionada = tblPedidos.getSelectedRow();
-
-if (filaSeleccionada >= 0) {
-    int confirmar = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro?", "Confirmación", JOptionPane.YES_NO_OPTION);
-
-    if (confirmar == JOptionPane.YES_OPTION) {
-        int idPedido = Integer.parseInt(String.valueOf(modeloTabla.getValueAt(filaSeleccionada, 0)));
-
-        if (PedidoServicio.EliminarPedido(idPedido)) {
-            JOptionPane.showMessageDialog(null, "Registro eliminado correctamente");
-            modeloTabla.removeRow(filaSeleccionada);
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el registro");
-        }
-    } else {
-      
-        tblPedidos.getSelectionModel().clearSelection();
-    }
-} else {
-    JOptionPane.showMessageDialog(null, "Seleccione el registro para eliminar");
-}
-
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-         Principal salir = new Principal();
+         Principal2 salir = new Principal2();
         salir.setVisible(true);
         setVisible(true);
         dispose();
@@ -297,6 +273,30 @@ if (filaSeleccionada >= 0) {
         }
 
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int filaSeleccionada = tblPedidos.getSelectedRow();
+
+        if (filaSeleccionada >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+            if (confirmar == JOptionPane.YES_OPTION) {
+                int idPedido = Integer.parseInt(String.valueOf(modeloTabla.getValueAt(filaSeleccionada, 0)));
+
+                if (PedidoServicio.EliminarPedido(idPedido)) {
+                    JOptionPane.showMessageDialog(null, "Registro eliminado correctamente");
+                    modeloTabla.removeRow(filaSeleccionada);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el registro");
+                }
+            } else {
+
+                tblPedidos.getSelectionModel().clearSelection();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione el registro para eliminar");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
