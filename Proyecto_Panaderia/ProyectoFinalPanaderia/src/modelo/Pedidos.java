@@ -22,6 +22,30 @@ public class Pedidos {
 
     public Pedidos() {
     }
+    public Pedidos(int idPedido, String marca, String producto, int cantidad, double precio, double total, boolean pagado, String fechaPedido, String fechaEntrega) {
+        this.idPedido = idPedido;
+        this.pedido = marca;
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.total = total;
+        this.pagado = pagado;
+        this.fechaPedido = fechaPedido;
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public Pedidos(int idProducto, String producto, String pedido, int cantidad, double precio, double total, int idPedido, String fechaPedido, boolean pagado) {
+        this.idProducto = idProducto;
+        this.producto = producto;
+        this.pedido = pedido;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.total = total;
+        this.idPedido = idPedido;
+        this.fechaPedido = fechaPedido;
+        this.pagado = pagado;
+    }
+    
 
     public Pedidos(int idProducto, String producto, String pedido, int cantidad, double precio, double total, int idPedido, String fechaPedido, String fechaEntrega, boolean pagado) {
         this.idProducto = idProducto;
