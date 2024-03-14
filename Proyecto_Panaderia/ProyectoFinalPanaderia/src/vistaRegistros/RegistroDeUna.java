@@ -1,5 +1,6 @@
 package vistaRegistros;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +16,7 @@ public class RegistroDeUna extends javax.swing.JFrame {
     
     public RegistroDeUna() {
         initComponents();
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void limpiarTabla() {
