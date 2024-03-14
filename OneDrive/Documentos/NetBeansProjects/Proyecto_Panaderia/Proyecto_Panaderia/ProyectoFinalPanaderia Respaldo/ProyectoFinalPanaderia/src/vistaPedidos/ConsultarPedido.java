@@ -26,6 +26,8 @@ public class ConsultarPedido extends javax.swing.JFrame {
     
     private DefaultTableModel modeloTabla;
     private List<Pedidos> listaPedidos;
+    int id = 0;
+    
 
     public ConsultarPedido() {
         initComponents();
@@ -187,6 +189,11 @@ private String formatearFecha(String fecha) {
         });
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -273,6 +280,21 @@ if (filaSeleccionada >= 0) {
         setVisible(true);
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+       int filaSeleccionada = tblPedidos.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+            
+            ModificarPedido modificar = new ModificarPedido();
+            modificar.traerID(id);
+            modificar.setVisible(true);
+            this.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione registro a modificar");
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
      * @param args the command line arguments
