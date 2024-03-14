@@ -119,9 +119,9 @@ public boolean ActualizarPedidos(Pedidos pedido) {
         Document filtro = new Document("idPedido", pedido.getIdPedido());
         Document updateDocument = new Document();
 
-       
+      
         if (!pedido.getFechaEntrega().isEmpty()) {
-            // Formatear la fecha de entrega al formato deseado
+          
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String fechaEntregaStr = dateFormat.format(pedido.getFechaEntrega());
             updateDocument.append("fechaEntrega", fechaEntregaStr);
