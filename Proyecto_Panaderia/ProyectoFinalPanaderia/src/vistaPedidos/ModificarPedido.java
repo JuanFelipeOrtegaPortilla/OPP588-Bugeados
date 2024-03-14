@@ -4,6 +4,7 @@
  */
 package vistaPedidos;
 
+import com.mongodb.client.result.UpdateResult;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -251,49 +252,43 @@ public class ModificarPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-try {
-    Document filtro = new Document("idPedido", pedido.getIdPedido());
-    Document updateDocument = new Document();
+    try {
+    int idPedido = Integer.valueOf(txtIdPedido.getText());
+    String pedido = txtMarca.getText();
+    String producto = txtProducto.getText();
+    int cantidad = (int) spCantidad.getValue();
+    double precio = Double.parseDouble(txtPrecio.getText());
+    double total = Double.parseDouble(txtTotal.getText());
+    boolean pagado = chPagado.isSelected();
+    
+   
+    String fechaPedido = calendario1.getDateFormatString();
+    String fechaEntrega = calendarioEntrega.getDateFormatString();
+    
 
-    Date fechaSeleccionada = calendarioEntrega.getDate();
+    Pedidos pedidosModificados = new Pedidos(idPedido, pedido, producto, cantidad, precio, total, pagado, fechaPedido, fechaEntrega);
+    
 
-    if (fechaSeleccionada != null) {
+    if (pedido.length() > 0 && producto.length() > 0 && cantidad > 0 && precio > 0 && total > 0 && fechaPedido != null && fechaEntrega != null) {
 
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaSeleccionadaStr = formatoFecha.format(fechaSeleccionada);
-
-
-        Pedidos pedidosActualizados = new Pedidos(pedido.getIdPedido(),
-                fechaSeleccionadaStr, 
-                chPagado.isSelected());
-
- 
-        JOptionPane.showMessageDialog(null, "Pedidos actualizados: " + pedidosActualizados);
-
-        if (chPagado.isSelected()) {
-        
-            if (PedidoServicio.ActualizarPedidos(pedidosActualizados)) {
-           
-                ConsultarPedido newframe = new ConsultarPedido();
-                newframe.setVisible(true);
-                this.dispose();
-            } else {
- 
-                JOptionPane.showMessageDialog(null, "Error al actualizar");
-            }
+        if (controlador.ActualizarPedidos(pedidosModificados)) {
+     
+            ConsultarPedido newframe = new ConsultarPedido();
+            newframe.setVisible(true);
+            this.dispose();
         } else {
-
-            JOptionPane.showMessageDialog(null, "Por favor, marque la casilla de pago");
+        
+            JOptionPane.showMessageDialog(null, "Error al actualizar");
         }
     } else {
- 
-        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fecha");
+
+        JOptionPane.showMessageDialog(null, "Campos faltantes o incorrectos");
     }
 } catch (NumberFormatException ex) {
 
-    JOptionPane.showMessageDialog(null, "Error de formato en el id del producto");
+    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error de formato", JOptionPane.ERROR_MESSAGE);
 } catch (Exception ex) {
-    // Manejar cualquier otro error mostrando un mensaje con la descripción del error
+   
     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
 }
 
