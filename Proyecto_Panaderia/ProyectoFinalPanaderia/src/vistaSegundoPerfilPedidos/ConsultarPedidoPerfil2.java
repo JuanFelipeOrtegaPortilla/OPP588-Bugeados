@@ -246,7 +246,7 @@ private String formatearFecha(String fecha) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertarPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarPedidosActionPerformed
-        InsertarPerdido insertar = new InsertarPerdido();
+        InsertarPerdidoPerfil2 insertar = new InsertarPerdidoPerfil2();
         insertar.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_btnInsertarPedidosActionPerformed
@@ -263,7 +263,7 @@ private String formatearFecha(String fecha) {
         if (filaSeleccionada >= 0) {
             id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
             
-            ModificarPedido modificar = new ModificarPedido();
+            ModificarPedidoPerfil2 modificar = new ModificarPedidoPerfil2();
             modificar.traerID(id);
             modificar.setVisible(true);
             this.dispose();
