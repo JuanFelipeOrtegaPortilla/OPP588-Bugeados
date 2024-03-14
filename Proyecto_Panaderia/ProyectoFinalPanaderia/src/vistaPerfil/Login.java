@@ -112,25 +112,44 @@ public class Login extends javax.swing.JFrame {
         pack();
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+   private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
     List<Perfil> lista = PerfilServicio.ListaPerfil();
-    int contraseña = Integer.parseInt(txtContraseña.getText()); 
-    perfil = controlador.BuscarPerfil(lista, txtUsuario.getText(), contraseña); 
-    System.out.println(perfil.toString());
-    if (perfil != null) {
-        if ("Administrador".equals(perfil.getTipoUsuario())) { 
+    String usuario = txtUsuario.getText();
+    int contraseña = 0;
+    try {
+        contraseña = Integer.parseInt(txtContraseña.getText());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Error: La contraseña debe ser un número entero.");
+        return;
+    }
+
+    // Buscar el perfil en la lista
+    Perfil perfilEncontrado = null;
+    for (Perfil perfil : lista) {
+        if (perfil.getNombrePerfil().equals(usuario) && perfil.getClave() == contraseña) {
+            perfilEncontrado = perfil;
+            break;
+        }
+    }
+
+    // Verificar si se encontró el perfil
+    if (perfilEncontrado != null) {
+        // Dependiendo del tipo de usuario, mostrar la ventana correspondiente
+        if ("Administrador".equals(perfilEncontrado.getTipoUsuario())) {
             Principal newframe = new Principal();
             newframe.setVisible(true);
             this.dispose();
-        } else if ("Comun".equals(perfil.getTipoUsuario())) { 
+        } else if ("Comun".equals(perfilEncontrado.getTipoUsuario())) {
             Principal2 newframe = new Principal2();
             newframe.setVisible(true);
             this.dispose();
         }
     } else {
-        JOptionPane.showMessageDialog(null, "Usuario no encontrado, ingrese nuevamente");
+        JOptionPane.showMessageDialog(null, "Usuario no encontrado, ingrese nuevamente.");
     }
 }
+
+
 
 
     public static void main(String args[]) {
