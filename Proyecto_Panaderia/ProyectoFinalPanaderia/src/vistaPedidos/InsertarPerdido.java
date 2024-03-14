@@ -325,46 +325,49 @@ public class InsertarPerdido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-        if (!cmbIdProducto.getSelectedItem().toString().trim().isEmpty()
-                && !txtProducto.getText().trim().isEmpty()
-                && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+       if (!cmbIdProducto.getSelectedItem().toString().trim().isEmpty()
+    && !txtProducto.getText().trim().isEmpty()
+    && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 
-            try {
-                String dato = cmbIdProducto.getSelectedItem().toString();
-                String[] producto = dato.split("-");
-                int idProducto = Integer.parseInt(producto[0].trim());
+    try {
+        String dato = cmbIdProducto.getSelectedItem().toString();
+        String[] producto = dato.split("-");
+        int idProducto = Integer.parseInt(producto[0].trim());
 
-                Date fechaActual = new Date();
-                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-                String fechaPedidoStr = formatoFecha.format(fechaActual);
+        Date fechaActual = new Date();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaPedidoStr = formatoFecha.format(fechaActual);
 
-                Date fechaEntregaDate = calendarioEntrega.getDate();
-                String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "";
+        Date fechaEntregaDate = calendarioEntrega.getDate();
 
-                Random random = new Random();
-                int idPedidoAleatorio = random.nextInt(10000) + 1;
+String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "dd/MM/yyyy";
 
-                String nombrePedido = txtPedido.getText();
+        Random random = new Random();
+        int idPedidoAleatorio = random.nextInt(10000) + 1;
 
-                txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
-                Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, 
-                                      (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), 
-                                      Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, 
-                                      fechaPedidoStr, fechaEntregaStr, chPagado.isSelected());
+        String nombrePedido = txtPedido.getText();
 
-                if (PedidoServicio.InsertarPedido(insertarPedido)) {
-                    JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
-                    limpiar();
+        txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
 
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al ingresar los datos");
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Error al ingresar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        // Crear el objeto Pedidos con la fecha de entrega opcional
+        Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido,
+                                (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()),
+                                Double.parseDouble(txtTotal.getText()), idPedidoAleatorio,
+                                fechaPedidoStr, fechaEntregaStr, chPagado.isSelected());
+
+        if (PedidoServicio.InsertarPedido(insertarPedido)) {
+            JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
+            limpiar();
         } else {
-            JOptionPane.showMessageDialog(null, "Complete todos los campos y confirme la operación");
+            JOptionPane.showMessageDialog(null, "Error al ingresar los datos");
         }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Error al ingresar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+} else {
+    JOptionPane.showMessageDialog(null, "Complete todos los campos y confirme la operación");
+}
+
     }//GEN-LAST:event_btnInsertarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
