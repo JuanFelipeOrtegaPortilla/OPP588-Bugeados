@@ -164,7 +164,7 @@ public class ModificarProducto extends javax.swing.JFrame {
                 txtMarca.getText(),
                 (double) spnPrecio.getValue(),
                 (int) spnCantidad.getValue());
-        JOptionPane.showMessageDialog(null, productoModificado.toString());
+        //JOptionPane.showMessageDialog(null, productoModificado.toString());
 
         if (txtNombreProducto.getText().length() > 0 && txtMarca.getText().length() > 0 && (double) spnPrecio.getValue() > 0) {
             if (controlador.ActualizarProductos(productoModificado)) {

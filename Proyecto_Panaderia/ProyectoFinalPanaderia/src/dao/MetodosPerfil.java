@@ -9,10 +9,10 @@ import com.mongodb.client.result.UpdateResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import modelo.Perfil;
 import org.bson.Document;
-
 
 public class MetodosPerfil implements IPerfil {
 
@@ -36,6 +36,11 @@ public class MetodosPerfil implements IPerfil {
         }
     }
 
+    private int generarID() {
+        Random random = new Random();
+        int numeroAleatorio = random.nextInt(900) + 100;
+        return numeroAleatorio;
+    }
 
     @Override
     public List<Perfil> ListarPerfil() {
@@ -49,6 +54,7 @@ public class MetodosPerfil implements IPerfil {
                 perfil.setId_perfil(temp.getInteger("id_perfil"));
                 perfil.setNombrePerfil(temp.getString("nombrePerfil"));
                 perfil.setTipoUsuario("tipoUsuario");
+                perfil.setDescripcion("descripcion");
                 listaPerfil.add(perfil);
             }
         } catch (MongoException ex) {
@@ -60,7 +66,6 @@ public class MetodosPerfil implements IPerfil {
         return listaPerfil;
     }
 
-   
     @Override
     public Perfil BuscarIdPerfil(int idPerfil) {
         Perfil perfil = null;
@@ -75,7 +80,8 @@ public class MetodosPerfil implements IPerfil {
                 perfil = new Perfil();
                 perfil.setId_perfil(resultado.getInteger("id_perfil"));
                 perfil.setNombrePerfil(resultado.getString("nombrePerfil"));
-                perfil.setTipoUsuario(resultado.getString("descripcion"));
+                perfil.setTipoUsuario(resultado.getString("tipoUsuario"));
+                perfil.setDescripcion(resultado.getString("descripcion"));
             }
         } catch (MongoException ex) {
             JOptionPane.showMessageDialog(null, "Error al buscar el perfil con ID " + idPerfil + ": " + ex.getMessage());
@@ -86,14 +92,15 @@ public class MetodosPerfil implements IPerfil {
         return perfil;
     }
 
-  
     @Override
     public boolean InsetarPerfil(Perfil perfil) {
         Document documento;
         try {
-            documento = new Document("id_perfil", perfil.getId_perfil())
+            documento = new Document("id_perfil", generarID())
                     .append("nombrePerfil", perfil.getNombrePerfil())
-                    .append("tipoUsuario", perfil.getTipoUsuario());
+                    .append("tipoUsuario", perfil.getTipoUsuario())
+                    .append("descripcion", perfil.getDescripcion())
+                    .append("clave", perfil.getClave());
 
             coleccion.insertOne(documento);
         } catch (MongoException ex) {
@@ -105,7 +112,6 @@ public class MetodosPerfil implements IPerfil {
         return true;
     }
 
- 
     @Override
     public boolean ActualizarPerfil(Perfil perfil) {
         Document filtro = null;
@@ -117,9 +123,8 @@ public class MetodosPerfil implements IPerfil {
             resultado = coleccion.find(filtro).first();
 
             if (resultado != null) {
-                perfil.setId_perfil(resultado.getInteger("id_perfil"));
                 perfil.setNombrePerfil(resultado.getString("nombrePerfil"));
-                perfil.setTipoUsuario(resultado.getString("tipoUsuario"));
+                perfil.setDescripcion(resultado.getString("descripcion"));
                 actualizar = true;
             }
 
@@ -132,7 +137,6 @@ public class MetodosPerfil implements IPerfil {
         return actualizar;
     }
 
-    
     @Override
     public boolean EliminarPerfil(int idPerfil) {
         Document filtro = new Document("id_perfil", idPerfil);
