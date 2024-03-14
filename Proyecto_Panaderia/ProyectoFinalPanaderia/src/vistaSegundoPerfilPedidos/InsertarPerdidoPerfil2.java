@@ -341,7 +341,7 @@ public class InsertarPerdidoPerfil2 extends javax.swing.JFrame {
 
         Date fechaEntregaDate = calendarioEntrega.getDate();
 
-String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "dd/MM/yyyy";
+String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "";
 
         Random random = new Random();
         int idPedidoAleatorio = random.nextInt(10000) + 1;
@@ -350,7 +350,7 @@ String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaE
 
         txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
 
-        // Crear el objeto Pedidos con la fecha de entrega opcional
+    
         Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido,
                                 (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()),
                                 Double.parseDouble(txtTotal.getText()), idPedidoAleatorio,
@@ -380,7 +380,7 @@ String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaE
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        ConsultarPedido consultar = new ConsultarPedido();
+        ConsultarPedidoPerfil2 consultar = new ConsultarPedidoPerfil2();
         consultar.setVisible(true);
         setVisible(true);
         dispose();
