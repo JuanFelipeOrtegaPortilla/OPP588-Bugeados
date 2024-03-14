@@ -18,77 +18,69 @@ import servicio.PedidoServicio;
 import servicio.ProductoServicio;
 import vistaPerfil.Principal;
 
-
 /**
  *
  * @author PIPE
  */
 public class ConsutarExtras extends javax.swing.JFrame {
-     private DefaultTableModel modeloTabla;
-List<Extras> listaExtras = null;
-public static int idProducto=0;
+
+    private DefaultTableModel modeloTabla;
+    List<Extras> listaExtras = null;
+    public static int idProducto = 0;
+
     /**
      * Creates new form ConsutarExtras
      */
     public ConsutarExtras() {
         initComponents();
         CargarExtras();
-      
 
-    
-        getContentPane().setBackground(new Color(255, 223, 186)); 
+        getContentPane().setBackground(new Color(255, 223, 186));
     }
+
     public void CargarExtras() {
-    cmbExtras.removeAllItems();
-    cmbExtras.addItem("Todos");
+        cmbExtras.removeAllItems();
+        cmbExtras.addItem("Todos");
 
-    ExtrasServicio extrasServicio = new ExtrasServicio();
-    listaExtras = extrasServicio.listarExtras();
+        ExtrasServicio extrasServicio = new ExtrasServicio();
+        listaExtras = extrasServicio.listarExtras();
 
-    cargarTablaTodasExtras(listaExtras);
- 
+        cargarTablaTodasExtras(listaExtras);
 
-    cmbExtras.setSelectedItem("Todos");
-}
-
-
-public void limpiarTabla() {
-    modeloTabla = (DefaultTableModel) tblExtras.getModel();
-    modeloTabla.setRowCount(0);
-}
-
-
-  public void cargarTablaTodasExtras(List<Extras> listaExtras) {
-    limpiarTabla();
-    for (Extras extras : listaExtras) {
-        modeloTabla.addRow(new Object[]{
-            extras.getIdExtras(),
-            extras.getProductos(),
-            extras.getPrecioUnitario(),
-            extras.getCantidad(),
-            extras.getTotal(),
-            extras.getFechaPago(),
-        });
+        cmbExtras.setSelectedItem("Todos");
     }
 
-}
-
-
-
-
-
-private String formatearFecha(String fecha) {
-    try {
-        SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = formatoEntrada.parse(fecha);
-        SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy");  // Puedes cambiar el formato según tus necesidades
-        return formatoSalida.format(date);
-    } catch (ParseException e) {
-        e.printStackTrace();  // Maneja adecuadamente las excepciones de análisis de fecha
-        return fecha;  // Devuelve la fecha original en caso de error
+    public void limpiarTabla() {
+        modeloTabla = (DefaultTableModel) tblExtras.getModel();
+        modeloTabla.setRowCount(0);
     }
-}
-    
+
+    public void cargarTablaTodasExtras(List<Extras> listaExtras) {
+        limpiarTabla();
+        for (Extras extras : listaExtras) {
+            modeloTabla.addRow(new Object[]{
+                extras.getIdExtras(),
+                extras.getProductos(),
+                extras.getPrecioUnitario(),
+                extras.getCantidad(),
+                extras.getTotal(),
+                extras.getFechaPago(),});
+        }
+
+    }
+
+    private String formatearFecha(String fecha) {
+        try {
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = formatoEntrada.parse(fecha);
+            SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy");  // Puedes cambiar el formato según tus necesidades
+            return formatoSalida.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();  // Maneja adecuadamente las excepciones de análisis de fecha
+            return fecha;  // Devuelve la fecha original en caso de error
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -191,7 +183,7 @@ private String formatearFecha(String fecha) {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-       Principal salir = new Principal();
+        Principal salir = new Principal();
         salir.setVisible(true);
         setVisible(true);
         dispose();
@@ -230,7 +222,7 @@ private String formatearFecha(String fecha) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               new ConsutarExtras().setVisible(true);
+                new ConsutarExtras().setVisible(true);
             }
         });
     }
