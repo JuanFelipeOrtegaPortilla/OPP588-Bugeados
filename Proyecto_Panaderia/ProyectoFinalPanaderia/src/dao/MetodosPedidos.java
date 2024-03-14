@@ -73,7 +73,7 @@ public class MetodosPedidos implements IPedidos {
                 pedido.setPrecio(temp.getDouble("precio"));
                 pedido.setTotal(temp.getDouble("total"));
                 Integer idPedido = temp.getInteger("idPedido");
-                //pedido.setPagado(temp.getBoolean("cancelado"));
+                pedido.setPagado(temp.getBoolean("cancelado"));
                 pedido.setIdPedido(idPedido != null ? idPedido.intValue() : 0);
 
                 listaPedido.add(pedido);
@@ -111,37 +111,44 @@ public class MetodosPedidos implements IPedidos {
         return true;
     }
 
-    @Override
-    public boolean ActualizarPedidos(Pedidos pedido) {
-        boolean actualizar = false;
+ @Override
+public boolean ActualizarPedidos(Pedidos pedido) {
+    boolean actualizar = false;
 
-        try {
-            Document filtro = new Document("idPedido", pedido.getIdPedido());
-            Document updateDocument = new Document();
+    try {
+        Document filtro = new Document("idPedido", pedido.getIdPedido());
+        Document updateDocument = new Document();
 
-            if (pedido.getFechaEntrega() != null) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date fechaEntregaDate = dateFormat.parse(pedido.getFechaEntrega());
-                updateDocument.append("fechaEntrega", fechaEntregaDate);
-            }
-
-            updateDocument.append("cancelado", pedido.isPagado());
-
-            Document updateQuery = new Document("$set", updateDocument);
-
-            UpdateResult result = coleccion.updateOne(filtro, updateQuery);
-
-            if (result.getModifiedCount() > 0) {
-                actualizar = true;
-            }
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Error al parsear la fecha: " + ex.getMessage());
-        } catch (MongoException ex) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.getMessage());
+       
+        if (!pedido.getFechaEntrega().isEmpty()) {
+            // Formatear la fecha de entrega al formato deseado
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaEntregaStr = dateFormat.format(pedido.getFechaEntrega());
+            updateDocument.append("fechaEntrega", fechaEntregaStr);
         }
 
-        return actualizar;
+     
+        updateDocument.append("pagado", pedido.isPagado());
+
+        Document updateQuery = new Document("$set", updateDocument);
+
+        UpdateResult result = coleccion.updateOne(filtro, updateQuery);
+
+        if (result.getModifiedCount() > 0) {
+            actualizar = true;
+        }
+    } catch (MongoException ex) {
+        JOptionPane.showMessageDialog(null, "Error al actualizar datos: " + ex.getMessage());
     }
+
+    return actualizar;
+}
+
+
+
+
+
+
 
     @Override
     public boolean EliminarPedido(int idPedido) {
