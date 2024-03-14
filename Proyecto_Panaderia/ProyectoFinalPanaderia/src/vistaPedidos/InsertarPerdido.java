@@ -338,9 +338,9 @@ public class InsertarPerdido extends javax.swing.JFrame {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         String fechaPedidoStr = formatoFecha.format(fechaActual);
 
-        // Eliminado el manejo de la fecha de entrega
-        // Date fechaEntregaDate = calendarioEntrega.getDate();
-        // String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "";
+     
+         Date fechaEntregaDate = calendarioEntrega.getDate();
+         String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "";
 
         Random random = new Random();
         int idPedidoAleatorio = random.nextInt(10000) + 1;
@@ -348,11 +348,11 @@ public class InsertarPerdido extends javax.swing.JFrame {
         String nombrePedido = txtPedido.getText();
 
         txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
-        // Eliminado el uso de la fecha de entrega en el objeto Pedidos
+        
         Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, 
                               (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), 
                               Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, 
-                              fechaPedidoStr, /*fechaEntregaStr,*/ chPagado.isSelected());
+                              fechaPedidoStr, fechaEntregaStr, chPagado.isSelected());
 
         if (PedidoServicio.InsertarPedido(insertarPedido)) {
             JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
