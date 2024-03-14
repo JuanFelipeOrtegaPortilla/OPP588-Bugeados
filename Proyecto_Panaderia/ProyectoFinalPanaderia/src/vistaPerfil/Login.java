@@ -113,25 +113,25 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        List<Perfil> lista = PerfilServicio.ListaPerfil();
-        perfil = controlador.BuscarPerfil(lista, txtUsuario.getText(), Integer.valueOf(txtContraseña.getText()));
-        System.out.println(perfil.toString());
-        if (perfil != null) {
-            if ("Administrador".equals(perfil.getTipoUsuario())) { // Modificado para comparar cadenas correctamente
-                Principal newframe = new Principal();
-                newframe.setVisible(true);
-                this.dispose();
-            } else if ("Comun".equals(perfil.getTipoUsuario())) { // Modificado para comparar cadenas correctamente
-                Principal2 newframe = new Principal2();
-                newframe.setVisible(true);
-                this.dispose();
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "usuario no encontrado, ingrese nuevamente");
-
+    List<Perfil> lista = PerfilServicio.ListaPerfil();
+    int contraseña = Integer.parseInt(txtContraseña.getText()); 
+    perfil = controlador.BuscarPerfil(lista, txtUsuario.getText(), contraseña); 
+    System.out.println(perfil.toString());
+    if (perfil != null) {
+        if ("Administrador".equals(perfil.getTipoUsuario())) { 
+            Principal newframe = new Principal();
+            newframe.setVisible(true);
+            this.dispose();
+        } else if ("Comun".equals(perfil.getTipoUsuario())) { 
+            Principal2 newframe = new Principal2();
+            newframe.setVisible(true);
+            this.dispose();
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "Usuario no encontrado, ingrese nuevamente");
     }
+}
+
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
