@@ -25,9 +25,6 @@ public class InsertarPerdido extends javax.swing.JFrame {
         initComponents();
         llenarComboProductos();
         cargarDatos();
-        txtIdPedido.setEditable(false);
-        txtProducto.setEditable(false);
-        txtIdPedido.setEditable(false);
 
         Calendar cal = Calendar.getInstance();
         calendario1.setDate(cal.getTime());
@@ -328,9 +325,9 @@ public class InsertarPerdido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-       if (!cmbIdProducto.getSelectedItem().toString().trim().isEmpty()
-    && !txtProducto.getText().trim().isEmpty()
-    && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+        if (!cmbIdProducto.getSelectedItem().toString().trim().isEmpty()
+        && !txtProducto.getText().trim().isEmpty()
+        && JOptionPane.showConfirmDialog(this, "¿Seguro que quiere guardar los datos?", "Confirmación", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 
     try {
         String dato = cmbIdProducto.getSelectedItem().toString();
@@ -341,9 +338,9 @@ public class InsertarPerdido extends javax.swing.JFrame {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         String fechaPedidoStr = formatoFecha.format(fechaActual);
 
-        Date fechaEntregaDate = calendarioEntrega.getDate();
-
-String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "dd/MM/yyyy";
+        // Eliminado el manejo de la fecha de entrega
+        // Date fechaEntregaDate = calendarioEntrega.getDate();
+        // String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaEntregaDate) : "";
 
         Random random = new Random();
         int idPedidoAleatorio = random.nextInt(10000) + 1;
@@ -351,16 +348,16 @@ String fechaEntregaStr = (fechaEntregaDate != null) ? formatoFecha.format(fechaE
         String nombrePedido = txtPedido.getText();
 
         txtIdPedido.setText(String.valueOf(idPedidoAleatorio));
-
-        // Crear el objeto Pedidos con la fecha de entrega opcional
-        Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido,
-                                (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()),
-                                Double.parseDouble(txtTotal.getText()), idPedidoAleatorio,
-                                fechaPedidoStr, fechaEntregaStr, chPagado.isSelected());
+        // Eliminado el uso de la fecha de entrega en el objeto Pedidos
+        Pedidos insertarPedido = new Pedidos(idProducto, txtProducto.getText(), nombrePedido, 
+                              (int) spCantidad.getValue(), Double.parseDouble(txtPrecio.getText()), 
+                              Double.parseDouble(txtTotal.getText()), idPedidoAleatorio, 
+                              fechaPedidoStr, /*fechaEntregaStr,*/ chPagado.isSelected());
 
         if (PedidoServicio.InsertarPedido(insertarPedido)) {
             JOptionPane.showMessageDialog(null, "Registro Ingresado Correctamente");
             limpiar();
+
         } else {
             JOptionPane.showMessageDialog(null, "Error al ingresar los datos");
         }
