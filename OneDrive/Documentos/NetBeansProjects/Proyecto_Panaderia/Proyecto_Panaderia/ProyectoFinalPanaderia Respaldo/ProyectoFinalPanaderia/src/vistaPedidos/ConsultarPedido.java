@@ -34,6 +34,7 @@ public class ConsultarPedido extends javax.swing.JFrame {
         CargarPedidos();
         cmbMarca.addActionListener((e) -> cargarTablaPedidoSeleccionado());
         getContentPane().setBackground(new Color(255, 223, 186)); 
+        
     }
 
  public void CargarPedidos() {
