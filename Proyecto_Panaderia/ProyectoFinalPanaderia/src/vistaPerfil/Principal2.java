@@ -18,6 +18,7 @@ import vistaProducto.CrudProducto;
 import vistaRegistros.RegistroDeUna;
 import vistaRegistros.RegistroEfectivo;
 import vistaRegistros.RegistroFiado;
+import vistaSegundoPerfilPedidos.ConsultarPedidoPerfil2;
 
 /**
  *
@@ -178,13 +179,13 @@ public class Principal2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jbNuevaCompraActionPerformed
 
     private void jbExtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExtrasActionPerformed
-        ConsutarExtras newframe = new ConsutarExtras();
+        ConsultarPedidoPerfil2 newframe = new ConsultarPedidoPerfil2();
         newframe.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jbExtrasActionPerformed
 
     private void jbPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPedidosActionPerformed
-        ConsultarPedido newframe = new ConsultarPedido();
+        ConsultarPedidoPerfil2 newframe = new ConsultarPedidoPerfil2();
         newframe.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jbPedidosActionPerformed
