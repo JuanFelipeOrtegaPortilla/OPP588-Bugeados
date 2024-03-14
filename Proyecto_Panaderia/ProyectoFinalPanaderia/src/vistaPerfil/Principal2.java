@@ -30,11 +30,12 @@ public class Principal2 extends javax.swing.JFrame {
      public Principal2() {
         initComponents();
         ImageIcon imagenFondo = new ImageIcon("C:\\Users\\PIPE\\OneDrive\\Documentos\\OPP588-Bugeados\\Proyecto_Panaderia\\ProyectoFinalPanaderia\\src\\Imagenes\\Pan.jpg");
-
+        
         JPanel panelFondo = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                
                 g.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
