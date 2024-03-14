@@ -75,6 +75,7 @@ public class InsertarExtra extends javax.swing.JFrame {
 
         jLabel1.setText("Cantidad");
 
+        spCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         spCantidad.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 spCantidadStateChanged(evt);
