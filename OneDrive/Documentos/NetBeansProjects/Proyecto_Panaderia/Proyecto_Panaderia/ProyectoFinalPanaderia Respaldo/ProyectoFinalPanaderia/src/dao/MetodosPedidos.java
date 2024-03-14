@@ -120,23 +120,23 @@ public boolean ActualizarPedidos(Pedidos pedido) {
         Document filtro = new Document("idPedido", pedido.getIdPedido());
         Document updateDocument = new Document();
 
-        // Verificar si hay una fecha de entrega para actualizar
+
         if (pedido.getFechaEntrega() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaEntregaDate = dateFormat.parse(pedido.getFechaEntrega());
             updateDocument.append("fechaEntrega", fechaEntregaDate);
         }
 
-        // Establecer el campo "pagados" como verdadero o falso
-        updateDocument.append("pagados", pedido.isPagado()); // Cambio de "pagado" a "pagados"
+    
+        updateDocument.append("pagados", pedido.isPagado()); 
 
-        // Crear un documento de actualización que incluya todos los cambios
+
         Document updateQuery = new Document("$set", updateDocument);
 
-        // Realizar la actualización en MongoDB
+  
         UpdateResult result = coleccion.updateOne(filtro, updateQuery);
 
-        // Verificar si se realizó la actualización correctamente
+
         if (result.getModifiedCount() > 0) {
             actualizar = true;
         }
