@@ -318,13 +318,14 @@ try {
     Date fechaSeleccionada = calendarioEntrega.getDate();
 
     if (fechaSeleccionada != null) {
+        // Formatea la fecha seleccionada a un formato de cadena específico
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         String fechaSeleccionadaStr = formatoFecha.format(fechaSeleccionada);
 
         Pedidos pedidosActualizados = new Pedidos(idProducto,
                 fechaSeleccionadaStr, 
                 chPagado.isSelected());
-S
+
         JOptionPane.showMessageDialog(null, pedidosActualizados.toString());
 
         if (chPagado.isSelected()) {
