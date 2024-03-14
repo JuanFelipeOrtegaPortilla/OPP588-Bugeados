@@ -23,112 +23,108 @@ import vistaPerfil.Principal;
  * @author PIPE
  */
 public class ConsultarPedido extends javax.swing.JFrame {
-    
+
     private DefaultTableModel modeloTabla;
     private List<Pedidos> listaPedidos;
     int id = 0;
-    
 
     public ConsultarPedido() {
         initComponents();
         CargarPedidos();
         cmbMarca.addActionListener((e) -> cargarTablaPedidoSeleccionado());
-        getContentPane().setBackground(new Color(255, 223, 186)); 
-        
+        getContentPane().setBackground(new Color(255, 223, 186));
+
     }
 
- public void CargarPedidos() {
-    cmbMarca.removeAllItems();
-    cmbMarca.addItem("Todos");
+    public void CargarPedidos() {
+        cmbMarca.removeAllItems();
+        cmbMarca.addItem("Todos");
 
-    PedidoServicio pedidoServicio = new PedidoServicio();
-    listaPedidos = pedidoServicio.ListarPedidos();
+        PedidoServicio pedidoServicio = new PedidoServicio();
+        listaPedidos = pedidoServicio.ListarPedidos();
 
-    cargarTablaTodosPedidos(listaPedidos);
-    cargarComboIdPedidos(listaPedidos);
-
-    cmbMarca.setSelectedItem("Todos");
-}
-
-public void cargarComboIdPedidos(List<Pedidos> listaPedidos) {
-    for (Pedidos pedido : listaPedidos) {
-        cmbMarca.addItem(pedido.getIdPedido() + "-" + pedido.getPedido());
-    }
-}
-
-public void limpiarTabla() {
-    modeloTabla = (DefaultTableModel) tblPedidos.getModel();
-    modeloTabla.setRowCount(0);
-}
-
-
-   public void cargarTablaTodosPedidos(List<Pedidos> listaPedidos) {
-    limpiarTabla();
-    for (Pedidos pedido : listaPedidos) {
-        modeloTabla.addRow(new Object[]{
-            pedido.getIdPedido(),
-            pedido.getPedido(),
-            pedido.getProducto(),
-            pedido.getCantidad(),
-            pedido.getFechaPedido(),
-            pedido.getFechaEntrega(),
-            pedido.getPrecio(),
-            pedido.getTotal(),
-            pedido.isPagado()
-        });
-    }
-}
-
-
-    public void cargarTablaPedidoSeleccionado() {
-    limpiarTabla();
-
-    String selectedItem = (String) cmbMarca.getSelectedItem();
-
-    if ("Todos".equalsIgnoreCase(selectedItem)) {
         cargarTablaTodosPedidos(listaPedidos);
-    } else {
-        try {
-            int idPedido = Integer.parseInt(selectedItem.split("-")[0].trim());
-            Pedidos pedido = new PedidoServicio().BuscarIdPedido(idPedido);
+        cargarComboIdPedidos(listaPedidos);
 
-            if (pedido != null) {
-             
-                String fechaPedido = formatearFecha(pedido.getFechaPedido());
-                String fechaEntrega = formatearFecha(pedido.getFechaEntrega());
+        cmbMarca.setSelectedItem("Todos");
+    }
 
-                modeloTabla.addRow(new Object[]{
-                    pedido.getIdPedido(),
-                    pedido.getPedido(),
-                    pedido.getProducto(),
-                    pedido.getCantidad(),
-                    fechaPedido,
-                    fechaEntrega,
-                    pedido.getPrecio(),
-                    pedido.getTotal(),
-                    pedido.isPagado()
-                });
-            } else {
-                JOptionPane.showMessageDialog(this, "Pedido no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Error al procesar el ID del pedido", "Error", JOptionPane.ERROR_MESSAGE);
+    public void cargarComboIdPedidos(List<Pedidos> listaPedidos) {
+        for (Pedidos pedido : listaPedidos) {
+            cmbMarca.addItem(pedido.getIdPedido() + "-" + pedido.getPedido());
         }
     }
-}
 
-private String formatearFecha(String fecha) {
-    try {
-        SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = formatoEntrada.parse(fecha);
-        SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy"); 
-        return formatoSalida.format(date);
-    } catch (ParseException e) {
-        e.printStackTrace();  
-        return fecha;  
+    public void limpiarTabla() {
+        modeloTabla = (DefaultTableModel) tblPedidos.getModel();
+        modeloTabla.setRowCount(0);
     }
-}
 
+    public void cargarTablaTodosPedidos(List<Pedidos> listaPedidos) {
+        limpiarTabla();
+        for (Pedidos pedido : listaPedidos) {
+            modeloTabla.addRow(new Object[]{
+                pedido.getIdPedido(),
+                pedido.getPedido(),
+                pedido.getProducto(),
+                pedido.getCantidad(),
+                pedido.getFechaPedido(),
+                pedido.getFechaEntrega(),
+                pedido.getPrecio(),
+                pedido.getTotal(),
+                pedido.isPagado()
+            });
+        }
+    }
+
+    public void cargarTablaPedidoSeleccionado() {
+        limpiarTabla();
+
+        String selectedItem = (String) cmbMarca.getSelectedItem();
+
+        if ("Todos".equalsIgnoreCase(selectedItem)) {
+            cargarTablaTodosPedidos(listaPedidos);
+        } else {
+            try {
+                int idPedido = Integer.parseInt(selectedItem.split("-")[0].trim());
+                Pedidos pedido = new PedidoServicio().BuscarIdPedido(idPedido);
+
+                if (pedido != null) {
+
+                    String fechaPedido = formatearFecha(pedido.getFechaPedido());
+                    String fechaEntrega = formatearFecha(pedido.getFechaEntrega());
+
+                    modeloTabla.addRow(new Object[]{
+                        pedido.getIdPedido(),
+                        pedido.getPedido(),
+                        pedido.getProducto(),
+                        pedido.getCantidad(),
+                        fechaPedido,
+                        fechaEntrega,
+                        pedido.getPrecio(),
+                        pedido.getTotal(),
+                        pedido.isPagado()
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(this, "Pedido no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Error al procesar el ID del pedido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private String formatearFecha(String fecha) {
+        try {
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = formatoEntrada.parse(fecha);
+            SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy");
+            return formatoSalida.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return fecha;
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -248,42 +244,42 @@ private String formatearFecha(String fecha) {
     }//GEN-LAST:event_btnInsertarPedidosActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-       int filaSeleccionada = tblPedidos.getSelectedRow();
+        int filaSeleccionada = tblPedidos.getSelectedRow();
 
-if (filaSeleccionada >= 0) {
-    int confirmar = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (filaSeleccionada >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
-    if (confirmar == JOptionPane.YES_OPTION) {
-        int idPedido = Integer.parseInt(String.valueOf(modeloTabla.getValueAt(filaSeleccionada, 0)));
+            if (confirmar == JOptionPane.YES_OPTION) {
+                int idPedido = Integer.parseInt(String.valueOf(modeloTabla.getValueAt(filaSeleccionada, 0)));
 
-        if (PedidoServicio.EliminarPedido(idPedido)) {
-            JOptionPane.showMessageDialog(null, "Registro eliminado correctamente");
-            modeloTabla.removeRow(filaSeleccionada);
+                if (PedidoServicio.EliminarPedido(idPedido)) {
+                    JOptionPane.showMessageDialog(null, "Registro eliminado correctamente");
+                    modeloTabla.removeRow(filaSeleccionada);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el registro");
+                }
+            } else {
+
+                tblPedidos.getSelectionModel().clearSelection();
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el registro");
+            JOptionPane.showMessageDialog(null, "Seleccione el registro para eliminar");
         }
-    } else {
-      
-        tblPedidos.getSelectionModel().clearSelection();
-    }
-} else {
-    JOptionPane.showMessageDialog(null, "Seleccione el registro para eliminar");
-}
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-         Principal salir = new Principal();
+        Principal salir = new Principal();
         salir.setVisible(true);
         setVisible(true);
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-  int filaSeleccionada = tblPedidos.getSelectedRow();
+        int filaSeleccionada = tblPedidos.getSelectedRow();
         if (filaSeleccionada >= 0) {
             id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-            
+
             ModificarPedido modificar = new ModificarPedido();
             modificar.traerID(id);
             modificar.setVisible(true);
