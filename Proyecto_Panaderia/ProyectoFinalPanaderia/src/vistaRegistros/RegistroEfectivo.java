@@ -1,5 +1,6 @@
 package vistaRegistros;
 
+import java.awt.Color;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import modelo.Clientes;
@@ -14,6 +15,7 @@ public class RegistroEfectivo extends javax.swing.JFrame {
 
     public RegistroEfectivo() {
         initComponents();
+          getContentPane().setBackground(new Color(255, 223, 186));
     }
 
     public void limpiarTabla() {
