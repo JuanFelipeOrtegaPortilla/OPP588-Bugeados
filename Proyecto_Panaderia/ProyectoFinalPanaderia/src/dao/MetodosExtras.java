@@ -22,13 +22,26 @@ import org.bson.Document;
  *
  * @author PIPE
  */
-public class MetodosExtras implements IExtras{
-Conexion conn = new Conexion();
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
+import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+public class MetodosExtras implements IExtras {
+    Conexion conn = new Conexion();
     MongoDatabase database;
     private MongoCollection<Document> coleccion;
-    
-    
-     public MetodosExtras() {
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+    public MetodosExtras() {
         if (conn != null) {
             this.conn = conn.crearConexion();
             this.database = conn.getDataB();
@@ -43,14 +56,12 @@ Conexion conn = new Conexion();
             JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + ex.toString());
         }
     }
-    private int generarID(){
-        Random random = new Random();
-        int numeroAleatorio = random.nextInt(900) + 100;
-        return numeroAleatorio;
-    }
-    @Override
-    public List<Extras> ListarExtas() {
-        List<Extras> listaExtras = new ArrayList<>();
+
+
+
+@Override
+public List<Extras> ListarExtas() {
+    List<Extras> listaExtras = new ArrayList<>();
     FindIterable<Document> documentos;
 
     try {
@@ -58,17 +69,24 @@ Conexion conn = new Conexion();
         for (Document temp : documentos) {
             Extras extras = new Extras();
 
-            extras.setIdExtras(generarID());
+            extras.setIdExtras(temp.getInteger("idExtras"));
+       
+
             extras.setProductos(temp.getString("producto"));
+    
+
             extras.setCantidad(temp.getInteger("cantidad"));
 
-           
-            Date fechaPago = temp.getDate("fechaPago");
-            String fechaPagoStr = convertirFechaAString(fechaPago);
+
+            String fechaPagoStr = temp.getString("fechaPago");
             extras.setFechaPago(fechaPagoStr);
 
+
             extras.setPrecioUnitario(temp.getDouble("precioUnitario"));
+
+
             extras.setTotal(temp.getDouble("total"));
+
             listaExtras.add(extras);
         }
     } catch (MongoException ex) {
@@ -81,70 +99,71 @@ Conexion conn = new Conexion();
 }
 
 
-private String convertirFechaAString(Date fecha) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    return dateFormat.format(fecha);
-    }
 
-    @Override
-    public boolean InsetarExtras(Extras extras) {
-          Document documento;
+@Override
+public boolean InsetarExtras(Extras extras) {
+    Document documento;
     try {
-        documento = new Document("idExtras", generarID())
+        documento = new Document("idExtras", extras.getIdExtras())
                 .append("producto", extras.getProductos())
                 .append("precioUnitario", extras.getPrecioUnitario())
-                .append("cantidad", extras.getCantidad())  
-                .append("total", extras.getTotal())
+                .append("cantidad", extras.getCantidad())
+                .append("total", extras.getTotal())  
                 .append("fechaPago", extras.getFechaPago());
 
         coleccion.insertOne(documento);
+        System.out.println("Datos insertados correctamente.");
     } catch (MongoException ex) {
-        JOptionPane.showMessageDialog(null, "Error al insertar datos: " + ex.toString());
+        JOptionPane.showMessageDialog(null, "Error al insertar datos: " + ex.getMessage());
         return false;
     } finally {
         cerrarConexion();
     }
     return true;
-    }
-
-    @Override
-     public Extras BuscarIdExtras( int idExtras){
-      Extras extras = null;
-try {
-    Document filtro = new Document("idExtras", idExtras);
-    FindIterable<Document> resultados = coleccion.find(filtro);
-    Document resultado = resultados.first();
-
-    if (resultado != null) {
-        extras = new Extras();
-        extras.setIdExtras(resultado.getInteger("idExtras"));
-        extras.setProductos(resultado.getString("producto"));
-        extras.setPrecioUnitario(resultado.getDouble("precioUnitario"));
-        extras.setCantidad(resultado.getInteger("cantidad"));
-        extras.setTotal(resultado.getDouble("total"));
-        
-       
-        String fechaPagoStr = resultado.getString("fechaPago");
-        Date fechaPago = convertirStringAFecha(fechaPagoStr);
-        extras.setFechaPago(fechaPagoStr);
-    }
-} catch (MongoException ex) {
-    JOptionPane.showMessageDialog(null, "Error al buscar datos:" + ex.toString());
-} finally {
-    cerrarConexion();
 }
-return extras;
-     }
 
-private Date convertirStringAFecha(String fechaStr) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+
+@Override
+public Extras BuscarIdExtras(int idExtras) {
+    Extras extras = null;
     try {
-        return dateFormat.parse(fechaStr);
-    } catch (ParseException e) {
-        e.printStackTrace(); 
-        return null;    }
-    
+        Document filtro = new Document("idExtras", idExtras);
+        FindIterable<Document> resultados = coleccion.find(filtro);
+        Document resultado = resultados.first();
+
+        if (resultado != null) {
+            extras = new Extras();
+            extras.setIdExtras(resultado.getInteger("idExtras"));
+            extras.setProductos(resultado.getString("producto"));
+            extras.setPrecioUnitario(resultado.getDouble("precioUnitario"));
+            extras.setCantidad(resultado.getInteger("cantidad"));
+            extras.setTotal(resultado.getDouble("total"));
+
+            String fechaPagoStr = resultado.getString("fechaPago");
+            Date fechaPago = convertirStringAFecha(fechaPagoStr);
+            extras.setFechaPago(fechaPagoStr);
+
+            System.out.println("Búsqueda exitosa. Detalles del resultado: " + extras);
+        } else {
+            System.out.println("No se encontró ningún documento con ID: " + idExtras);
+        }
+    } catch (MongoException ex) {
+        JOptionPane.showMessageDialog(null, "Error al buscar datos: " + ex.getMessage());
+    } finally {
+        cerrarConexion();
+    }
+    return extras;
 }
-     
-     
+
+
+
+    private Date convertirStringAFecha(String fechaStr) {
+        try {
+            return dateFormat.parse(fechaStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
+
