@@ -150,7 +150,7 @@ public class InsertarPerfil extends javax.swing.JFrame {
                 CrudPerfil newframe = new CrudPerfil();
                 newframe.setVisible(true);
                 this.dispose();
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "campos incompletos");
             }
@@ -161,9 +161,9 @@ public class InsertarPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_jbAceptarActionPerformed
 
     private void jcSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcSalirActionPerformed
-            CrudPerfil newframe = new CrudPerfil();
-                newframe.setVisible(true);
-                this.dispose();
+        CrudPerfil newframe = new CrudPerfil();
+        newframe.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jcSalirActionPerformed
 
     /**
