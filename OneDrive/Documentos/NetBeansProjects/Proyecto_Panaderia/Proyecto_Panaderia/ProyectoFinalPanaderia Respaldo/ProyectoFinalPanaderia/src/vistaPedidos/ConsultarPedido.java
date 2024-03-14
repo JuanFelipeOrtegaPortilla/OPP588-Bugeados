@@ -65,6 +65,7 @@ public void limpiarTabla() {
     limpiarTabla();
     for (Pedidos pedido : listaPedidos) {
         modeloTabla.addRow(new Object[]{
+            pedido.getIdPedido(),
             pedido.getPedido(),
             pedido.getProducto(),
             pedido.getCantidad(),
@@ -96,6 +97,7 @@ public void limpiarTabla() {
                 String fechaEntrega = formatearFecha(pedido.getFechaEntrega());
 
                 modeloTabla.addRow(new Object[]{
+                    pedido.getIdPedido(),
                     pedido.getPedido(),
                     pedido.getProducto(),
                     pedido.getCantidad(),
@@ -143,20 +145,20 @@ private String formatearFecha(String fecha) {
 
         tblPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Marca", "Producto", "Cantidad", "Fecha Pedido", "Fecha Entrega", "Precio", "Total", "Pagado"
+                "id", "Marca", "Producto", "Cantidad", "Fecha Pedido", "Fecha Entrega", "Precio", "Total", "Pagado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -277,7 +279,7 @@ if (filaSeleccionada >= 0) {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       int filaSeleccionada = tblPedidos.getSelectedRow();
+  int filaSeleccionada = tblPedidos.getSelectedRow();
         if (filaSeleccionada >= 0) {
             id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
             
@@ -289,6 +291,7 @@ if (filaSeleccionada >= 0) {
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione registro a modificar");
         }
+
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
